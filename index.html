@@ -1,38 +1,146 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Yasir Ahmad Malik | AI Engineer & Flutter Developer</title>
-    <!-- Google Fonts -->
-    <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome for Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <!-- Neural Network Background -->
-    <canvas id="bg-canvas"></canvas>
 
-    <!-- Navigation -->
-    <header id="header">
-      <div class="container">
-        <nav>
-          <a href="#hero" class="logo"
-            >Yasir Ahmad Malik<span class="gradient-text"></span
-          ></a>
-          <div class="menu-toggle" id="mobile-menu">
-            <i class="fas fa-bars"></i>
-          </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yasir Ahmad Malik | AI Engineer & Flutter Developer</title>
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet" />
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    crossorigin="anonymous" />
+</head>
+
+<body>
+  <!-- Neural Network Background -->
+  <canvas id="bg-canvas"></canvas>
+
+  <script>
+    // Canvas Background Animation
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+
+    let width, height;
+    let particles = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+
+    resize();
+    window.addEventListener('resize', resize);
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 1;
+        this.vy = (Math.random() - 0.5) * 1;
+        this.size = Math.random() * 3 + 2;
+        this.color = this.getColor();
+      }
+
+      getColor() {
+        const theme = document.documentElement.getAttribute('data-theme');
+        if (theme === '3d') {
+          const colors = ['#ff006e', '#8338ec', '#3a86ff', '#06ffa5', '#ffbe0b'];
+          return colors[Math.floor(Math.random() * colors.length)];
+        } else if (theme === 'light') {
+          return 'rgba(0, 153, 204, 0.9)';
+        }
+        return 'rgba(0, 212, 255, 0.9)';
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        // Update color when theme changes
+        this.color = this.getColor();
+      }
+
+      draw() {
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      for (let i = 0; i < 60; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    initParticles();
+
+    function connectParticles() {
+      const theme = document.documentElement.getAttribute('data-theme');
+      let strokeColor;
+
+      if (theme === '3d') {
+        strokeColor = 'rgba(255, 0, 110, 0.4)';
+      } else if (theme === 'light') {
+        strokeColor = 'rgba(0, 153, 204, 0.3)';
+      } else {
+        strokeColor = 'rgba(0, 212, 255, 0.3)';
+      }
+
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 200) {
+            ctx.strokeStyle = strokeColor;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+
+      connectParticles();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+
+  <!-- Navigation -->
+  <header id="header">
+    <div class="container">
+      <nav>
+        <a href="#hero" class="logo">Yasir Ahmad Malik<span class="gradient-text"></span></a>
+        <div class="nav-right">
           <ul class="nav-links">
             <li><a href="#hero">Home</a></li>
             <li><a href="#about">About</a></li>
@@ -43,88 +151,81 @@
             <li><a href="#projects">Projects</a></li>
             <li><a href="#contact">Contact</a></li>
           </ul>
-        </nav>
-      </div>
-    </header>
-
-    <!-- Main Content -->
-    <main>
-      <!-- Hero Section -->
-      <section id="hero">
-        <div class="container">
-          <div class="hero-grid">
-            <!-- Left: Text -->
-            <div class="hero-text-content">
-              <div class="hero-badge">Available for Hire</div>
-              <h1 class="hero-title">
-                Hi, I'm <br /><span class="gradient-text"
-                  >Yasir Ahmad Malik</span
-                >
-              </h1>
-              <h2 class="hero-subtitle" id="typewriter"></h2>
-              <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">View Work</a>
-                <a href="#contact" class="btn btn-outline">Contact Me</a>
-                <a
-                  href="assets/Yasir_Ahmad_Malik_Resume.pdf"
-                  class="btn btn-primary"
-                  download
-                >
-                  Resume
-                </a>
-              </div>
-
-              <!-- Hero Social Links (Added Here) -->
-              <div class="hero-social-links">
-                <a
-                  href="https://www.linkedin.com/in/yasirahmadmalik/"
-                  target="_blank"
-                  class="social-btn"
-                >
-                  <i class="fab fa-linkedin-in"></i>
-                </a>
-                <a
-                  href="https://github.com/yasirmalik8"
-                  target="_blank"
-                  class="social-btn"
-                >
-                  <i class="fab fa-github"></i>
-                </a>
-                <a
-                  href="https://x.com/yasirahmadm1428?s=21"
-                  target="_blank"
-                  class="social-btn"
-                >
-                  <i class="fab fa-twitter"></i>
-                </a>
-                <a
-                  href="https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr"
-                  target="_blank"
-                  class="social-btn"
-                >
-                  <i class="fab fa-instagram"></i>
-                </a>
-              </div>
-            </div>
-
-            <!-- Right: Static Image -->
-            <div class="hero-image-container glass-card">
-              <!-- REPLACE the src below with your actual photo URL -->
-              <img src="assets/profilepic.jpg" alt="Yasir Ahmad Malik" />
-            </div>
+          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="theme-toggle theme-3d" id="theme-3d" aria-label="Toggle 3D theme" title="3D Mode">
+            <i class="fas fa-cube"></i>
+          </button>
+          <div class="menu-toggle" id="mobile-menu">
+            <i class="fas fa-bars"></i>
           </div>
         </div>
-      </section>
+      </nav>
+    </div>
+  </header>
 
-      <!-- About Section -->
-      <section id="about">
-        <div class="container">
-          <h2 class="section-title">About Me</h2>
-          <div class="about-grid">
-            <div class="about-image glass-card">
-              <img src="assets/yasir.JPG" alt="Yasir Ahmad Malik Working" />
+  <!-- Main Content -->
+  <main>
+    <!-- Hero Section -->
+    <section id="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Left: Text -->
+          <div class="hero-text-content">
+            <div class="hero-badge">Available for Hire</div>
+            <h1 class="hero-title">
+              Hi, I'm <br /><span class="gradient-text">Yasir Ahmad Malik</span>
+            </h1>
+            <h2 class="hero-subtitle" id="typewriter"></h2>
+            <div class="hero-buttons">
+              <a href="#projects" class="btn btn-primary"><i class="fas fa-briefcase"></i> View Work</a>
+              <a href="#contact" class="btn btn-outline"><i class="fas fa-envelope"></i> Contact Me</a>
+              <a href="assets/Yasir_Ahmad_Malik_Resume.pdf" class="btn btn-primary" download>
+                <i class="fas fa-download"></i> Resume
+              </a>
             </div>
-            <!-- <div class="about-text">
+
+            <!-- Hero Social Links (Added Here) -->
+            <div class="hero-social-links">
+              <a href="https://www.linkedin.com/in/yasirahmadmalik/" target="_blank" class="social-btn">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+              <a href="https://github.com/yasirmalik8" target="_blank" class="social-btn">
+                <i class="fab fa-github"></i>
+              </a>
+              <a href="https://x.com/yasirahmadm1428?s=21" target="_blank" class="social-btn">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr" target="_blank"
+                class="social-btn">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="https://wa.me/923467336193?text=Hello%20Yasir%2C%20I%20would%20like%20to%20connect%20with%20you."
+                target="_blank" class="social-btn">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Static Image -->
+          <div class="hero-image-container glass-card">
+            <!-- REPLACE the src below with your actual photo URL -->
+            <img src="assets/profilepic.jpg" alt="Yasir Ahmad Malik" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+      <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-grid">
+          <div class="about-image glass-card">
+            <img src="assets/yasir.JPG" alt="Yasir Ahmad Malik Working" />
+          </div>
+          <!-- <div class="about-text">
               <h3>Building Intelligent & Scalable Digital Solutions</h3>
               <p>
                 I am a passionate <strong>Junior AI Engineer</strong> and
@@ -155,742 +256,874 @@
                 </div>
               </div>
             </div> -->
-            <div class="about-text">
-              <h3>Building Intelligent & Scalable Digital Solutions</h3>
+          <div class="about-text">
+            <h3>Building Intelligent & Scalable Digital Solutions</h3>
 
-              <p>
-                I am a passionate <strong>AI Engineer</strong> and
-                <strong>Flutter Developer</strong> with over two years of
-                combined experience in artificial intelligence and mobile
-                application development. I specialize in building intelligent
-                systems and transforming them into seamless, real-world
-                applications.
+            <p>
+              I am a passionate <strong>AI Engineer</strong> and
+              <strong>Flutter Developer</strong> with over two years of
+              combined experience in artificial intelligence and mobile
+              application development. I specialize in building intelligent
+              systems and transforming them into seamless, real-world
+              applications.
+            </p>
+
+            <p>
+              With a strong foundation in <strong>Python</strong>,
+              <strong>Machine Learning</strong>, and backend technologies like
+              <strong>FastAPI</strong>, I develop scalable AI-powered
+              solutions that solve practical problems. At the same time, my
+              expertise in <strong>Flutter</strong> allows me to design and
+              deliver high-performance, cross-platform mobile applications
+              with clean and user-friendly interfaces.
+            </p>
+
+            <p>
+              My core strengths include developing AI models and integrating
+              them into production-ready systems, building secure RESTful
+              APIs, creating modern responsive mobile applications, and
+              connecting intelligent backend systems with intuitive user
+              experiences.
+            </p>
+
+            <div class="stats-grid">
+              <div class="stat-item">
+                <span class="stat-number">15+</span>
+                <span class="stat-label">Projects</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">2+</span>
+                <span class="stat-label">Years Exp</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-number">100%</span>
+                <span class="stat-label">Commitment</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+      <div class="container">
+        <h2 class="section-title">Education</h2>
+        <div class="timeline">
+          <!-- Education Item 1 -->
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="glass-card timeline-content">
+              <span class="timeline-date">2023 - 2026</span>
+              <h3 class="timeline-title">
+                Master of Science in Artificial Intelligence
+              </h3>
+              <h5>Subjects</h5>
+              <p class="timeline-desc">
+                Artificial Intelligence |Machine Learning |Computer Vision
+                |Deep Learning |Generative AI
               </p>
-
-              <p>
-                With a strong foundation in <strong>Python</strong>,
-                <strong>Machine Learning</strong>, and backend technologies like
-                <strong>FastAPI</strong>, I develop scalable AI-powered
-                solutions that solve practical problems. At the same time, my
-                expertise in <strong>Flutter</strong> allows me to design and
-                deliver high-performance, cross-platform mobile applications
-                with clean and user-friendly interfaces.
+              <p class="timeline-desc">
+                Specialized in Artificial Intelligence & Machine Learning and
+                Computer Vision.
               </p>
+            </div>
+          </div>
 
-              <p>
-                My core strengths include developing AI models and integrating
-                them into production-ready systems, building secure RESTful
-                APIs, creating modern responsive mobile applications, and
-                connecting intelligent backend systems with intuitive user
-                experiences.
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="glass-card timeline-content">
+              <span class="timeline-date">2018 - 2022</span>
+              <h3 class="timeline-title">
+                Bachelor of Science in Information Technology
+              </h3>
+              <h5>Subjects</h5>
+              <p class="timeline-desc">
+                Data Structures|C++ Programming |OPP |Java Programming |
               </p>
-
-              <div class="stats-grid">
-                <div class="stat-item">
-                  <span class="stat-number">15+</span>
-                  <span class="stat-label">Projects</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-number">2+</span>
-                  <span class="stat-label">Years Exp</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-number">100%</span>
-                  <span class="stat-label">Commitment</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Education Section -->
-      <section id="education">
-        <div class="container">
-          <h2 class="section-title">Education</h2>
-          <div class="timeline">
-            <!-- Education Item 1 -->
-            <div class="timeline-item">
-              <div class="timeline-dot">
-                <i class="fas fa-graduation-cap"></i>
-              </div>
-              <div class="glass-card timeline-content">
-                <span class="timeline-date">2023 - 2026</span>
-                <h3 class="timeline-title">
-                  Master of Science in Artificial Intelligence
-                </h3>
-                <h5>Subjects</h5>
-                <p class="timeline-desc">
-                  Artificial Intelligence |Machine Learning |Computer Vision
-                  |Deep Learning |Generative AI
-                </p>
-                <p class="timeline-desc">
-                  Specialized in Artificial Intelligence & Machine Learning and
-                  Computer Vision.
-                </p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <div class="timeline-dot">
-                <i class="fas fa-graduation-cap"></i>
-              </div>
-              <div class="glass-card timeline-content">
-                <span class="timeline-date">2018 - 2022</span>
-                <h3 class="timeline-title">
-                  Bachelor of Science in Information Technology
-                </h3>
-                <h5>Subjects</h5>
-                <p class="timeline-desc">
-                  Data Structures|C++ Programming |OPP |Java Programming |
-                </p>
-                <p class="timeline-desc">
-                  Specialized in Information Technology. Graduated with Honors.
-                  Capstone project focused on Cab Booking Andriod Application.
-                </p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <div class="timeline-dot">
-                <i class="fas fa-graduation-cap"></i>
-              </div>
-              <div class="glass-card timeline-content">
-                <span class="timeline-date">2016 - 2018</span>
-                <h3 class="timeline-title">Fsc.Pre Engineering</h3>
-                <h5>Subjects</h5>
-                <p class="timeline-desc">Math |Physics |Chemistry |Bio |</p>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <div class="timeline-dot">
-                <i class="fas fa-graduation-cap"></i>
-              </div>
-              <div class="glass-card timeline-content">
-                <span class="timeline-date">2014 - 2016</span>
-                <h3 class="timeline-title">Matriculation</h3>
-                <h5>Subjects</h5>
-                <p class="timeline-desc">Math |Physics |Chemistry |Bio |</p>
-              </div>
-            </div>
-
-            <!-- Education Item 2 -->
-          </div>
-        </div>
-      </section>
-
-      <!-- Experience Section (NEW) -->
-      <section id="experience">
-        <div class="container">
-          <h2 class="section-title">Experience</h2>
-          <div class="timeline">
-            <!-- Job 1 -->
-            <div class="timeline-item">
-              <div class="timeline-dot"><i class="fas fa-briefcase"></i></div>
-              <div class="glass-card timeline-content">
-                <span class="timeline-date">June 2025 - Present</span>
-                <h3 class="timeline-title">Junior AI Engineer</h3>
-                <span class="timeline-company">Tech Flariz </span>
-                <p class="timeline-desc">
-                  AI Engineer with hands-on experience in developing and
-                  deploying machine learning and AI solutions for real-world
-                  applications. Skilled in building scalable backend systems
-                  using FastAPI and optimizing model inference with TensorFlow
-                  Serving to deliver efficient, production-ready AI systems.
-                </p>
-              </div>
-            </div>
-
-            <!-- Job 2 -->
-            <div class="timeline-item">
-              <div class="timeline-dot"><i class="fas fa-briefcase"></i></div>
-              <div class="glass-card timeline-content">
-                <span class="timeline-date">Jan 2022 - May 2023</span>
-                <h3 class="timeline-title">Flutter Developer</h3>
-                <span class="timeline-company">Flutterxperts</span>
-                <p class="timeline-desc">
-                  Flutter Developer with hands-on experience in building
-                  high-performance, cross-platform mobile applications using
-                  Flutter and Dart. Skilled in developing clean, responsive UI
-                  designs, integrating REST APIs, and connecting apps with
-                  scalable backend systems to deliver smooth and user-friendly
-                  digital experiences.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Certification Section -->
-
-      <section id="certifications">
-        <div class="container">
-          <h2 class="section-title">Certifications</h2>
-          <div class="certs-grid">
-            <!-- Cert 1 -->
-            <a
-              href="https://coursera.org/verify/HVSHNZZKW3LK"
-              target="_blank"
-              class="glass-card cert-card cert-link"
-              title="View Certificate"
-            >
-              <div class="cert-icon">
-                <!-- Brain Icon for Machine Learning -->
-                <i class="fas fa-brain"></i>
-              </div>
-              <h3 class="cert-title">Machine Learning Alogrithm</h3>
-              <p class="cert-issuer">Coursera</p>
-              <span class="cert-date">Issued: Mar 2023</span>
-            </a>
-
-            <!-- Cert 2 -->
-            <a
-              href="https://www.credly.com/go/MOhFbp96"
-              target="_blank"
-              class="glass-card cert-card cert-link"
-              title="View Certificate"
-            >
-              <div class="cert-icon">
-                <!-- Python Icon -->
-                <i class="fab fa-python"></i>
-              </div>
-              <h3 class="cert-title">Python for Data Science</h3>
-              <p class="cert-issuer">IBM</p>
-              <span class="cert-date">Issued: Apr 2023</span>
-            </a>
-
-            <!-- Cert 3 -->
-            <a
-              href="https://coursera.org/verify/LW58WLT6ANBP"
-              target="_blank"
-              class="glass-card cert-card cert-link"
-              title="View Certificate"
-            >
-              <div class="cert-icon">
-                <!-- Code Icon for Development -->
-                <i class="fas fa-laptop-code"></i>
-              </div>
-              <h3 class="cert-title">
-                Python for Data Science, AI & Development
-              </h3>
-              <p class="cert-issuer">Coursera</p>
-              <span class="cert-date">Issued: Apr 2023</span>
-            </a>
-
-            <!-- Cert 4 -->
-            <a
-              href="https://coursera.org/verify/RBLYN2SBXQY4"
-              target="_blank"
-              class="glass-card cert-card cert-link"
-              title="View Certificate"
-            >
-              <div class="cert-icon">
-                <!-- Chart Icon for Exploratory Data Analysis -->
-                <i class="fas fa-chart-line"></i>
-              </div>
-              <h3 class="cert-title">
-                Exploratory Data Analysis for Machine Learning
-              </h3>
-              <p class="cert-issuer">Coursera</p>
-              <span class="cert-date">Issued: Apr 2023</span>
-            </a>
-
-            <a
-              href="https://coursera.org/verify/JVRVMT279TQR"
-              target="_blank"
-              class="glass-card cert-card cert-link"
-              title="View Certificate"
-            >
-              <div class="cert-icon">
-                <!-- Robot/Network Icon for AI & Data Science -->
-                <i class="fas fa-shield-alt"></i>
-              </div>
-              <h3 class="cert-title">Cyber Security</h3>
-              <p class="cert-issuer">Coursera</p>
-              <span class="cert-date">Issued: Dec 2022</span>
-            </a>
-            <a
-              href="#"
-              target="_blank"
-              class="glass-card cert-card cert-link"
-              title="View Certificate"
-            >
-              <div class="cert-icon">
-                <!-- Robot/Network Icon for AI & Data Science -->
-                <i class="fas fa-robot"></i>
-              </div>
-              <h3 class="cert-title">Machine Learning, AI & Data Science</h3>
-              <p class="cert-issuer">
-                Pakistan Gov(Hunarmand Kamyab Jawan Program)
+              <p class="timeline-desc">
+                Specialized in Information Technology. Graduated with Honors.
+                Capstone project focused on Cab Booking Andriod Application.
               </p>
-              <span class="cert-date">Issued: June 2025</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Skills Section -->
-      <section id="skills">
-        <div class="container">
-          <h2 class="section-title">Technical Skills</h2>
-          <div class="skills-wrapper">
-            <!-- AI & ML -->
-            <div class="glass-card skill-category" style="padding: 30px">
-              <h3>
-                <i class="fas fa-brain gradient-text"></i> AI & Machine Learning
-              </h3>
-              <div class="skill-tags">
-                <span class="skill-tag">Python</span>
-                <span class="skill-tag">TensorFlow</span>
-                <span class="skill-tag">PyTorch</span>
-                <span class="skill-tag">Computer Vision</span>
-                <span class="skill-tag">NLP</span>
-                <span class="skill-tag">Data Analysis</span>
-              </div>
-            </div>
-
-            <!-- Mobile Dev -->
-            <div class="glass-card skill-category" style="padding: 30px">
-              <h3>
-                <i class="fas fa-mobile-alt gradient-text"></i> Mobile
-                Development
-              </h3>
-              <div class="skill-tags">
-                <span class="skill-tag">Flutter</span>
-                <span class="skill-tag">Dart</span>
-                <span class="skill-tag">Firebase</span>
-                <span class="skill-tag">REST APIs</span>
-                <span class="skill-tag">State Management</span>
-                <span class="skill-tag">UI/UX Design</span>
-              </div>
-            </div>
-            <div class="glass-card skill-category" style="padding: 30px">
-              <h3>
-                <i class="fas fa-globe gradient-text"></i> Web Development
-              </h3>
-              <div class="skill-tags">
-                <span class="skill-tag">Flutter</span>
-                <span class="skill-tag">Dart</span>
-                <span class="skill-tag">Firebase</span>
-                <span class="skill-tag">REST APIs</span>
-                <span class="skill-tag">State Management</span>
-                <span class="skill-tag">UI/UX Design</span>
-              </div>
-            </div>
-
-            <!-- Backend -->
-            <div class="glass-card skill-category" style="padding: 30px">
-              <h3>
-                <i class="fas fa-server gradient-text"></i> Backend & Tools
-              </h3>
-              <div class="skill-tags">
-                <span class="skill-tag">FastAPI</span>
-                <span class="skill-tag">SQL / NoSQL</span>
-                <span class="skill-tag">Git / GitHub</span>
-                <span class="skill-tag">Docker</span>
-                <span class="skill-tag">CI/CD</span>
-                <span class="skill-tag">Linux</span>
-              </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- Projects Section -->
-      <section id="projects">
-        <div class="container">
-          <h2 class="section-title">Projects</h2>
-          <div class="projects-grid">
-            <!-- Project 1 -->
-            <article class="glass-card project-card">
-              <div class="project-img-wrapper">
-                <img src="assets/splash.jpg" alt="Cab Booking App" />
-              </div>
-              <div class="project-content">
-                <h3 class="project-title">Cab Booking Android Application</h3>
-                <p class="project-desc">
-                  A user-friendly cross-platform app that allows users to book
-                  rides, track drivers in real-time, and manage trip history
-                  seamlessly.
-                </p>
-                <div class="project-tech">
-                  <span class="tech-span">Flutter</span>
-                  <span class="tech-span">Dart</span>
-                  <span class="tech-span">Firebase</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link" title="View Code"
-                    ><i class="fab fa-github"></i
-                  ></a>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 2 -->
-            <article class="glass-card project-card">
-              <div class="project-img-wrapper">
-                <img src="assets/object.jpg" alt="Object Detection" />
-              </div>
-              <div class="project-content">
-                <h3 class="project-title">Object Detection</h3>
-                <p class="project-desc">
-                  A computer vision system capable of detecting and classifying
-                  multiple objects in real-time video streams using deep
-                  learning models.
-                </p>
-                <div class="project-tech">
-                  <span class="tech-span">Python</span>
-                  <span class="tech-span">TensorFlow</span>
-                  <span class="tech-span">OpenCV</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link" title="View Code"
-                    ><i class="fab fa-github"></i
-                  ></a>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 3 -->
-            <article class="glass-card project-card">
-              <div class="project-img-wrapper">
-                <img src="assets/chatbot.png" alt="Chatbot App" />
-              </div>
-              <div class="project-content">
-                <h3 class="project-title">Chat Bot App</h3>
-                <p class="project-desc">
-                  An intelligent chatbot application powered by NLP that
-                  provides automated customer support and smart responses via a
-                  FastAPI backend.
-                </p>
-                <div class="project-tech">
-                  <span class="tech-span">Python</span>
-                  <span class="tech-span">FastAPI</span>
-                  <span class="tech-span">Flutter</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link" title="View Code"
-                    ><i class="fab fa-github"></i
-                  ></a>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 4 -->
-            <article class="glass-card project-card">
-              <div class="project-img-wrapper">
-                <img src="assets/emotion.jpeg" alt="Emotion Detection" />
-              </div>
-              <div class="project-content">
-                <h3 class="project-title">Emotion Detection Through Image</h3>
-                <p class="project-desc">
-                  An AI tool that analyzes facial features in static images to
-                  accurately identify human emotions such as happiness, sadness,
-                  and anger.
-                </p>
-                <div class="project-tech">
-                  <span class="tech-span">Python</span>
-                  <span class="tech-span">OpenCV</span>
-                  <span class="tech-span">Keras</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link" title="View Code"
-                    ><i class="fab fa-github"></i
-                  ></a>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 5 -->
-            <article class="glass-card project-card">
-              <div class="project-img-wrapper">
-                <img src="assets/finger.png" alt="Finger Count" />
-              </div>
-              <div class="project-content">
-                <h3 class="project-title">Finger Count Detection</h3>
-                <p class="project-desc">
-                  A hand tracking system that uses computer vision to detect
-                  hand landmarks and count the number of raised fingers in
-                  real-time.
-                </p>
-                <div class="project-tech">
-                  <span class="tech-span">Python</span>
-                  <span class="tech-span">OpenCV</span>
-                  <span class="tech-span">MediaPipe</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link" title="View Code"
-                    ><i class="fab fa-github"></i
-                  ></a>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 6 -->
-            <article class="glass-card project-card">
-              <div class="project-img-wrapper">
-                <img src="assets/emotion.jpeg" alt="Real-time Emotion" />
-              </div>
-              <div class="project-content">
-                <h3 class="project-title">Real-Time Emotion Recognition</h3>
-                <p class="project-desc">
-                  A live video processing application that detects and displays
-                  facial expressions instantly using a webcam feed.
-                </p>
-                <div class="project-tech">
-                  <span class="tech-span">Python</span>
-                  <span class="tech-span">TensorFlow</span>
-                  <span class="tech-span">OpenCV</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link" title="View Code"
-                    ><i class="fab fa-github"></i
-                  ></a>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 7 -->
-            <article class="glass-card project-card">
-              <div class="project-img-wrapper">
-                <img src="assets/emotion.jpeg" alt="Emotion Detection" />
-              </div>
-              <div class="project-content">
-                <h3 class="project-title">Emotion Detection Through Image</h3>
-                <p class="project-desc">
-                  An AI tool that analyzes facial features in static images to
-                  accurately identify human emotions such as happiness, sadness,
-                  and anger.
-                </p>
-                <div class="project-tech">
-                  <span class="tech-span">Python</span>
-                  <span class="tech-span">OpenCV</span>
-                  <span class="tech-span">Keras</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link" title="View Code"
-                    ><i class="fab fa-github"></i
-                  ></a>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 8 -->
-            <article class="glass-card project-card">
-              <div class="project-img-wrapper">
-                <img src="assets/finger.png" alt="Finger Count" />
-              </div>
-              <div class="project-content">
-                <h3 class="project-title">Finger Count Detection</h3>
-                <p class="project-desc">
-                  A hand tracking system that uses computer vision to detect
-                  hand landmarks and count the number of raised fingers in
-                  real-time.
-                </p>
-                <div class="project-tech">
-                  <span class="tech-span">Python</span>
-                  <span class="tech-span">OpenCV</span>
-                  <span class="tech-span">MediaPipe</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link" title="View Code"
-                    ><i class="fab fa-github"></i
-                  ></a>
-                </div>
-              </div>
-            </article>
-
-            <!-- Project 9 -->
-            <article class="glass-card project-card">
-              <div class="project-img-wrapper">
-                <img src="assets/emotion.jpeg" alt="Real-time Emotion" />
-              </div>
-              <div class="project-content">
-                <h3 class="project-title">Real-Time Emotion Recognition</h3>
-                <p class="project-desc">
-                  A live video processing application that detects and displays
-                  facial expressions instantly using a webcam feed.
-                </p>
-                <div class="project-tech">
-                  <span class="tech-span">Python</span>
-                  <span class="tech-span">TensorFlow</span>
-                  <span class="tech-span">OpenCV</span>
-                </div>
-                <div class="project-links">
-                  <a href="#" class="project-link" title="View Code"
-                    ><i class="fab fa-github"></i
-                  ></a>
-                </div>
-              </div>
-            </article>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="glass-card timeline-content">
+              <span class="timeline-date">2016 - 2018</span>
+              <h3 class="timeline-title">Fsc.Pre Engineering</h3>
+              <h5>Subjects</h5>
+              <p class="timeline-desc">Math |Physics |Chemistry |Bio |</p>
+            </div>
           </div>
-        </div>
-      </section>
 
-      <!-- Contact Section -->
-      <section id="contact">
-        <div class="container">
-          <h2 class="section-title">Get In Touch</h2>
-          <div class="contact-container">
-            <div class="contact-info">
-              <p style="color: var(--text-secondary); font-size: 1.1rem">
-                Interested in collaborating on an AI project or building a
-                cutting-edge mobile app? Let's connect and discuss how I can
-                bring value to your team.
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="glass-card timeline-content">
+              <span class="timeline-date">2014 - 2016</span>
+              <h3 class="timeline-title">Matriculation</h3>
+              <h5>Subjects</h5>
+              <p class="timeline-desc">Math |Physics |Chemistry |Bio |</p>
+            </div>
+          </div>
+
+          <!-- Education Item 2 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section (NEW) -->
+    <section id="experience">
+      <div class="container">
+        <h2 class="section-title">Experience</h2>
+        <div class="timeline">
+          <!-- Job 1 -->
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="fas fa-briefcase"></i></div>
+            <div class="glass-card timeline-content">
+              <span class="timeline-date">June 2025 - Present</span>
+              <h3 class="timeline-title">Junior AI Engineer</h3>
+              <span class="timeline-company">Tech Flariz </span>
+              <p class="timeline-desc">
+                AI Engineer with hands-on experience in developing and
+                deploying machine learning and AI solutions for real-world
+                applications. Skilled in building scalable backend systems
+                using FastAPI and optimizing model inference with TensorFlow
+                Serving to deliver efficient, production-ready AI systems.
               </p>
-
-              <div class="contact-item">
-                <div class="contact-icon">
-                  <i class="fas fa-envelope"></i>
-                </div>
-                <div class="contact-text">
-                  <h4>Email Me</h4>
-                  <p>
-                    <a href="mailto:yasirahmadmalik8@gmail.com"
-                      >yasirahmadmalik8@gmail.com</a
-                    >
-                  </p>
-                </div>
-              </div>
-
-              <div class="contact-item">
-                <div class="contact-icon">
-                  <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div class="contact-text">
-                  <h4>Location</h4>
-                  <p>Lahore, Pakistan</p>
-                </div>
-              </div>
             </div>
+          </div>
 
-            <!-- Contact Form -->
-            <form class="glass-card contact-form" id="contactForm">
-              <div class="form-group">
-                <input
-                  type="text"
-                  id="name"
-                  name="user_name"
-                  class="form-control"
-                  placeholder="Your Name"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <input
-                  type="email"
-                  id="email"
-                  name="user_email"
-                  class="form-control"
-                  placeholder="Your Email"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <textarea
-                  id="message"
-                  name="message"
-                  class="form-control"
-                  placeholder="Tell me about your project..."
-                  required
-                ></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary" style="width: 100%">
-                Send Message
-              </button>
-            </form>
+          <!-- Job 2 -->
+          <div class="timeline-item">
+            <div class="timeline-dot"><i class="fas fa-briefcase"></i></div>
+            <div class="glass-card timeline-content">
+              <span class="timeline-date">Jan 2022 - May 2023</span>
+              <h3 class="timeline-title">Flutter Developer</h3>
+              <span class="timeline-company">Flutterxperts</span>
+              <p class="timeline-desc">
+                Flutter Developer with hands-on experience in building
+                high-performance, cross-platform mobile applications using
+                Flutter and Dart. Skilled in developing clean, responsive UI
+                designs, integrating REST APIs, and connecting apps with
+                scalable backend systems to deliver smooth and user-friendly
+                digital experiences.
+              </p>
+            </div>
           </div>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
 
-    <!-- Footer -->
-    <footer>
-      <div class="container footer-content">
-        <div class="footer-text">
-          <p>Yasir Ahmad Malik</p>
-        </div>
-        <div class="social-links">
-          <a
-            href="https://www.linkedin.com/in/yasirahmadmalik/"
-            target="_blank"
-            class="social-btn"
-          >
-            <i class="fab fa-linkedin-in"></i>
+    <!-- Certification Section -->
+
+    <section id="certifications">
+      <div class="container">
+        <h2 class="section-title">Certifications</h2>
+        <div class="certs-grid">
+          <!-- Cert 1 -->
+          <a href="https://coursera.org/verify/HVSHNZZKW3LK" target="_blank" class="glass-card cert-card cert-link"
+            title="View Certificate">
+            <div class="cert-icon">
+              <!-- Brain Icon for Machine Learning -->
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3 class="cert-title">Machine Learning Alogrithm</h3>
+            <p class="cert-issuer">Coursera</p>
+            <span class="cert-date">Issued: Mar 2023</span>
           </a>
 
-          <a
-            href="https://github.com/yasirmalik8"
-            target="_blank"
-            class="social-btn"
-          >
-            <i class="fab fa-github"></i>
+          <!-- Cert 2 -->
+          <a href="https://www.credly.com/go/MOhFbp96" target="_blank" class="glass-card cert-card cert-link"
+            title="View Certificate">
+            <div class="cert-icon">
+              <!-- Python Icon -->
+              <i class="fab fa-python"></i>
+            </div>
+            <h3 class="cert-title">Python for Data Science</h3>
+            <p class="cert-issuer">IBM</p>
+            <span class="cert-date">Issued: Apr 2023</span>
           </a>
 
-          <a
-            href="https://x.com/yasirahmadm1428?s=21"
-            target="_blank"
-            class="social-btn"
-          >
-            <i class="fab fa-twitter"></i>
+          <!-- Cert 3 -->
+          <a href="https://coursera.org/verify/LW58WLT6ANBP" target="_blank" class="glass-card cert-card cert-link"
+            title="View Certificate">
+            <div class="cert-icon">
+              <!-- Code Icon for Development -->
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <h3 class="cert-title">
+              Python for Data Science, AI & Development
+            </h3>
+            <p class="cert-issuer">Coursera</p>
+            <span class="cert-date">Issued: Apr 2023</span>
           </a>
 
-          <a
-            href="https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr"
-            target="_blank"
-            class="social-btn"
-          >
-            <i class="fab fa-instagram"></i>
+          <!-- Cert 4 -->
+          <a href="https://coursera.org/verify/RBLYN2SBXQY4" target="_blank" class="glass-card cert-card cert-link"
+            title="View Certificate">
+            <div class="cert-icon">
+              <!-- Chart Icon for Exploratory Data Analysis -->
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h3 class="cert-title">
+              Exploratory Data Analysis for Machine Learning
+            </h3>
+            <p class="cert-issuer">Coursera</p>
+            <span class="cert-date">Issued: Apr 2023</span>
           </a>
-          <a
-            href="https://wa.me/923467336193?text=Hello%20Yasir%2C%20I%20would%20like%20to%20connect%20with%20you."
-            target="_blank"
-            class="social-btn"
-          >
-            <i class="fab fa-whatsapp"></i>
+
+          <a href="https://coursera.org/verify/JVRVMT279TQR" target="_blank" class="glass-card cert-card cert-link"
+            title="View Certificate">
+            <div class="cert-icon">
+              <!-- Robot/Network Icon for AI & Data Science -->
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 class="cert-title">Cyber Security</h3>
+            <p class="cert-issuer">Coursera</p>
+            <span class="cert-date">Issued: Dec 2022</span>
+          </a>
+          <a href="#" target="_blank" class="glass-card cert-card cert-link" title="View Certificate">
+            <div class="cert-icon">
+              <!-- Robot/Network Icon for AI & Data Science -->
+              <i class="fas fa-robot"></i>
+            </div>
+            <h3 class="cert-title">Machine Learning, AI & Data Science</h3>
+            <p class="cert-issuer">
+              Pakistan Gov(Hunarmand Kamyab Jawan Program)
+            </p>
+            <span class="cert-date">Issued: June 2025</span>
           </a>
         </div>
       </div>
-    </footer>
+    </section>
 
-    <!-- Toast Notification -->
-    <div id="toast">Message sent successfully!</div>
-    <!-- Include EmailJS SDK first -->
-    <script
-      type="text/javascript"
-      src="https://cdn.emailjs.com/dist/email.min.js"
-    ></script>
+    <!-- Skills Section -->
+    <section id="skills">
+      <div class="container">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-wrapper">
+          <!-- AI & ML -->
+          <div class="glass-card skill-category" style="padding: 30px">
+            <h3>
+              <i class="fas fa-brain gradient-text"></i> AI & Machine Learning
+            </h3>
+            <div class="skill-tags">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">TensorFlow</span>
+              <span class="skill-tag">PyTorch</span>
+              <span class="skill-tag">Computer Vision</span>
+              <span class="skill-tag">NLP</span>
+              <span class="skill-tag">Data Analysis</span>
+            </div>
+          </div>
 
-    <!-- EmailJS CDN and Script -->
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <script>
-      // Initialize EmailJS with your public key
-      emailjs.init("pamswz1tct7gzkDGR");
+          <!-- Mobile Dev -->
+          <div class="glass-card skill-category" style="padding: 30px">
+            <h3>
+              <i class="fas fa-mobile-alt gradient-text"></i> Mobile
+              Development
+            </h3>
+            <div class="skill-tags">
+              <span class="skill-tag">Flutter</span>
+              <span class="skill-tag">Dart</span>
+              <span class="skill-tag">Firebase</span>
+              <span class="skill-tag">REST APIs</span>
+              <span class="skill-tag">State Management</span>
+              <span class="skill-tag">UI/UX Design</span>
+            </div>
+          </div>
+          <div class="glass-card skill-category" style="padding: 30px">
+            <h3>
+              <i class="fas fa-globe gradient-text"></i> Web Development
+            </h3>
+            <div class="skill-tags">
+              <span class="skill-tag">Flutter</span>
+              <span class="skill-tag">Dart</span>
+              <span class="skill-tag">Firebase</span>
+              <span class="skill-tag">REST APIs</span>
+              <span class="skill-tag">State Management</span>
+              <span class="skill-tag">UI/UX Design</span>
+            </div>
+          </div>
 
-      // Handle form submission
-      const contactForm = document.getElementById("contactForm");
-      contactForm.addEventListener("submit", function (event) {
-        event.preventDefault();
+          <!-- Backend -->
+          <div class="glass-card skill-category" style="padding: 30px">
+            <h3>
+              <i class="fas fa-server gradient-text"></i> Backend & Tools
+            </h3>
+            <div class="skill-tags">
+              <span class="skill-tag">FastAPI</span>
+              <span class="skill-tag">SQL / NoSQL</span>
+              <span class="skill-tag">Git / GitHub</span>
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">CI/CD</span>
+              <span class="skill-tag">Linux</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        emailjs
-          .sendForm(
-            "service_1zo3oxm", // Your Service ID
-            "template_hlytccu", // Your Template ID
-            this,
-          )
-          .then(
-            function (response) {
-              alert("Message sent successfully! ✅");
-              contactForm.reset();
-            },
-            function (error) {
-              alert("Oops! Something went wrong ❌");
-              console.log(error);
-            },
-          );
+    <!-- Projects Section -->
+    <section id="projects">
+      <div class="container">
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+          <!-- Project 1 -->
+          <article class="glass-card project-card">
+            <div class="project-img-wrapper">
+              <img src="assets/splash.jpg" alt="Cab Booking App" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Cab Booking Android Application</h3>
+              <p class="project-desc">
+                A user-friendly cross-platform app that allows users to book
+                rides, track drivers in real-time, and manage trip history
+                seamlessly.
+              </p>
+              <div class="project-tech">
+                <span class="tech-span">Flutter</span>
+                <span class="tech-span">Dart</span>
+                <span class="tech-span">Firebase</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="glass-card project-card">
+            <div class="project-img-wrapper">
+              <img src="assets/object.jpg" alt="Object Detection" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Object Detection</h3>
+              <p class="project-desc">
+                A computer vision system capable of detecting and classifying
+                multiple objects in real-time video streams using deep
+                learning models.
+              </p>
+              <div class="project-tech">
+                <span class="tech-span">Python</span>
+                <span class="tech-span">TensorFlow</span>
+                <span class="tech-span">OpenCV</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="glass-card project-card">
+            <div class="project-img-wrapper">
+              <img src="assets/chatbot.png" alt="Chatbot App" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Chat Bot App</h3>
+              <p class="project-desc">
+                An intelligent chatbot application powered by NLP that
+                provides automated customer support and smart responses via a
+                FastAPI backend.
+              </p>
+              <div class="project-tech">
+                <span class="tech-span">Python</span>
+                <span class="tech-span">FastAPI</span>
+                <span class="tech-span">Flutter</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 4 -->
+          <article class="glass-card project-card">
+            <div class="project-img-wrapper">
+              <img src="assets/emotion.jpeg" alt="Emotion Detection" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Emotion Detection Through Image</h3>
+              <p class="project-desc">
+                An AI tool that analyzes facial features in static images to
+                accurately identify human emotions such as happiness, sadness,
+                and anger.
+              </p>
+              <div class="project-tech">
+                <span class="tech-span">Python</span>
+                <span class="tech-span">OpenCV</span>
+                <span class="tech-span">Keras</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 5 -->
+          <article class="glass-card project-card">
+            <div class="project-img-wrapper">
+              <img src="assets/finger.png" alt="Finger Count" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Finger Count Detection</h3>
+              <p class="project-desc">
+                A hand tracking system that uses computer vision to detect
+                hand landmarks and count the number of raised fingers in
+                real-time.
+              </p>
+              <div class="project-tech">
+                <span class="tech-span">Python</span>
+                <span class="tech-span">OpenCV</span>
+                <span class="tech-span">MediaPipe</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 6 -->
+          <article class="glass-card project-card">
+            <div class="project-img-wrapper">
+              <img src="assets/emotion.jpeg" alt="Real-time Emotion" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Real-Time Emotion Recognition</h3>
+              <p class="project-desc">
+                A live video processing application that detects and displays
+                facial expressions instantly using a webcam feed.
+              </p>
+              <div class="project-tech">
+                <span class="tech-span">Python</span>
+                <span class="tech-span">TensorFlow</span>
+                <span class="tech-span">OpenCV</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 7 -->
+          <article class="glass-card project-card">
+            <div class="project-img-wrapper">
+              <img src="assets/smyl.jpg" alt="Smyl App" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Smyl App</h3>
+              <p class="project-desc">
+                Smyl App is an AI-based emotion detection application that analyzes facial expressions from images and
+                predicts human emotions such as happiness, sadness, and anger. The mobile frontend was developed using
+                Flutter, while the AI model and backend API were built using Python and FastAPI.
+              </p>
+              <div class="project-tech">
+                <span class="tech-span">Flutter</span>
+                <span class="tech-span">Python</span>
+                <span class="tech-span">FastAPI</span>
+                <span class="tech-span">Machine Learning</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" title="View Code">
+                  <i class="fab fa-github"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 8 -->
+          <article class="glass-card project-card">
+            <div class="project-img-wrapper">
+              <img src="assets/volume.jpg" alt="Volume Control By Finger" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Volume Control By Finger</h3>
+              <p class="project-desc">
+                A computer vision-based system that controls system volume using hand gestures. It detects hand
+                landmarks and measures finger distance in real-time using Python, OpenCV, and MediaPipe to adjust audio
+                levels dynamically.
+              </p>
+              <div class="project-tech">
+                <span class="tech-span">Python</span>
+                <span class="tech-span">OpenCV</span>
+                <span class="tech-span">MediaPipe</span>
+                <span class="tech-span">Computer Vision</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" title="View Code">
+                  <i class="fab fa-github"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 9 -->
+          <article class="glass-card project-card">
+            <div class="project-img-wrapper">
+              <img src="assets/object_video.jpg" alt="Object Detection From Video" />
+            </div>
+            <div class="project-content">
+              <h3 class="project-title">Object Detection From Video</h3>
+              <p class="project-desc">
+                A real-time object detection system that processes live video streams to identify and track multiple
+                objects instantly. The model was implemented using TensorFlow and integrated with OpenCV for live webcam
+                video processing in Python.
+              </p>
+              <div class="project-tech">
+                <span class="tech-span">Python</span>
+                <span class="tech-span">TensorFlow</span>
+                <span class="tech-span">OpenCV</span>
+                <span class="tech-span">Deep Learning</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link" title="View Code">
+                  <i class="fab fa-github"></i>
+                </a>
+              </div>
+            </div>
+          </article>
+
+
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-title">Get In Touch</h2>
+        <div class="contact-container">
+          <div class="contact-info">
+            <p style="color: var(--text-secondary); font-size: 1.1rem">
+              Interested in collaborating on an AI project or building a
+              cutting-edge mobile app? Let's connect and discuss how I can
+              bring value to your team.
+            </p>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-envelope"></i>
+              </div>
+              <div class="contact-text">
+                <h4>Email Me</h4>
+                <p>
+                  <a href="mailto:yasirahmadmalik8@gmail.com">yasirahmadmalik8@gmail.com</a>
+                </p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <i class="fas fa-map-marker-alt"></i>
+              </div>
+              <div class="contact-text">
+                <h4>Location</h4>
+                <p>Lahore, Pakistan</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Form -->
+          <form class="glass-card contact-form" id="contactForm">
+            <div class="form-group">
+              <input type="text" id="name" name="user_name" class="form-control" placeholder="Your Name" required />
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" name="user_email" class="form-control" placeholder="Your Email" required />
+            </div>
+            <div class="form-group">
+              <textarea id="message" name="message" class="form-control" placeholder="Tell me about your project..."
+                required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-content">
+      <div class="footer-text">
+        <p>Yasir Ahmad Malik</p>
+      </div>
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/yasirahmadmalik/" target="_blank" class="social-btn">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+
+        <a href="https://github.com/yasirmalik8" target="_blank" class="social-btn">
+          <i class="fab fa-github"></i>
+        </a>
+
+        <a href="https://x.com/yasirahmadm1428?s=21" target="_blank" class="social-btn">
+          <i class="fab fa-twitter"></i>
+        </a>
+
+        <a href="https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr" target="_blank"
+          class="social-btn">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://wa.me/923467336193?text=Hello%20Yasir%2C%20I%20would%20like%20to%20connect%20with%20you."
+          target="_blank" class="social-btn">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast">Message sent successfully!</div>
+
+  <script>
+    // Theme Toggle (Dark/Light)
+    const themeToggle = document.getElementById('theme-toggle');
+    const theme3D = document.getElementById('theme-3d');
+    const themeIcon = themeToggle.querySelector('i');
+    const theme3DIcon = theme3D.querySelector('i');
+
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeIcons(savedTheme);
+    }
+
+    function updateThemeIcons(theme) {
+      if (theme === 'light') {
+        themeIcon.className = 'fas fa-sun';
+        theme3DIcon.className = 'fas fa-cube';
+      } else if (theme === '3d') {
+        themeIcon.className = 'fas fa-moon';
+        theme3DIcon.className = 'fas fa-cube active-3d';
+      } else {
+        themeIcon.className = 'fas fa-moon';
+        theme3DIcon.className = 'fas fa-cube';
+      }
+    }
+
+    // Dark/Light Theme Toggle
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      let newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+      // If 3D mode is active, switch from 3D to light/dark
+      if (currentTheme === '3d') {
+        newTheme = 'light';
+      }
+
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcons(newTheme);
+
+      // Restart animation with new theme
+      initParticles();
+    });
+
+    // 3D Theme Toggle
+    theme3D.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      let newTheme = currentTheme === '3d' ? 'dark' : '3d';
+
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcons(newTheme);
+
+      // Restart animation with new theme
+      initParticles();
+    });
+
+    // Mobile Menu Toggle
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navLinks = document.querySelector('.nav-links');
+
+    mobileMenu.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      const icon = mobileMenu.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        const icon = mobileMenu.querySelector('i');
+        icon.classList.add('fa-bars');
+        icon.classList.remove('fa-times');
       });
-    </script>
-  </body>
+    });
+
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Active nav link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (scrollY >= sectionTop - 200) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navItems.forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('href').slice(1) === current) {
+          item.classList.add('active');
+        }
+      });
+    });
+
+    // Scroll Animations using Intersection Observer
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+        }
+      });
+    }, observerOptions);
+
+    // Add animation classes to elements with staggered delay
+    const animatedElements = document.querySelectorAll('.glass-card, .timeline-item, .cert-card, .project-card, .skill-category');
+    animatedElements.forEach((el, index) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(40px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      el.style.transitionDelay = (index * 0.1) + 's';
+      observer.observe(el);
+    });
+
+    // Add animation class styles dynamically
+    const style = document.createElement('style');
+    style.textContent = `
+      .animate-in {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+      
+      /* Smooth stagger animation */
+      .stagger-1 { transition-delay: 0.1s; }
+      .stagger-2 { transition-delay: 0.2s; }
+      .stagger-3 { transition-delay: 0.3s; }
+      .stagger-4 { transition-delay: 0.4s; }
+      .stagger-5 { transition-delay: 0.5s; }
+    `;
+    document.head.appendChild(style);
+
+    // Typewriter Effect for Hero Subtitle
+    const typewriterElement = document.getElementById('typewriter');
+    const text = "AI Engineer & Flutter Developer";
+    let charIndex = 0;
+
+    function typeWriter() {
+      if (charIndex < text.length) {
+        typewriterElement.textContent += text.charAt(charIndex);
+        charIndex++;
+        setTimeout(typeWriter, 80);
+      }
+    }
+
+    // Start typing effect after page loads
+    setTimeout(typeWriter, 1000);
+
+    // Add parallax effect to hero section
+    const heroSection = document.getElementById('hero');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const heroImage = document.querySelector('.hero-image-container');
+      if (heroImage) {
+        heroImage.style.transform = `translateY(${scrolled * 0.1}px)`;
+      }
+    });
+
+    // Add hover effect to skill tags
+    document.querySelectorAll('.skill-tag').forEach(tag => {
+      tag.addEventListener('mouseenter', function () {
+        this.style.transform = 'scale(1.05)';
+      });
+      tag.addEventListener('mouseleave', function () {
+        this.style.transform = 'scale(1)';
+      });
+    });
+  </script>
+  <!-- Include EmailJS SDK first -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+
+  <!-- EmailJS CDN and Script -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    // Initialize EmailJS with your public key
+    emailjs.init("pamswz1tct7gzkDGR");
+
+    // Handle form submission
+    const contactForm = document.getElementById("contactForm");
+    contactForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      emailjs
+        .sendForm(
+          "service_1zo3oxm", // Your Service ID
+          "template_hlytccu", // Your Template ID
+          this,
+        )
+        .then(
+          function (response) {
+            alert("Message sent successfully! ✅");
+            contactForm.reset();
+          },
+          function (error) {
+            alert("Oops! Something went wrong ❌");
+            console.log(error);
+          },
+        );
+    });
+  </script>
+</body>
+
 </html>
