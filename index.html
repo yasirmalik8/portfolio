@@ -582,7 +582,7 @@
                 <span class="tech-span">Firebase</span>
               </div>
               <div class="project-links">
-                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
               </div>
             </div>
           </article>
@@ -605,7 +605,7 @@
                 <span class="tech-span">OpenCV</span>
               </div>
               <div class="project-links">
-                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
               </div>
             </div>
           </article>
@@ -628,7 +628,7 @@
                 <span class="tech-span">Flutter</span>
               </div>
               <div class="project-links">
-                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
               </div>
             </div>
           </article>
@@ -651,7 +651,7 @@
                 <span class="tech-span">Keras</span>
               </div>
               <div class="project-links">
-                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
               </div>
             </div>
           </article>
@@ -674,7 +674,7 @@
                 <span class="tech-span">MediaPipe</span>
               </div>
               <div class="project-links">
-                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
               </div>
             </div>
           </article>
@@ -696,7 +696,7 @@
                 <span class="tech-span">OpenCV</span>
               </div>
               <div class="project-links">
-                <a href="#" class="project-link" title="View Code"><i class="fab fa-github"></i></a>
+                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
               </div>
             </div>
           </article>
@@ -720,9 +720,7 @@
                 <span class="tech-span">Machine Learning</span>
               </div>
               <div class="project-links">
-                <a href="#" class="project-link" title="View Code">
-                  <i class="fab fa-github"></i>
-                </a>
+                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
               </div>
             </div>
           </article>
@@ -746,9 +744,7 @@
                 <span class="tech-span">Computer Vision</span>
               </div>
               <div class="project-links">
-                <a href="#" class="project-link" title="View Code">
-                  <i class="fab fa-github"></i>
-                </a>
+                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
               </div>
             </div>
           </article>
@@ -772,15 +768,10 @@
                 <span class="tech-span">Deep Learning</span>
               </div>
               <div class="project-links">
-                <a href="#" class="project-link" title="View Code">
-                  <i class="fab fa-github"></i>
-                </a>
+                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
               </div>
             </div>
           </article>
-
-
-
         </div>
       </div>
     </section>
@@ -845,7 +836,7 @@
   <footer>
     <div class="container footer-content">
       <div class="footer-text">
-        <p>Yasir Ahmad Malik</p>
+        <p><strong>Yasir Ahmad Malik</strong> &nbsp;·&nbsp; AI Engineer &amp; Flutter Developer</p>
       </div>
       <div class="social-links">
         <a href="https://www.linkedin.com/in/yasirahmadmalik/" target="_blank" class="social-btn">
@@ -874,6 +865,9 @@
 
   <!-- Toast Notification -->
   <div id="toast">Message sent successfully!</div>
+
+  <!-- Scroll to Top Button -->
+  <button id="scroll-top" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
 
   <script>
     // Theme Toggle (Dark/Light)
@@ -1000,10 +994,10 @@
       });
     });
 
-    // Scroll Animations using Intersection Observer
+    // Scroll Animations — stagger delay resets per section (no long waits)
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: 0.08,
+      rootMargin: '0px 0px -30px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -1014,32 +1008,21 @@
       });
     }, observerOptions);
 
-    // Add animation classes to elements with staggered delay
-    const animatedElements = document.querySelectorAll('.glass-card, .timeline-item, .cert-card, .project-card, .skill-category');
-    animatedElements.forEach((el, index) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(40px)';
-      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-      el.style.transitionDelay = (index * 0.1) + 's';
-      observer.observe(el);
+    // Group animated elements by their parent section so delay resets each section
+    document.querySelectorAll('section').forEach(section => {
+      const els = section.querySelectorAll('.glass-card, .timeline-item, .skill-category');
+      els.forEach((el, i) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        el.style.transitionDelay = Math.min(i * 0.08, 0.32) + 's';
+        observer.observe(el);
+      });
     });
 
-    // Add animation class styles dynamically
-    const style = document.createElement('style');
-    style.textContent = `
-      .animate-in {
-        opacity: 1 !important;
-        transform: translateY(0) !important;
-      }
-      
-      /* Smooth stagger animation */
-      .stagger-1 { transition-delay: 0.1s; }
-      .stagger-2 { transition-delay: 0.2s; }
-      .stagger-3 { transition-delay: 0.3s; }
-      .stagger-4 { transition-delay: 0.4s; }
-      .stagger-5 { transition-delay: 0.5s; }
-    `;
-    document.head.appendChild(style);
+    const animStyle = document.createElement('style');
+    animStyle.textContent = `.animate-in { opacity: 1 !important; transform: translateY(0) !important; }`;
+    document.head.appendChild(animStyle);
 
     // Typewriter Effect for Hero Subtitle
     const typewriterElement = document.getElementById('typewriter');
@@ -1057,7 +1040,7 @@
     // Start typing effect after page loads
     setTimeout(typeWriter, 1000);
 
-    // Parallax effect on hero image (only while hero is visible)
+    // Parallax on hero image
     window.addEventListener('scroll', () => {
       const scrolled = window.pageYOffset;
       const heroImage = document.querySelector('.hero-image-container');
@@ -1070,14 +1053,13 @@
       }
     });
 
-    // Add hover effect to skill tags
-    document.querySelectorAll('.skill-tag').forEach(tag => {
-      tag.addEventListener('mouseenter', function () {
-        this.style.transform = 'scale(1.05)';
-      });
-      tag.addEventListener('mouseleave', function () {
-        this.style.transform = 'scale(1)';
-      });
+    // Scroll-to-top button
+    const scrollTopBtn = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => {
+      scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+    });
+    scrollTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
   <!-- EmailJS SDK -->
