@@ -5,120 +5,84 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Yasir Ahmad Malik - AI Engineer & Flutter Developer based in Lahore, Pakistan. Specializing in Machine Learning, Computer Vision, and cross-platform mobile apps." />
-  <meta name="keywords" content="AI Engineer, Flutter Developer, Machine Learning, Computer Vision, Python, TensorFlow, FastAPI, Lahore" />
+  <meta name="keywords" content="AI Engineer, Flutter Developer, Machine Learning, Computer Vision, Python, TensorFlow, FastAPI, Lahore, UET" />
   <meta name="author" content="Yasir Ahmad Malik" />
   <meta property="og:title" content="Yasir Ahmad Malik | AI Engineer & Flutter Developer" />
   <meta property="og:description" content="AI Engineer & Flutter Developer specializing in ML, Computer Vision and cross-platform mobile apps." />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Yasir Ahmad Malik | AI Engineer & Flutter Developer" />
   <title>Yasir Ahmad Malik | AI Engineer & Flutter Developer</title>
-  <!-- Google Fonts -->
+
   <link rel="stylesheet" href="style.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&display=swap"
-    rel="stylesheet" />
-  <!-- Font Awesome for Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
 </head>
 
 <body>
-  <!-- Neural Network Background -->
+
+  <!-- Particle Background Canvas -->
   <canvas id="bg-canvas"></canvas>
 
   <script>
-    // Canvas Background Animation
+    // Green particle background
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
-
-    let width, height;
-    let particles = [];
+    let width, height, particles = [];
 
     function resize() {
       width = canvas.width = window.innerWidth;
       height = canvas.height = window.innerHeight;
     }
-
     resize();
     window.addEventListener('resize', resize);
 
     class Particle {
-      constructor() {
-        this.reset();
-      }
-
+      constructor() { this.reset(); }
       reset() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 1;
-        this.vy = (Math.random() - 0.5) * 1;
-        this.size = Math.random() * 3 + 2;
-        this.color = this.getColor();
+        this.vx = (Math.random() - 0.5) * 0.6;
+        this.vy = (Math.random() - 0.5) * 0.6;
+        this.size = Math.random() * 1.5 + 0.5;
+        this.opacity = Math.random() * 0.5 + 0.2;
       }
-
       getColor() {
-        const theme = document.documentElement.getAttribute('data-theme');
-        if (theme === '3d') {
-          const colors = ['#ff006e', '#8338ec', '#3a86ff', '#06ffa5', '#ffbe0b'];
-          return colors[Math.floor(Math.random() * colors.length)];
-        } else if (theme === 'light') {
-          return 'rgba(0, 153, 204, 0.9)';
-        }
-        return 'rgba(0, 212, 255, 0.9)';
+        const t = document.documentElement.getAttribute('data-theme');
+        return t === 'light' ? `rgba(0,184,96,${this.opacity})` : `rgba(0,230,118,${this.opacity})`;
       }
-
       update() {
         this.x += this.vx;
         this.y += this.vy;
-
         if (this.x < 0 || this.x > width) this.vx *= -1;
         if (this.y < 0 || this.y > height) this.vy *= -1;
-
-        // Update color when theme changes
-        this.color = this.getColor();
       }
-
       draw() {
-        ctx.fillStyle = this.color;
+        ctx.fillStyle = this.getColor();
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size * 2, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
     function initParticles() {
       particles = [];
-      for (let i = 0; i < 60; i++) {
-        particles.push(new Particle());
-      }
+      for (let i = 0; i < 55; i++) particles.push(new Particle());
     }
-
     initParticles();
 
     function connectParticles() {
-      const theme = document.documentElement.getAttribute('data-theme');
-      let strokeColor;
-
-      if (theme === '3d') {
-        strokeColor = 'rgba(255, 0, 110, 0.4)';
-      } else if (theme === 'light') {
-        strokeColor = 'rgba(0, 153, 204, 0.3)';
-      } else {
-        strokeColor = 'rgba(0, 212, 255, 0.3)';
-      }
-
+      const t = document.documentElement.getAttribute('data-theme');
+      const c = t === 'light' ? 'rgba(0,184,96,0.12)' : 'rgba(0,230,118,0.1)';
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < 200) {
-            ctx.strokeStyle = strokeColor;
-            ctx.lineWidth = 1;
+          const d = Math.sqrt(dx * dx + dy * dy);
+          if (d < 160) {
+            ctx.strokeStyle = c;
+            ctx.lineWidth = 0.6;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -128,49 +92,41 @@
       }
     }
 
-    let animationId;
-
     function animate() {
-      const theme = document.documentElement.getAttribute('data-theme');
-      if (theme === '3d') {
-        ctx.clearRect(0, 0, width, height);
-        animationId = requestAnimationFrame(animate);
-        return;
-      }
       ctx.clearRect(0, 0, width, height);
-
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-
+      particles.forEach(p => { p.update(); p.draw(); });
       connectParticles();
-      animationId = requestAnimationFrame(animate);
+      requestAnimationFrame(animate);
     }
-
     animate();
   </script>
 
-  <!-- Navigation -->
+  <!-- ==================== NAVIGATION ==================== -->
   <header id="header">
     <div class="container">
       <nav>
-        <a href="#hero" class="logo">Yasir Ahmad Malik<span class="gradient-text"></span></a>
+        <a href="#hero" class="logo">Yasir<span class="logo-dot">.</span>dev</a>
+
+        <ul class="nav-links">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#certifications">Certs</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
         <div class="nav-right">
-          <ul class="nav-links">
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#certifications">Certifications</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
+          <a href="assets/Yasir_Ahmad_Malik_Resume.pdf" class="nav-resume" download>
+            <i class="fas fa-download"></i> Resume
+          </a>
           <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
             <i class="fas fa-moon"></i>
           </button>
-          <button class="theme-toggle theme-3d" id="theme-3d" aria-label="Toggle 3D theme" title="3D Mode">
+          <!-- kept for JS compat, hidden via CSS -->
+          <button class="theme-toggle theme-3d" id="theme-3d" aria-label="3D theme">
             <i class="fas fa-cube"></i>
           </button>
           <div class="menu-toggle" id="mobile-menu">
@@ -181,96 +137,77 @@
     </div>
   </header>
 
-  <!-- Main Content -->
   <main>
-    <!-- Hero Section -->
+
+    <!-- ==================== HERO ==================== -->
     <section id="hero">
       <div class="container">
         <div class="hero-grid">
-          <!-- Left: Text -->
+
           <div class="hero-text-content">
             <div class="hero-badge">Available for Hire</div>
             <h1 class="hero-title">
-              Hi, I'm <br /><span class="gradient-text">Yasir Ahmad Malik</span>
+              Hi, I'm
+              <span class="name-line">Yasir Ahmad Malik</span>
             </h1>
             <h2 class="hero-subtitle" id="typewriter"></h2>
             <div class="hero-buttons">
               <a href="#projects" class="btn btn-primary"><i class="fas fa-briefcase"></i> View Work</a>
               <a href="#contact" class="btn btn-outline"><i class="fas fa-envelope"></i> Contact Me</a>
-              <a href="assets/Yasir_Ahmad_Malik_Resume.pdf" class="btn btn-primary" download>
-                <i class="fas fa-download"></i> Resume
-              </a>
             </div>
-
-            <!-- Hero Social Links (Added Here) -->
             <div class="hero-social-links">
-              <a href="https://www.linkedin.com/in/yasirahmadmalik/" target="_blank" class="social-btn">
+              <a href="https://www.linkedin.com/in/yasirahmadmalik/" target="_blank" class="social-btn" aria-label="LinkedIn">
                 <i class="fab fa-linkedin-in"></i>
               </a>
-              <a href="https://github.com/yasirmalik8" target="_blank" class="social-btn">
+              <a href="https://github.com/yasirmalik8" target="_blank" class="social-btn" aria-label="GitHub">
                 <i class="fab fa-github"></i>
               </a>
-              <a href="https://x.com/yasirahmadm1428?s=21" target="_blank" class="social-btn">
+              <a href="https://x.com/yasirahmadm1428?s=21" target="_blank" class="social-btn" aria-label="Twitter">
                 <i class="fab fa-twitter"></i>
               </a>
-              <a href="https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr" target="_blank"
-                class="social-btn">
+              <a href="https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr" target="_blank" class="social-btn" aria-label="Instagram">
                 <i class="fab fa-instagram"></i>
               </a>
-              <a href="https://wa.me/923467336193?text=Hello%20Yasir%2C%20I%20would%20like%20to%20connect%20with%20you."
-                target="_blank" class="social-btn">
+              <a href="https://wa.me/923467336193?text=Hello%20Yasir%2C%20I%20would%20like%20to%20connect%20with%20you." target="_blank" class="social-btn" aria-label="WhatsApp">
                 <i class="fab fa-whatsapp"></i>
               </a>
             </div>
           </div>
 
-          <!-- Right: Static Image -->
-          <div class="hero-image-container glass-card">
-            <!-- REPLACE the src below with your actual photo URL -->
+          <div class="hero-image-container">
             <img src="assets/profilepic.jpg" alt="Yasir Ahmad Malik" />
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- About Section -->
+    <!-- ==================== ABOUT ==================== -->
     <section id="about">
       <div class="container">
-        <h2 class="section-title">About Me</h2>
+        <span class="section-label">// ABOUT_ME</span>
+        <h2 class="section-title">Building <span class="accent">Intelligent</span> Solutions</h2>
         <div class="about-grid">
           <div class="about-image glass-card">
-            <img src="assets/yasir.JPG" alt="Yasir Ahmad Malik Working" />
+            <img src="assets/yasir.JPG" alt="Yasir Ahmad Malik" />
           </div>
           <div class="about-text">
-            <h3>Building Intelligent & Scalable Digital Solutions</h3>
-
+            <h3>AI Engineer <span class="accent">&</span> Flutter Developer</h3>
             <p>
-              I am a passionate <strong>AI Engineer</strong> and
-              <strong>Flutter Developer</strong> with over two years of
-              combined experience in artificial intelligence and mobile
-              application development. I specialize in building intelligent
-              systems and transforming them into seamless, real-world
-              applications.
+              I am a passionate <strong>AI Engineer</strong> and <strong>Flutter Developer</strong> with over two years
+              of combined experience in artificial intelligence and mobile application development. I specialize in
+              building intelligent systems and transforming them into seamless, real-world applications.
             </p>
-
             <p>
-              With a strong foundation in <strong>Python</strong>,
-              <strong>Machine Learning</strong>, and backend technologies like
-              <strong>FastAPI</strong>, I develop scalable AI-powered
-              solutions that solve practical problems. At the same time, my
-              expertise in <strong>Flutter</strong> allows me to design and
-              deliver high-performance, cross-platform mobile applications
-              with clean and user-friendly interfaces.
+              With a strong foundation in <strong>Python</strong>, <strong>Machine Learning</strong>, and backend
+              technologies like <strong>FastAPI</strong>, I develop scalable AI-powered solutions that solve practical
+              problems. My expertise in <strong>Flutter</strong> allows me to deliver high-performance, cross-platform
+              mobile applications with clean and intuitive interfaces.
             </p>
-
             <p>
-              My core strengths include developing AI models and integrating
-              them into production-ready systems, building secure RESTful
-              APIs, creating modern responsive mobile applications, and
-              connecting intelligent backend systems with intuitive user
-              experiences.
+              My core strengths include developing AI models and integrating them into production-ready systems,
+              building secure RESTful APIs, and connecting intelligent backend systems with intuitive user experiences.
             </p>
-
             <div class="stats-grid">
               <div class="stat-item">
                 <span class="stat-number">15+</span>
@@ -290,291 +227,373 @@
       </div>
     </section>
 
-    <!-- Education Section -->
+    <!-- ==================== EDUCATION ==================== -->
     <section id="education">
       <div class="container">
-        <h2 class="section-title">Education</h2>
+        <span class="section-label">// EDUCATION</span>
+        <h2 class="section-title">Academic <span class="accent">Background</span></h2>
         <div class="timeline">
-          <!-- Education Item 1 -->
+
+          <!-- MS -->
           <div class="timeline-item">
-            <div class="timeline-dot">
-              <i class="fas fa-graduation-cap"></i>
-            </div>
-            <div class="glass-card timeline-content">
-              <span class="timeline-date">2023 - 2026</span>
-              <h3 class="timeline-title">
-                Master of Science in Artificial Intelligence
-              </h3>
-              <h5>Subjects</h5>
+            <div class="timeline-dot"><i class="fas fa-graduation-cap"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-date">2023 — 2026</span>
+              <h3 class="timeline-title">Master of Science in Artificial Intelligence</h3>
+              <a href="https://www.uet.edu.pk/home/" target="_blank" class="timeline-institution">
+                <i class="fas fa-university"></i> University of Engineering &amp; Technology Lahore
+              </a>
+              <div class="timeline-subjects">
+                <span class="subject-tag">Artificial Intelligence</span>
+                <span class="subject-tag">Machine Learning</span>
+                <span class="subject-tag">Computer Vision</span>
+                <span class="subject-tag">Deep Learning</span>
+                <span class="subject-tag">Generative AI</span>
+              </div>
               <p class="timeline-desc">
-                Artificial Intelligence |Machine Learning |Computer Vision
-                |Deep Learning |Generative AI
-              </p>
-              <p class="timeline-desc">
-                Specialized in Artificial Intelligence & Machine Learning and
-                Computer Vision.
+                Specializing in Artificial Intelligence, Machine Learning, and Computer Vision at one of Pakistan's top
+                engineering universities.
               </p>
             </div>
           </div>
 
+          <!-- BS -->
           <div class="timeline-item">
-            <div class="timeline-dot">
-              <i class="fas fa-graduation-cap"></i>
-            </div>
-            <div class="glass-card timeline-content">
-              <span class="timeline-date">2018 - 2022</span>
-              <h3 class="timeline-title">
-                Bachelor of Science in Information Technology
-              </h3>
-              <h5>Subjects</h5>
+            <div class="timeline-dot"><i class="fas fa-graduation-cap"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-date">2018 — 2022</span>
+              <h3 class="timeline-title">Bachelor of Science in Information Technology</h3>
+              <a href="https://gudgk.edu.pk/" target="_blank" class="timeline-institution">
+                <i class="fas fa-university"></i> Ghazi University Dera Ghazi Khan
+              </a>
+              <div class="timeline-subjects">
+                <span class="subject-tag">Data Structures</span>
+                <span class="subject-tag">C++ Programming</span>
+                <span class="subject-tag">OOP</span>
+                <span class="subject-tag">Java</span>
+                <span class="subject-tag">Database Systems</span>
+              </div>
               <p class="timeline-desc">
-                Data Structures|C++ Programming |OPP |Java Programming |
-              </p>
-              <p class="timeline-desc">
-                Specialized in Information Technology. Graduated with Honors.
-                Capstone project focused on Cab Booking Android Application.
+                Graduated with Honors in Information Technology. Capstone project focused on a Cab Booking Android
+                Application using Flutter and Firebase.
               </p>
             </div>
           </div>
 
+          <!-- FSc -->
           <div class="timeline-item">
-            <div class="timeline-dot">
-              <i class="fas fa-graduation-cap"></i>
-            </div>
-            <div class="glass-card timeline-content">
-              <span class="timeline-date">2016 - 2018</span>
+            <div class="timeline-dot"><i class="fas fa-graduation-cap"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-date">2016 — 2018</span>
               <h3 class="timeline-title">FSc Pre-Engineering</h3>
-              <h5>Subjects</h5>
-              <p class="timeline-desc">Math |Physics |Chemistry |Bio |</p>
+              <a href="https://pgc.edu/campus/taunsa-sharif/" target="_blank" class="timeline-institution">
+                <i class="fas fa-school"></i> Punjab College Taunsa Sharif
+              </a>
+              <div class="timeline-subjects">
+                <span class="subject-tag">Mathematics</span>
+                <span class="subject-tag">Physics</span>
+                <span class="subject-tag">Chemistry</span>
+              </div>
             </div>
           </div>
 
+          <!-- Matric -->
           <div class="timeline-item">
-            <div class="timeline-dot">
-              <i class="fas fa-graduation-cap"></i>
-            </div>
-            <div class="glass-card timeline-content">
-              <span class="timeline-date">2014 - 2016</span>
-              <h3 class="timeline-title">Matriculation</h3>
-              <h5>Subjects</h5>
-              <p class="timeline-desc">Math |Physics |Chemistry |Bio |</p>
+            <div class="timeline-dot"><i class="fas fa-graduation-cap"></i></div>
+            <div class="timeline-content">
+              <span class="timeline-date">2014 — 2016</span>
+              <h3 class="timeline-title">Matriculation (Secondary School)</h3>
+              <span class="timeline-institution">
+                <i class="fas fa-school"></i> New Garrison Public Higher Secondary School Taunsa Sharif
+              </span>
+              <div class="timeline-subjects">
+                <span class="subject-tag">Mathematics</span>
+                <span class="subject-tag">Physics</span>
+                <span class="subject-tag">Chemistry</span>
+                <span class="subject-tag">Biology</span>
+              </div>
             </div>
           </div>
 
-          <!-- Education Item 2 -->
         </div>
       </div>
     </section>
 
-    <!-- Experience Section (NEW) -->
+    <!-- ==================== EXPERIENCE ==================== -->
     <section id="experience">
       <div class="container">
-        <h2 class="section-title">Experience</h2>
+        <span class="section-label">// EXPERIENCE</span>
+        <h2 class="section-title">Work <span class="accent">History</span></h2>
         <div class="timeline">
-          <!-- Job 1 -->
+
           <div class="timeline-item">
             <div class="timeline-dot"><i class="fas fa-briefcase"></i></div>
-            <div class="glass-card timeline-content">
-              <span class="timeline-date">June 2025 - Present</span>
+            <div class="timeline-content">
+              <span class="timeline-date">June 2025 — Present</span>
               <h3 class="timeline-title">Junior AI Engineer</h3>
-              <span class="timeline-company">Tech Flariz </span>
+              <span class="timeline-company">Tech Flariz</span>
               <p class="timeline-desc">
-                AI Engineer with hands-on experience in developing and
-                deploying machine learning and AI solutions for real-world
-                applications. Skilled in building scalable backend systems
-                using FastAPI and optimizing model inference with TensorFlow
-                Serving to deliver efficient, production-ready AI systems.
+                Developing and deploying machine learning and AI solutions for real-world applications. Building
+                scalable backend systems using FastAPI and optimizing model inference with TensorFlow Serving to deliver
+                efficient, production-ready AI systems.
               </p>
             </div>
           </div>
 
-          <!-- Job 2 -->
           <div class="timeline-item">
             <div class="timeline-dot"><i class="fas fa-briefcase"></i></div>
-            <div class="glass-card timeline-content">
-              <span class="timeline-date">Jan 2022 - May 2023</span>
+            <div class="timeline-content">
+              <span class="timeline-date">Jan 2022 — May 2023</span>
               <h3 class="timeline-title">Flutter Developer</h3>
               <span class="timeline-company">Flutterxperts</span>
               <p class="timeline-desc">
-                Flutter Developer with hands-on experience in building
-                high-performance, cross-platform mobile applications using
-                Flutter and Dart. Skilled in developing clean, responsive UI
-                designs, integrating REST APIs, and connecting apps with
-                scalable backend systems to deliver smooth and user-friendly
-                digital experiences.
+                Built high-performance, cross-platform mobile applications using Flutter and Dart. Developed clean
+                responsive UI designs, integrated REST APIs, and connected apps with scalable backend systems to deliver
+                smooth, user-friendly digital experiences.
               </p>
             </div>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- Certification Section -->
-
+    <!-- ==================== CERTIFICATIONS ==================== -->
     <section id="certifications">
       <div class="container">
-        <h2 class="section-title">Certifications</h2>
+        <span class="section-label">// CERTIFICATIONS</span>
+        <h2 class="section-title">Credentials &amp; <span class="accent">Badges</span></h2>
         <div class="certs-grid">
-          <!-- Cert 1 -->
-          <a href="https://coursera.org/verify/HVSHNZZKW3LK" target="_blank" class="glass-card cert-card cert-link"
-            title="View Certificate">
-            <div class="cert-icon">
-              <!-- Brain Icon for Machine Learning -->
-              <i class="fas fa-brain"></i>
-            </div>
+
+          <a href="https://coursera.org/verify/HVSHNZZKW3LK" target="_blank" class="cert-card">
+            <div class="cert-icon"><i class="fas fa-brain"></i></div>
             <h3 class="cert-title">Machine Learning Algorithm</h3>
             <p class="cert-issuer">Coursera</p>
             <span class="cert-date">Issued: Mar 2023</span>
           </a>
 
-          <!-- Cert 2 -->
-          <a href="https://www.credly.com/go/MOhFbp96" target="_blank" class="glass-card cert-card cert-link"
-            title="View Certificate">
-            <div class="cert-icon">
-              <!-- Python Icon -->
-              <i class="fab fa-python"></i>
-            </div>
+          <a href="https://www.credly.com/go/MOhFbp96" target="_blank" class="cert-card">
+            <div class="cert-icon"><i class="fab fa-python"></i></div>
             <h3 class="cert-title">Python for Data Science</h3>
             <p class="cert-issuer">IBM</p>
             <span class="cert-date">Issued: Apr 2023</span>
           </a>
 
-          <!-- Cert 3 -->
-          <a href="https://coursera.org/verify/LW58WLT6ANBP" target="_blank" class="glass-card cert-card cert-link"
-            title="View Certificate">
-            <div class="cert-icon">
-              <!-- Code Icon for Development -->
-              <i class="fas fa-laptop-code"></i>
-            </div>
-            <h3 class="cert-title">
-              Python for Data Science, AI & Development
-            </h3>
+          <a href="https://coursera.org/verify/LW58WLT6ANBP" target="_blank" class="cert-card">
+            <div class="cert-icon"><i class="fas fa-laptop-code"></i></div>
+            <h3 class="cert-title">Python for Data Science, AI &amp; Development</h3>
             <p class="cert-issuer">Coursera</p>
             <span class="cert-date">Issued: Apr 2023</span>
           </a>
 
-          <!-- Cert 4 -->
-          <a href="https://coursera.org/verify/RBLYN2SBXQY4" target="_blank" class="glass-card cert-card cert-link"
-            title="View Certificate">
-            <div class="cert-icon">
-              <!-- Chart Icon for Exploratory Data Analysis -->
-              <i class="fas fa-chart-line"></i>
-            </div>
-            <h3 class="cert-title">
-              Exploratory Data Analysis for Machine Learning
-            </h3>
+          <a href="https://coursera.org/verify/RBLYN2SBXQY4" target="_blank" class="cert-card">
+            <div class="cert-icon"><i class="fas fa-chart-line"></i></div>
+            <h3 class="cert-title">Exploratory Data Analysis for ML</h3>
             <p class="cert-issuer">Coursera</p>
             <span class="cert-date">Issued: Apr 2023</span>
           </a>
 
-          <a href="https://coursera.org/verify/JVRVMT279TQR" target="_blank" class="glass-card cert-card cert-link"
-            title="View Certificate">
-            <div class="cert-icon">
-              <!-- Robot/Network Icon for AI & Data Science -->
-              <i class="fas fa-shield-alt"></i>
-            </div>
+          <a href="https://coursera.org/verify/JVRVMT279TQR" target="_blank" class="cert-card">
+            <div class="cert-icon"><i class="fas fa-shield-alt"></i></div>
             <h3 class="cert-title">Cyber Security</h3>
             <p class="cert-issuer">Coursera</p>
             <span class="cert-date">Issued: Dec 2022</span>
           </a>
-          <a href="#" target="_blank" class="glass-card cert-card cert-link" title="View Certificate">
-            <div class="cert-icon">
-              <!-- Robot/Network Icon for AI & Data Science -->
-              <i class="fas fa-robot"></i>
-            </div>
-            <h3 class="cert-title">Machine Learning, AI & Data Science</h3>
-            <p class="cert-issuer">
-              Pakistan Gov(Hunarmand Kamyab Jawan Program)
-            </p>
+
+          <a href="#" class="cert-card">
+            <div class="cert-icon"><i class="fas fa-robot"></i></div>
+            <h3 class="cert-title">Machine Learning, AI &amp; Data Science</h3>
+            <p class="cert-issuer">Pakistan Gov — Hunarmand Program</p>
             <span class="cert-date">Issued: June 2025</span>
           </a>
+
         </div>
       </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- ==================== SKILLS ==================== -->
     <section id="skills">
       <div class="container">
-        <h2 class="section-title">Technical Skills</h2>
+        <span class="section-label">// TECHNICAL_STACK</span>
+        <h2 class="section-title">Skills &amp; <span class="accent">Expertise</span></h2>
         <div class="skills-wrapper">
+
           <!-- AI & ML -->
-          <div class="glass-card skill-category" style="padding: 30px">
-            <h3>
-              <i class="fas fa-brain gradient-text"></i> AI & Machine Learning
-            </h3>
+          <div class="skill-category">
+            <div class="skill-category-header">
+              <i class="fas fa-brain"></i>
+              <h3>AI &amp; Machine Learning</h3>
+            </div>
+            <div class="skill-bars">
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">Python</span>
+                  <span class="skill-bar-pct">92%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="92"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">TensorFlow / Keras</span>
+                  <span class="skill-bar-pct">82%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="82"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">Computer Vision</span>
+                  <span class="skill-bar-pct">85%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="85"></div></div>
+              </div>
+            </div>
             <div class="skill-tags">
-              <span class="skill-tag">Python</span>
-              <span class="skill-tag">TensorFlow</span>
               <span class="skill-tag">PyTorch</span>
-              <span class="skill-tag">Computer Vision</span>
+              <span class="skill-tag">OpenCV</span>
               <span class="skill-tag">NLP</span>
+              <span class="skill-tag">MediaPipe</span>
               <span class="skill-tag">Data Analysis</span>
             </div>
           </div>
 
           <!-- Mobile Dev -->
-          <div class="glass-card skill-category" style="padding: 30px">
-            <h3>
-              <i class="fas fa-mobile-alt gradient-text"></i> Mobile
-              Development
-            </h3>
+          <div class="skill-category">
+            <div class="skill-category-header">
+              <i class="fas fa-mobile-alt"></i>
+              <h3>Mobile Development</h3>
+            </div>
+            <div class="skill-bars">
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">Flutter</span>
+                  <span class="skill-bar-pct">88%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="88"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">Dart</span>
+                  <span class="skill-bar-pct">86%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="86"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">Firebase</span>
+                  <span class="skill-bar-pct">80%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="80"></div></div>
+              </div>
+            </div>
             <div class="skill-tags">
-              <span class="skill-tag">Flutter</span>
-              <span class="skill-tag">Dart</span>
-              <span class="skill-tag">Firebase</span>
               <span class="skill-tag">REST APIs</span>
               <span class="skill-tag">State Management</span>
-              <span class="skill-tag">UI/UX Design</span>
+              <span class="skill-tag">UI/UX</span>
             </div>
           </div>
-          <div class="glass-card skill-category" style="padding: 30px">
-            <h3>
-              <i class="fas fa-globe gradient-text"></i> Web Development
-            </h3>
+
+          <!-- Web Dev -->
+          <div class="skill-category">
+            <div class="skill-category-header">
+              <i class="fas fa-globe"></i>
+              <h3>Web Development</h3>
+            </div>
+            <div class="skill-bars">
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">HTML5 / CSS3</span>
+                  <span class="skill-bar-pct">85%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="85"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">JavaScript</span>
+                  <span class="skill-bar-pct">75%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="75"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">Responsive Design</span>
+                  <span class="skill-bar-pct">88%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="88"></div></div>
+              </div>
+            </div>
             <div class="skill-tags">
-              <span class="skill-tag">HTML5</span>
-              <span class="skill-tag">CSS3</span>
-              <span class="skill-tag">JavaScript</span>
               <span class="skill-tag">React</span>
-              <span class="skill-tag">Responsive Design</span>
               <span class="skill-tag">REST APIs</span>
             </div>
           </div>
 
-          <!-- Backend -->
-          <div class="glass-card skill-category" style="padding: 30px">
-            <h3>
-              <i class="fas fa-server gradient-text"></i> Backend & Tools
-            </h3>
+          <!-- Backend & Tools -->
+          <div class="skill-category">
+            <div class="skill-category-header">
+              <i class="fas fa-server"></i>
+              <h3>Backend &amp; Tools</h3>
+            </div>
+            <div class="skill-bars">
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">FastAPI</span>
+                  <span class="skill-bar-pct">84%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="84"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">Git / GitHub</span>
+                  <span class="skill-bar-pct">90%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="90"></div></div>
+              </div>
+              <div class="skill-bar-item">
+                <div class="skill-bar-header">
+                  <span class="skill-bar-name">SQL / NoSQL</span>
+                  <span class="skill-bar-pct">76%</span>
+                </div>
+                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="76"></div></div>
+              </div>
+            </div>
             <div class="skill-tags">
-              <span class="skill-tag">FastAPI</span>
-              <span class="skill-tag">SQL / NoSQL</span>
-              <span class="skill-tag">Git / GitHub</span>
               <span class="skill-tag">Docker</span>
               <span class="skill-tag">CI/CD</span>
               <span class="skill-tag">Linux</span>
             </div>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- ==================== PROJECTS ==================== -->
     <section id="projects">
       <div class="container">
-        <h2 class="section-title">Projects</h2>
+        <span class="section-label">// SELECTED_WORKS</span>
+        <h2 class="section-title">Featured <span class="accent">Projects</span></h2>
+
+        <!-- Filter Buttons -->
+        <div class="projects-filter">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="ai">AI &amp; ML</button>
+          <button class="filter-btn" data-filter="mobile">Mobile</button>
+          <button class="filter-btn" data-filter="web">Web</button>
+        </div>
+
         <div class="projects-grid">
+
           <!-- Project 1 -->
-          <article class="glass-card project-card">
+          <article class="project-card" data-category="mobile">
             <div class="project-img-wrapper">
-              <img src="assets/splash.jpg" alt="Cab Booking App" />
+              <img src="assets/splash.jpg" alt="Cab Booking App" loading="lazy" />
             </div>
             <div class="project-content">
+              <span class="project-category">Mobile</span>
               <h3 class="project-title">Cab Booking Android Application</h3>
               <p class="project-desc">
-                A user-friendly cross-platform app that allows users to book
-                rides, track drivers in real-time, and manage trip history
-                seamlessly.
+                A cross-platform ride-booking app with real-time driver tracking, trip history management, and seamless
+                user experience built on Flutter and Firebase.
               </p>
               <div class="project-tech">
                 <span class="tech-span">Flutter</span>
@@ -588,16 +607,16 @@
           </article>
 
           <!-- Project 2 -->
-          <article class="glass-card project-card">
+          <article class="project-card" data-category="ai">
             <div class="project-img-wrapper">
-              <img src="assets/object.jpg" alt="Object Detection" />
+              <img src="assets/object.jpg" alt="Object Detection" loading="lazy" />
             </div>
             <div class="project-content">
+              <span class="project-category">AI &amp; ML</span>
               <h3 class="project-title">Object Detection</h3>
               <p class="project-desc">
-                A computer vision system capable of detecting and classifying
-                multiple objects in real-time video streams using deep
-                learning models.
+                A computer vision system capable of detecting and classifying multiple objects in real-time video
+                streams using deep learning models trained on TensorFlow.
               </p>
               <div class="project-tech">
                 <span class="tech-span">Python</span>
@@ -611,16 +630,16 @@
           </article>
 
           <!-- Project 3 -->
-          <article class="glass-card project-card">
+          <article class="project-card" data-category="ai mobile">
             <div class="project-img-wrapper">
-              <img src="assets/chatbot.png" alt="Chatbot App" />
+              <img src="assets/chatbot.png" alt="Chatbot App" loading="lazy" />
             </div>
             <div class="project-content">
+              <span class="project-category">AI &amp; Mobile</span>
               <h3 class="project-title">Chat Bot App</h3>
               <p class="project-desc">
-                An intelligent chatbot application powered by NLP that
-                provides automated customer support and smart responses via a
-                FastAPI backend.
+                An intelligent chatbot powered by NLP that provides automated customer support and smart responses via a
+                FastAPI backend connected to a Flutter mobile frontend.
               </p>
               <div class="project-tech">
                 <span class="tech-span">Python</span>
@@ -634,16 +653,16 @@
           </article>
 
           <!-- Project 4 -->
-          <article class="glass-card project-card">
+          <article class="project-card" data-category="ai">
             <div class="project-img-wrapper">
-              <img src="assets/emotion.jpeg" alt="Emotion Detection" />
+              <img src="assets/emotion.jpeg" alt="Emotion Detection" loading="lazy" />
             </div>
             <div class="project-content">
+              <span class="project-category">AI &amp; ML</span>
               <h3 class="project-title">Emotion Detection Through Image</h3>
               <p class="project-desc">
-                An AI tool that analyzes facial features in static images to
-                accurately identify human emotions such as happiness, sadness,
-                and anger.
+                An AI tool that analyzes facial features in static images to accurately identify human emotions such as
+                happiness, sadness, and anger using Keras.
               </p>
               <div class="project-tech">
                 <span class="tech-span">Python</span>
@@ -657,16 +676,16 @@
           </article>
 
           <!-- Project 5 -->
-          <article class="glass-card project-card">
+          <article class="project-card" data-category="ai">
             <div class="project-img-wrapper">
-              <img src="assets/finger.png" alt="Finger Count" />
+              <img src="assets/finger.png" alt="Finger Count" loading="lazy" />
             </div>
             <div class="project-content">
+              <span class="project-category">Computer Vision</span>
               <h3 class="project-title">Finger Count Detection</h3>
               <p class="project-desc">
-                A hand tracking system that uses computer vision to detect
-                hand landmarks and count the number of raised fingers in
-                real-time.
+                A real-time hand tracking system using computer vision to detect hand landmarks and count raised fingers
+                with MediaPipe and OpenCV.
               </p>
               <div class="project-tech">
                 <span class="tech-span">Python</span>
@@ -680,15 +699,16 @@
           </article>
 
           <!-- Project 6 -->
-          <article class="glass-card project-card">
+          <article class="project-card" data-category="ai">
             <div class="project-img-wrapper">
-              <img src="assets/emotion.jpeg" alt="Real-time Emotion" />
+              <img src="assets/emotion.jpeg" alt="Real-time Emotion" loading="lazy" />
             </div>
             <div class="project-content">
+              <span class="project-category">AI &amp; ML</span>
               <h3 class="project-title">Real-Time Emotion Recognition</h3>
               <p class="project-desc">
-                A live video processing application that detects and displays
-                facial expressions instantly using a webcam feed.
+                A live video processing application that detects and displays facial expressions instantly from a webcam
+                feed using TensorFlow and OpenCV.
               </p>
               <div class="project-tech">
                 <span class="tech-span">Python</span>
@@ -702,22 +722,22 @@
           </article>
 
           <!-- Project 7 -->
-          <article class="glass-card project-card">
+          <article class="project-card" data-category="ai mobile">
             <div class="project-img-wrapper">
-              <img src="assets/smyl.jpg" alt="Smyl App" />
+              <img src="assets/smyl.jpg" alt="Smyl App" loading="lazy" />
             </div>
             <div class="project-content">
+              <span class="project-category">AI &amp; Mobile</span>
               <h3 class="project-title">Smyl App</h3>
               <p class="project-desc">
-                Smyl App is an AI-based emotion detection application that analyzes facial expressions from images and
-                predicts human emotions such as happiness, sadness, and anger. The mobile frontend was developed using
-                Flutter, while the AI model and backend API were built using Python and FastAPI.
+                AI-based emotion detection app that analyzes facial expressions to predict human emotions. Flutter
+                frontend with Python &amp; FastAPI backend serving the ML model.
               </p>
               <div class="project-tech">
                 <span class="tech-span">Flutter</span>
                 <span class="tech-span">Python</span>
                 <span class="tech-span">FastAPI</span>
-                <span class="tech-span">Machine Learning</span>
+                <span class="tech-span">ML</span>
               </div>
               <div class="project-links">
                 <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
@@ -726,22 +746,21 @@
           </article>
 
           <!-- Project 8 -->
-          <article class="glass-card project-card">
+          <article class="project-card" data-category="ai">
             <div class="project-img-wrapper">
-              <img src="assets/volume.jpg" alt="Volume Control By Finger" />
+              <img src="assets/volume.jpg" alt="Volume Control" loading="lazy" />
             </div>
             <div class="project-content">
+              <span class="project-category">Computer Vision</span>
               <h3 class="project-title">Volume Control By Finger</h3>
               <p class="project-desc">
-                A computer vision-based system that controls system volume using hand gestures. It detects hand
-                landmarks and measures finger distance in real-time using Python, OpenCV, and MediaPipe to adjust audio
-                levels dynamically.
+                A gesture-based system that controls system volume by measuring the distance between finger landmarks in
+                real-time using Python, OpenCV, and MediaPipe.
               </p>
               <div class="project-tech">
                 <span class="tech-span">Python</span>
                 <span class="tech-span">OpenCV</span>
                 <span class="tech-span">MediaPipe</span>
-                <span class="tech-span">Computer Vision</span>
               </div>
               <div class="project-links">
                 <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
@@ -750,16 +769,16 @@
           </article>
 
           <!-- Project 9 -->
-          <article class="glass-card project-card">
+          <article class="project-card" data-category="ai">
             <div class="project-img-wrapper">
-              <img src="assets/object_video.jpg" alt="Object Detection From Video" />
+              <img src="assets/object_video.jpg" alt="Object Detection From Video" loading="lazy" />
             </div>
             <div class="project-content">
+              <span class="project-category">Deep Learning</span>
               <h3 class="project-title">Object Detection From Video</h3>
               <p class="project-desc">
                 A real-time object detection system that processes live video streams to identify and track multiple
-                objects instantly. The model was implemented using TensorFlow and integrated with OpenCV for live webcam
-                video processing in Python.
+                objects instantly using TensorFlow and OpenCV.
               </p>
               <div class="project-tech">
                 <span class="tech-span">Python</span>
@@ -772,47 +791,47 @@
               </div>
             </div>
           </article>
+
         </div>
       </div>
     </section>
 
-    <!-- Contact Section -->
+    <!-- ==================== CONTACT ==================== -->
     <section id="contact">
       <div class="container">
-        <h2 class="section-title">Get In Touch</h2>
+        <span class="section-label">// GET_IN_TOUCH</span>
+        <h2 class="section-title">Let's <span class="accent">Connect</span></h2>
         <div class="contact-container">
-          <div class="contact-info">
-            <p style="color: var(--text-secondary); font-size: 1.1rem">
-              Interested in collaborating on an AI project or building a
-              cutting-edge mobile app? Let's connect and discuss how I can
-              bring value to your team.
-            </p>
 
+          <div class="contact-info">
+            <p class="contact-intro">
+              Interested in collaborating on an AI project or building a cutting-edge mobile app? Let's connect and
+              discuss how I can bring value to your team or project.
+            </p>
             <div class="contact-item">
-              <div class="contact-icon">
-                <i class="fas fa-envelope"></i>
-              </div>
+              <div class="contact-icon"><i class="fas fa-envelope"></i></div>
               <div class="contact-text">
-                <h4>Email Me</h4>
-                <p>
-                  <a href="mailto:yasirahmadmalik8@gmail.com">yasirahmadmalik8@gmail.com</a>
-                </p>
+                <h4>Email</h4>
+                <p><a href="mailto:yasirahmadmalik8@gmail.com">yasirahmadmalik8@gmail.com</a></p>
               </div>
             </div>
-
             <div class="contact-item">
-              <div class="contact-icon">
-                <i class="fas fa-map-marker-alt"></i>
-              </div>
+              <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
               <div class="contact-text">
                 <h4>Location</h4>
                 <p>Lahore, Pakistan</p>
               </div>
             </div>
+            <div class="contact-item">
+              <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+              <div class="contact-text">
+                <h4>WhatsApp</h4>
+                <p><a href="https://wa.me/923467336193" target="_blank">+92-346-7336193</a></p>
+              </div>
+            </div>
           </div>
 
-          <!-- Contact Form -->
-          <form class="glass-card contact-form" id="contactForm">
+          <form class="contact-form" id="contactForm">
             <div class="form-group">
               <input type="text" id="name" name="user_name" class="form-control" placeholder="Your Name" required />
             </div>
@@ -820,297 +839,232 @@
               <input type="email" id="email" name="user_email" class="form-control" placeholder="Your Email" required />
             </div>
             <div class="form-group">
-              <textarea id="message" name="message" class="form-control" placeholder="Tell me about your project..."
-                required></textarea>
+              <textarea id="message" name="message" class="form-control" placeholder="Tell me about your project..." required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%">
-              Send Message
+            <button type="submit" class="btn btn-primary" style="width:100%">
+              <i class="fas fa-paper-plane"></i> Send Message
             </button>
           </form>
+
         </div>
       </div>
     </section>
+
   </main>
 
-  <!-- Footer -->
+  <!-- ==================== FOOTER ==================== -->
   <footer>
     <div class="container footer-content">
       <div class="footer-text">
-        <p><strong>Yasir Ahmad Malik</strong> &nbsp;·&nbsp; AI Engineer &amp; Flutter Developer</p>
+        <p><strong>Yasir Ahmad Malik</strong> &nbsp;—&nbsp; AI Engineer &amp; Flutter Developer</p>
       </div>
       <div class="social-links">
-        <a href="https://www.linkedin.com/in/yasirahmadmalik/" target="_blank" class="social-btn">
+        <a href="https://www.linkedin.com/in/yasirahmadmalik/" target="_blank" class="social-btn" aria-label="LinkedIn">
           <i class="fab fa-linkedin-in"></i>
         </a>
-
-        <a href="https://github.com/yasirmalik8" target="_blank" class="social-btn">
+        <a href="https://github.com/yasirmalik8" target="_blank" class="social-btn" aria-label="GitHub">
           <i class="fab fa-github"></i>
         </a>
-
-        <a href="https://x.com/yasirahmadm1428?s=21" target="_blank" class="social-btn">
+        <a href="https://x.com/yasirahmadm1428?s=21" target="_blank" class="social-btn" aria-label="Twitter">
           <i class="fab fa-twitter"></i>
         </a>
-
-        <a href="https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr" target="_blank"
-          class="social-btn">
+        <a href="https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr" target="_blank" class="social-btn" aria-label="Instagram">
           <i class="fab fa-instagram"></i>
         </a>
-        <a href="https://wa.me/923467336193?text=Hello%20Yasir%2C%20I%20would%20like%20to%20connect%20with%20you."
-          target="_blank" class="social-btn">
+        <a href="https://wa.me/923467336193" target="_blank" class="social-btn" aria-label="WhatsApp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </div>
     </div>
   </footer>
 
-  <!-- Toast Notification -->
-  <div id="toast">Message sent successfully!</div>
+  <!-- Toast -->
+  <div id="toast"></div>
 
-  <!-- Scroll to Top Button -->
+  <!-- Scroll to Top -->
   <button id="scroll-top" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
 
+  <!-- ==================== SCRIPTS ==================== -->
   <script>
-    // Theme Toggle (Dark/Light)
+    // ── Theme Toggle ──
     const themeToggle = document.getElementById('theme-toggle');
-    const theme3D = document.getElementById('theme-3d');
-    const themeIcon = themeToggle.querySelector('i');
-    const theme3DIcon = theme3D.querySelector('i');
+    const theme3D     = document.getElementById('theme-3d');
+    const themeIcon   = themeToggle.querySelector('i');
 
-    // Check for saved theme preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      updateThemeIcons(savedTheme);
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t || '');
+      themeIcon.className = (t === 'light') ? 'fas fa-sun' : 'fas fa-moon';
+      localStorage.setItem('theme', t || '');
     }
 
-    function updateThemeIcons(theme) {
-      if (theme === 'light') {
-        themeIcon.className = 'fas fa-sun';
-        theme3DIcon.className = 'fas fa-cube';
-      } else if (theme === '3d') {
-        themeIcon.className = 'fas fa-moon';
-        theme3DIcon.className = 'fas fa-cube active-3d';
-      } else {
-        themeIcon.className = 'fas fa-moon';
-        theme3DIcon.className = 'fas fa-cube';
-      }
-    }
+    applyTheme(localStorage.getItem('theme') || '');
 
-    // Dark/Light Theme Toggle
     themeToggle.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      let newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-      // If 3D mode is active, switch from 3D to light/dark
-      if (currentTheme === '3d') {
-        newTheme = 'light';
-      }
-
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      updateThemeIcons(newTheme);
-
-      // Restart animation with new theme
+      const cur = document.documentElement.getAttribute('data-theme');
+      applyTheme(cur === 'light' ? '' : 'light');
       initParticles();
     });
 
-    // 3D Theme Toggle
-    theme3D.addEventListener('click', () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      let newTheme = currentTheme === '3d' ? 'dark' : '3d';
+    // kept for backward-compat
+    theme3D.addEventListener('click', () => applyTheme(''));
 
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      updateThemeIcons(newTheme);
-
-      // Restart animation with new theme
-      initParticles();
-    });
-
-    // Mobile Menu Toggle
+    // ── Mobile Menu ──
     const mobileMenu = document.getElementById('mobile-menu');
-    const navLinks = document.querySelector('.nav-links');
+    const navLinks   = document.querySelector('.nav-links');
 
     mobileMenu.addEventListener('click', () => {
       navLinks.classList.toggle('active');
-      const icon = mobileMenu.querySelector('i');
-      icon.classList.toggle('fa-bars');
-      icon.classList.toggle('fa-times');
+      mobileMenu.querySelector('i').classList.toggle('fa-bars');
+      mobileMenu.querySelector('i').classList.toggle('fa-times');
     });
 
-    // Close mobile menu when clicking a link
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', () => {
         navLinks.classList.remove('active');
-        const icon = mobileMenu.querySelector('i');
-        icon.classList.add('fa-bars');
-        icon.classList.remove('fa-times');
+        mobileMenu.querySelector('i').className = 'fas fa-bars';
       });
     });
 
-    // Header scroll effect
+    // ── Header scroll ──
     const header = document.getElementById('header');
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
+      header.classList.toggle('scrolled', window.scrollY > 50);
     });
 
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+    // ── Smooth scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
 
-    // Active nav link on scroll
+    // ── Active nav on scroll ──
     const sections = document.querySelectorAll('section[id]');
     const navItems = document.querySelectorAll('.nav-links a');
-
     window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (scrollY >= sectionTop - 200) {
-          current = section.getAttribute('id');
-        }
+      let cur = '';
+      sections.forEach(s => {
+        if (scrollY >= s.offsetTop - 200) cur = s.getAttribute('id');
       });
-
-      navItems.forEach(item => {
-        item.classList.remove('active');
-        if (item.getAttribute('href').slice(1) === current) {
-          item.classList.add('active');
-        }
+      navItems.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href').slice(1) === cur);
       });
     });
 
-    // Scroll Animations — stagger delay resets per section (no long waits)
-    const observerOptions = {
-      threshold: 0.08,
-      rootMargin: '0px 0px -30px 0px'
-    };
+    // ── Scroll animations (per-section stagger) ──
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('animate-in'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-in');
-        }
-      });
-    }, observerOptions);
-
-    // Group animated elements by their parent section so delay resets each section
-    document.querySelectorAll('section').forEach(section => {
-      const els = section.querySelectorAll('.glass-card, .timeline-item, .skill-category');
-      els.forEach((el, i) => {
+    document.querySelectorAll('section').forEach(sec => {
+      sec.querySelectorAll('.glass-card, .timeline-item, .skill-category, .cert-card, .project-card, .stat-item').forEach((el, i) => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        el.style.transitionDelay = Math.min(i * 0.08, 0.32) + 's';
+        el.style.transform = 'translateY(28px)';
+        el.style.transition = `opacity 0.45s ease, transform 0.45s ease`;
+        el.style.transitionDelay = Math.min(i * 0.07, 0.28) + 's';
         observer.observe(el);
       });
     });
 
-    const animStyle = document.createElement('style');
-    animStyle.textContent = `.animate-in { opacity: 1 !important; transform: translateY(0) !important; }`;
-    document.head.appendChild(animStyle);
+    // ── Skill Progress Bars (animate on scroll) ──
+    const barObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+            const pct = bar.getAttribute('data-pct');
+            bar.style.width = pct + '%';
+          });
+          barObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
 
-    // Typewriter Effect for Hero Subtitle
-    const typewriterElement = document.getElementById('typewriter');
-    const text = "AI Engineer & Flutter Developer";
-    let charIndex = 0;
+    document.querySelectorAll('.skill-category').forEach(c => barObserver.observe(c));
 
+    // ── Project Filter ──
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+        document.querySelectorAll('.project-card').forEach(card => {
+          const cats = card.getAttribute('data-category') || '';
+          if (filter === 'all' || cats.includes(filter)) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // ── Typewriter ──
+    const tw  = document.getElementById('typewriter');
+    const txt = 'AI Engineer & Flutter Developer';
+    let ci = 0;
     function typeWriter() {
-      if (charIndex < text.length) {
-        typewriterElement.textContent += text.charAt(charIndex);
-        charIndex++;
-        setTimeout(typeWriter, 80);
+      if (ci < txt.length) {
+        tw.textContent += txt.charAt(ci++);
+        setTimeout(typeWriter, 75);
       }
     }
+    setTimeout(typeWriter, 900);
 
-    // Start typing effect after page loads
-    setTimeout(typeWriter, 1000);
-
-    // Parallax on hero image
+    // ── Parallax hero image ──
     window.addEventListener('scroll', () => {
-      const scrolled = window.pageYOffset;
-      const heroImage = document.querySelector('.hero-image-container');
-      const heroSection = document.getElementById('hero');
-      if (heroImage && heroSection) {
-        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
-        if (scrolled < heroBottom) {
-          heroImage.style.transform = `translateY(${scrolled * 0.08}px)`;
-        }
+      const img  = document.querySelector('.hero-image-container');
+      const hero = document.getElementById('hero');
+      if (img && hero && window.pageYOffset < hero.offsetTop + hero.offsetHeight) {
+        img.style.transform = `translateY(${window.pageYOffset * 0.07}px)`;
       }
     });
 
-    // Scroll-to-top button
+    // ── Scroll-to-top ──
     const scrollTopBtn = document.getElementById('scroll-top');
     window.addEventListener('scroll', () => {
       scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
     });
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
+    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
   </script>
-  <!-- EmailJS SDK -->
+
+  <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
-    // Initialize EmailJS with your public key
     emailjs.init("pamswz1tct7gzkDGR");
 
-    function showToast(message, isError) {
-      const toast = document.getElementById('toast');
-      toast.textContent = message;
-      toast.style.background = isError
-        ? 'rgba(255, 60, 60, 0.15)'
-        : 'rgba(0, 212, 255, 0.15)';
-      toast.style.borderColor = isError
-        ? 'rgba(255, 60, 60, 0.3)'
-        : 'rgba(0, 212, 255, 0.3)';
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 4000);
+    function showToast(msg, isErr) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.borderColor = isErr ? 'rgba(255,60,60,0.4)' : 'rgba(0,230,118,0.3)';
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 4000);
     }
 
-    // Handle form submission
-    const contactForm = document.getElementById("contactForm");
-    const submitBtn = contactForm.querySelector('button[type="submit"]');
-    contactForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-      submitBtn.disabled = true;
+    const form      = document.getElementById('contactForm');
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      submitBtn.disabled    = true;
       submitBtn.textContent = 'Sending...';
 
-      emailjs
-        .sendForm(
-          "service_1zo3oxm",
-          "template_hlytccu",
-          this,
-        )
-        .then(
-          function () {
-            showToast('Message sent successfully! ✅', false);
-            contactForm.reset();
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Message';
-          },
-          function (error) {
-            showToast('Oops! Something went wrong. Please try again. ❌', true);
-            console.error(error);
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Message';
-          },
-        );
+      emailjs.sendForm('service_1zo3oxm', 'template_hlytccu', this)
+        .then(() => {
+          showToast('Message sent successfully! ✅', false);
+          form.reset();
+        })
+        .catch(err => {
+          showToast('Something went wrong. Please try again. ❌', true);
+          console.error(err);
+        })
+        .finally(() => {
+          submitBtn.disabled    = false;
+          submitBtn.innerHTML   = '<i class="fas fa-paper-plane"></i> Send Message';
+        });
     });
   </script>
-</body>
 
+</body>
 </html>
