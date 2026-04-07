@@ -4,6 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Yasir Ahmad Malik - AI Engineer & Flutter Developer based in Lahore, Pakistan. Specializing in Machine Learning, Computer Vision, and cross-platform mobile apps." />
+  <meta name="keywords" content="AI Engineer, Flutter Developer, Machine Learning, Computer Vision, Python, TensorFlow, FastAPI, Lahore" />
+  <meta name="author" content="Yasir Ahmad Malik" />
+  <meta property="og:title" content="Yasir Ahmad Malik | AI Engineer & Flutter Developer" />
+  <meta property="og:description" content="AI Engineer & Flutter Developer specializing in ML, Computer Vision and cross-platform mobile apps." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Yasir Ahmad Malik | AI Engineer & Flutter Developer" />
   <title>Yasir Ahmad Malik | AI Engineer & Flutter Developer</title>
   <!-- Google Fonts -->
   <link rel="stylesheet" href="style.css" />
@@ -120,7 +128,15 @@
       }
     }
 
+    let animationId;
+
     function animate() {
+      const theme = document.documentElement.getAttribute('data-theme');
+      if (theme === '3d') {
+        ctx.clearRect(0, 0, width, height);
+        animationId = requestAnimationFrame(animate);
+        return;
+      }
       ctx.clearRect(0, 0, width, height);
 
       particles.forEach(p => {
@@ -129,7 +145,7 @@
       });
 
       connectParticles();
-      requestAnimationFrame(animate);
+      animationId = requestAnimationFrame(animate);
     }
 
     animate();
@@ -225,37 +241,6 @@
           <div class="about-image glass-card">
             <img src="assets/yasir.JPG" alt="Yasir Ahmad Malik Working" />
           </div>
-          <!-- <div class="about-text">
-              <h3>Building Intelligent & Scalable Digital Solutions</h3>
-              <p>
-                I am a passionate <strong>Junior AI Engineer</strong> and
-                <strong>Flutter Developer</strong> dedicated to bridging the gap
-                between artificial intelligence and user-friendly mobile
-                experiences.
-              </p>
-              <p>
-                With a strong foundation in Python, FastAPI, and modern software
-                engineering, I craft applications that are not just functional,
-                but intelligent. Whether it's automating complex backend
-                processes or designing sleek cross-platform UIs, my goal is to
-                build future-ready technology.
-              </p>
-
-              <div class="stats-grid">
-                <div class="stat-item">
-                  <span class="stat-number">15+</span>
-                  <span class="stat-label">Projects</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-number">2+</span>
-                  <span class="stat-label">Years Exp</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-number">100%</span>
-                  <span class="stat-label">Commitment</span>
-                </div>
-              </div>
-            </div> -->
           <div class="about-text">
             <h3>Building Intelligent & Scalable Digital Solutions</h3>
 
@@ -347,7 +332,7 @@
               </p>
               <p class="timeline-desc">
                 Specialized in Information Technology. Graduated with Honors.
-                Capstone project focused on Cab Booking Andriod Application.
+                Capstone project focused on Cab Booking Android Application.
               </p>
             </div>
           </div>
@@ -358,7 +343,7 @@
             </div>
             <div class="glass-card timeline-content">
               <span class="timeline-date">2016 - 2018</span>
-              <h3 class="timeline-title">Fsc.Pre Engineering</h3>
+              <h3 class="timeline-title">FSc Pre-Engineering</h3>
               <h5>Subjects</h5>
               <p class="timeline-desc">Math |Physics |Chemistry |Bio |</p>
             </div>
@@ -437,7 +422,7 @@
               <!-- Brain Icon for Machine Learning -->
               <i class="fas fa-brain"></i>
             </div>
-            <h3 class="cert-title">Machine Learning Alogrithm</h3>
+            <h3 class="cert-title">Machine Learning Algorithm</h3>
             <p class="cert-issuer">Coursera</p>
             <span class="cert-date">Issued: Mar 2023</span>
           </a>
@@ -547,12 +532,12 @@
               <i class="fas fa-globe gradient-text"></i> Web Development
             </h3>
             <div class="skill-tags">
-              <span class="skill-tag">Flutter</span>
-              <span class="skill-tag">Dart</span>
-              <span class="skill-tag">Firebase</span>
+              <span class="skill-tag">HTML5</span>
+              <span class="skill-tag">CSS3</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">Responsive Design</span>
               <span class="skill-tag">REST APIs</span>
-              <span class="skill-tag">State Management</span>
-              <span class="skill-tag">UI/UX Design</span>
             </div>
           </div>
 
@@ -1072,13 +1057,16 @@
     // Start typing effect after page loads
     setTimeout(typeWriter, 1000);
 
-    // Add parallax effect to hero section
-    const heroSection = document.getElementById('hero');
+    // Parallax effect on hero image (only while hero is visible)
     window.addEventListener('scroll', () => {
       const scrolled = window.pageYOffset;
       const heroImage = document.querySelector('.hero-image-container');
-      if (heroImage) {
-        heroImage.style.transform = `translateY(${scrolled * 0.1}px)`;
+      const heroSection = document.getElementById('hero');
+      if (heroImage && heroSection) {
+        const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+        if (scrolled < heroBottom) {
+          heroImage.style.transform = `translateY(${scrolled * 0.08}px)`;
+        }
       }
     });
 
@@ -1092,34 +1080,51 @@
       });
     });
   </script>
-  <!-- Include EmailJS SDK first -->
-  <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
-
-  <!-- EmailJS CDN and Script -->
+  <!-- EmailJS SDK -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
     // Initialize EmailJS with your public key
     emailjs.init("pamswz1tct7gzkDGR");
 
+    function showToast(message, isError) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.style.background = isError
+        ? 'rgba(255, 60, 60, 0.15)'
+        : 'rgba(0, 212, 255, 0.15)';
+      toast.style.borderColor = isError
+        ? 'rgba(255, 60, 60, 0.3)'
+        : 'rgba(0, 212, 255, 0.3)';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
     // Handle form submission
     const contactForm = document.getElementById("contactForm");
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
     contactForm.addEventListener("submit", function (event) {
       event.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
 
       emailjs
         .sendForm(
-          "service_1zo3oxm", // Your Service ID
-          "template_hlytccu", // Your Template ID
+          "service_1zo3oxm",
+          "template_hlytccu",
           this,
         )
         .then(
-          function (response) {
-            alert("Message sent successfully! ✅");
+          function () {
+            showToast('Message sent successfully! ✅', false);
             contactForm.reset();
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message';
           },
           function (error) {
-            alert("Oops! Something went wrong ❌");
-            console.log(error);
+            showToast('Oops! Something went wrong. Please try again. ❌', true);
+            console.error(error);
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send Message';
           },
         );
     });
