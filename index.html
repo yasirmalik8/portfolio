@@ -110,24 +110,6 @@
           </a>
         </div>
 
-        <!-- Terminal -->
-        <div class="terminal-card">
-          <div class="terminal-header">
-            <span class="terminal-dot" style="background:#ef4444"></span>
-            <span class="terminal-dot" style="background:#f59e0b"></span>
-            <span class="terminal-dot" style="background:#22c55e"></span>
-            <span class="terminal-title">yasir@ai-engineer ~ profile.sh</span>
-          </div>
-          <div class="terminal-body">
-            <span class="terminal-line"><span class="terminal-prompt">$ </span>whoami</span>
-            <span class="terminal-line terminal-comment"># AI Engineer &amp; Flutter Developer</span>
-            <span class="terminal-line"><span class="terminal-prompt">$ </span>cat skills.txt</span>
-            <span class="terminal-line terminal-comment"># Python | TensorFlow | Flutter | FastAPI</span>
-            <span class="terminal-line"><span class="terminal-prompt">$ </span>echo $LOCATION</span>
-            <span class="terminal-line terminal-comment"># Lahore, Pakistan</span>
-            <span class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-cursor">_</span></span>
-          </div>
-        </div>
       </div>
 
       <!-- Image Side -->
@@ -161,7 +143,6 @@
 <!-- ── ABOUT ── -->
 <section id="about">
   <div class="container">
-    <span class="section-label">$ cat about.txt</span>
     <h2 class="section-title">About <span class="accent">Me</span></h2>
 
     <div class="about-grid">
@@ -212,7 +193,6 @@
 <!-- ── EDUCATION ── -->
 <section id="education">
   <div class="container">
-    <span class="section-label">$ cat education.log</span>
     <h2 class="section-title">Academic <span class="accent">Background</span></h2>
 
     <div class="timeline">
@@ -246,17 +226,14 @@
         <div class="timeline-dot"></div>
         <div class="timeline-content">
           <span class="timeline-date">2018 — 2022</span>
-          <div class="timeline-title">
-            BS Information Technology
-            <span class="honors-badge"><i class="fas fa-star"></i> Graduated with Honors</span>
-          </div>
+          <div class="timeline-title">BS Information Technology</div>
           <a href="https://gudgk.edu.pk/" class="timeline-institution" target="_blank" rel="noopener">
             <i class="fas fa-external-link-alt"></i>
             Ghazi University Dera Ghazi Khan
           </a>
           <p class="timeline-desc">
             Comprehensive undergraduate program covering software engineering fundamentals,
-            data structures, algorithms, and modern programming paradigms. Graduated with Honors.
+            data structures, algorithms, and modern programming paradigms.
           </p>
           <div class="timeline-subjects">
             <span class="subject-tag">Data Structures</span>
@@ -318,7 +295,6 @@
 <!-- ── EXPERIENCE ── -->
 <section id="experience">
   <div class="container">
-    <span class="section-label">$ cat experience.log</span>
     <h2 class="section-title">Work <span class="accent">Experience</span></h2>
 
     <div class="timeline">
@@ -383,7 +359,6 @@
 <!-- ── CERTIFICATIONS ── -->
 <section id="certifications">
   <div class="container">
-    <span class="section-label">$ ls ./certifications/</span>
     <h2 class="section-title">Certifications &amp; <span class="accent">Achievements</span></h2>
 
     <div class="certs-grid">
@@ -437,7 +412,6 @@
 <!-- ── SKILLS ── -->
 <section id="skills">
   <div class="container">
-    <span class="section-label">$ cat skills.json</span>
     <h2 class="section-title">Technical <span class="accent">Skills</span></h2>
 
     <div class="skills-wrapper">
@@ -618,7 +592,6 @@
 <!-- ── PROJECTS ── -->
 <section id="projects">
   <div class="container">
-    <span class="section-label">$ ls ./projects/</span>
     <h2 class="section-title">Featured <span class="accent">Projects</span></h2>
 
     <div class="projects-filter">
@@ -870,7 +843,6 @@
 <!-- ── CONTACT ── -->
 <section id="contact">
   <div class="container">
-    <span class="section-label">$ ping yasir --contact</span>
     <h2 class="section-title">Get In <span class="accent">Touch</span></h2>
 
     <div class="contact-grid">
@@ -1100,7 +1072,7 @@
 
   /* ── SCROLL ANIMATIONS (IntersectionObserver) ── */
   var animateTargets = document.querySelectorAll(
-    '.timeline-item, .cert-card, .skill-category, .project-card, .stat-item, .about-text, .about-image, .contact-info, .contact-form-wrapper, .section-label, .section-title'
+    '.timeline-item, .cert-card, .skill-category, .project-card, .stat-item, .about-text, .about-image, .contact-info, .contact-form-wrapper, .section-title'
   );
 
   var animObserver = new IntersectionObserver(function (entries) {
