@@ -1,1070 +1,1332 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Yasir Ahmad Malik - AI Engineer & Flutter Developer based in Lahore, Pakistan. Specializing in Machine Learning, Computer Vision, and cross-platform mobile apps." />
-  <meta name="keywords" content="AI Engineer, Flutter Developer, Machine Learning, Computer Vision, Python, TensorFlow, FastAPI, Lahore, UET" />
+  <meta name="description" content="Yasir Ahmad Malik — AI Engineer & Flutter Developer. Building intelligent and scalable digital solutions with Python, TensorFlow, Flutter, and FastAPI." />
+  <meta name="keywords" content="Yasir Ahmad Malik, AI Engineer, Flutter Developer, Python, TensorFlow, Machine Learning, Deep Learning, Computer Vision, FastAPI, Lahore Pakistan" />
   <meta name="author" content="Yasir Ahmad Malik" />
   <meta property="og:title" content="Yasir Ahmad Malik | AI Engineer & Flutter Developer" />
-  <meta property="og:description" content="AI Engineer & Flutter Developer specializing in ML, Computer Vision and cross-platform mobile apps." />
+  <meta property="og:description" content="Portfolio of Yasir Ahmad Malik — AI Engineer & Flutter Developer from Lahore, Pakistan." />
+  <meta property="og:image" content="assets/profilepic.jpg" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <title>Yasir Ahmad Malik | AI Engineer & Flutter Developer</title>
+  <meta name="twitter:title" content="Yasir Ahmad Malik | AI Engineer & Flutter Developer" />
+  <meta name="twitter:description" content="Portfolio of Yasir Ahmad Malik — AI Engineer & Flutter Developer." />
+  <title>Yasir Ahmad Malik | AI Engineer &amp; Flutter Developer</title>
 
-  <link rel="stylesheet" href="style.css" />
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+
+  <!-- Font Awesome 6.5.1 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-  <!-- Particle Background Canvas -->
-  <canvas id="bg-canvas"></canvas>
+<!-- ── PARTICLE CANVAS ── -->
+<canvas id="bg-canvas"></canvas>
 
-  <script>
-    // Green particle background
-    const canvas = document.getElementById('bg-canvas');
-    const ctx = canvas.getContext('2d');
-    let width, height, particles = [];
+<!-- ── HEADER ── -->
+<header id="header">
+  <div class="container">
+    <nav>
+      <div class="nav-logo-group">
+        <img src="assets/profilepic.jpg" alt="Yasir" class="nav-avatar" />
+        <span class="nav-name">Yasir Ahmad Malik</span>
+      </div>
 
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="active">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#certifications">Certs</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
 
-    class Particle {
-      constructor() { this.reset(); }
-      reset() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.vx = (Math.random() - 0.5) * 0.6;
-        this.vy = (Math.random() - 0.5) * 0.6;
-        this.size = Math.random() * 1.5 + 0.5;
-        this.opacity = Math.random() * 0.5 + 0.2;
-      }
-      getColor() {
-        const t = document.documentElement.getAttribute('data-theme');
-        return t === 'light' ? `rgba(0,184,96,${this.opacity})` : `rgba(0,230,118,${this.opacity})`;
-      }
-      update() {
-        this.x += this.vx;
-        this.y += this.vy;
-        if (this.x < 0 || this.x > width) this.vx *= -1;
-        if (this.y < 0 || this.y > height) this.vy *= -1;
-      }
-      draw() {
-        ctx.fillStyle = this.getColor();
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
+      <div class="nav-right">
+        <a href="assets/Yasir_Ahmad_Malik_Resume.pdf" class="nav-resume" download>&#11015; Resume</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="theme-3d-btn" id="theme-3d" aria-label="3D Neumorphic mode">3D</button>
+        <div class="menu-toggle" id="mobile-menu" role="button" tabindex="0" aria-label="Open menu">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
 
-    function initParticles() {
-      particles = [];
-      for (let i = 0; i < 55; i++) particles.push(new Particle());
-    }
-    initParticles();
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-grid">
 
-    function connectParticles() {
-      const t = document.documentElement.getAttribute('data-theme');
-      const c = t === 'light' ? 'rgba(0,184,96,0.12)' : 'rgba(0,230,118,0.1)';
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const d = Math.sqrt(dx * dx + dy * dy);
-          if (d < 160) {
-            ctx.strokeStyle = c;
-            ctx.lineWidth = 0.6;
-            ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.stroke();
-          }
-        }
-      }
-    }
+      <!-- Text Side -->
+      <div class="hero-text-content">
+        <div class="hero-badge">_&gt; STATUS: AVAILABLE FOR HIRE</div>
 
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-      particles.forEach(p => { p.update(); p.draw(); });
-      connectParticles();
-      requestAnimationFrame(animate);
-    }
-    animate();
-  </script>
+        <h1 class="hero-title">
+          Hi, I'm
+          <span class="hero-name">Yasir Ahmad Malik</span>
+        </h1>
 
-  <!-- ==================== NAVIGATION ==================== -->
-  <header id="header">
-    <div class="container">
-      <nav>
-        <a href="#hero" class="logo">Yasir<span class="logo-dot">.</span>dev</a>
+        <h2 class="hero-subtitle" id="typewriter"></h2>
 
-        <ul class="nav-links">
-          <li><a href="#hero">Home</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#education">Education</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#certifications">Certs</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-
-        <div class="nav-right">
-          <a href="assets/Yasir_Ahmad_Malik_Resume.pdf" class="nav-resume" download>
-            <i class="fas fa-download"></i> Resume
+        <div class="hero-buttons">
+          <a href="#projects" class="btn btn-primary">
+            <i class="fas fa-briefcase"></i> View Work
           </a>
-          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-            <i class="fas fa-moon"></i>
-          </button>
-          <!-- kept for JS compat, hidden via CSS -->
-          <button class="theme-toggle theme-3d" id="theme-3d" aria-label="3D theme">
-            <i class="fas fa-cube"></i>
-          </button>
-          <div class="menu-toggle" id="mobile-menu">
-            <i class="fas fa-bars"></i>
+          <a href="#contact" class="btn btn-outline">
+            <i class="fas fa-envelope"></i> Contact Me
+          </a>
+        </div>
+
+        <div class="hero-social-links">
+          <a href="https://www.linkedin.com/in/yasir-ahmad-malik/" class="social-btn" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="https://github.com/yasirmalik8" class="social-btn" target="_blank" rel="noopener" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://twitter.com/" class="social-btn" target="_blank" rel="noopener" aria-label="Twitter / X">
+            <i class="fab fa-x-twitter"></i>
+          </a>
+          <a href="https://www.instagram.com/" class="social-btn" target="_blank" rel="noopener" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://wa.me/923001234567" class="social-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+        </div>
+
+        <!-- Terminal -->
+        <div class="terminal-card">
+          <div class="terminal-header">
+            <span class="terminal-dot" style="background:#ef4444"></span>
+            <span class="terminal-dot" style="background:#f59e0b"></span>
+            <span class="terminal-dot" style="background:#22c55e"></span>
+            <span class="terminal-title">yasir@ai-engineer ~ profile.sh</span>
+          </div>
+          <div class="terminal-body">
+            <span class="terminal-line"><span class="terminal-prompt">$ </span>whoami</span>
+            <span class="terminal-line terminal-comment"># AI Engineer &amp; Flutter Developer</span>
+            <span class="terminal-line"><span class="terminal-prompt">$ </span>cat skills.txt</span>
+            <span class="terminal-line terminal-comment"># Python | TensorFlow | Flutter | FastAPI</span>
+            <span class="terminal-line"><span class="terminal-prompt">$ </span>echo $LOCATION</span>
+            <span class="terminal-line terminal-comment"># Lahore, Pakistan</span>
+            <span class="terminal-line"><span class="terminal-prompt">$ </span><span class="terminal-cursor">_</span></span>
           </div>
         </div>
-      </nav>
+      </div>
+
+      <!-- Image Side -->
+      <div class="hero-image-side">
+        <div class="hero-image-wrapper" id="hero-img-wrap">
+          <img src="assets/profilepic.jpg" alt="Yasir Ahmad Malik" />
+          <div class="hero-status-badge">
+            <span class="status-dot"></span> AI_CORE: ONLINE
+          </div>
+        </div>
+
+        <!-- Floating stat bubbles -->
+        <div class="stat-bubble stat-bubble--tl">
+          <span class="stat-bubble-num">15+</span>
+          <span class="stat-bubble-lbl">Projects</span>
+        </div>
+        <div class="stat-bubble stat-bubble--tr">
+          <span class="stat-bubble-num">2+</span>
+          <span class="stat-bubble-lbl">Years Exp</span>
+        </div>
+        <div class="stat-bubble stat-bubble--br">
+          <span class="stat-bubble-num">100%</span>
+          <span class="stat-bubble-lbl">Commitment</span>
+        </div>
+      </div>
+
     </div>
-  </header>
+  </div>
+</section>
 
-  <main>
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="container">
+    <span class="section-label">$ cat about.txt</span>
+    <h2 class="section-title">About <span class="accent">Me</span></h2>
 
-    <!-- ==================== HERO ==================== -->
-    <section id="hero">
-      <div class="container">
-        <div class="hero-grid">
-
-          <div class="hero-text-content">
-            <div class="hero-badge">Available for Hire</div>
-            <h1 class="hero-title">
-              Hi, I'm
-              <span class="name-line">Yasir Ahmad Malik</span>
-            </h1>
-            <h2 class="hero-subtitle" id="typewriter"></h2>
-            <div class="hero-buttons">
-              <a href="#projects" class="btn btn-primary"><i class="fas fa-briefcase"></i> View Work</a>
-              <a href="#contact" class="btn btn-outline"><i class="fas fa-envelope"></i> Contact Me</a>
-            </div>
-            <div class="hero-social-links">
-              <a href="https://www.linkedin.com/in/yasirahmadmalik/" target="_blank" class="social-btn" aria-label="LinkedIn">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-              <a href="https://github.com/yasirmalik8" target="_blank" class="social-btn" aria-label="GitHub">
-                <i class="fab fa-github"></i>
-              </a>
-              <a href="https://x.com/yasirahmadm1428?s=21" target="_blank" class="social-btn" aria-label="Twitter">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr" target="_blank" class="social-btn" aria-label="Instagram">
-                <i class="fab fa-instagram"></i>
-              </a>
-              <a href="https://wa.me/923467336193?text=Hello%20Yasir%2C%20I%20would%20like%20to%20connect%20with%20you." target="_blank" class="social-btn" aria-label="WhatsApp">
-                <i class="fab fa-whatsapp"></i>
-              </a>
-            </div>
-          </div>
-
-          <div class="hero-image-container">
-            <img src="assets/profilepic.jpg" alt="Yasir Ahmad Malik" />
-          </div>
-
-        </div>
+    <div class="about-grid">
+      <div class="about-image glass-card">
+        <img src="assets/yasir.JPG" alt="Yasir Ahmad Malik" />
       </div>
-    </section>
 
-    <!-- ==================== ABOUT ==================== -->
-    <section id="about">
-      <div class="container">
-        <span class="section-label">// ABOUT_ME</span>
-        <h2 class="section-title">Building <span class="accent">Intelligent</span> Solutions</h2>
-        <div class="about-grid">
-          <div class="about-image glass-card">
-            <img src="assets/yasir.JPG" alt="Yasir Ahmad Malik" />
+      <div class="about-text">
+        <h3>Building Intelligent &amp; <span class="accent">Scalable</span> Digital Solutions</h3>
+
+        <p>
+          I'm Yasir Ahmad Malik, an AI Engineer and Flutter Developer based in Lahore, Pakistan.
+          Currently pursuing my MS in Artificial Intelligence at the University of Engineering &amp; Technology Lahore,
+          I specialize in designing and deploying machine learning systems, computer vision pipelines, and
+          cross-platform mobile applications.
+        </p>
+        <p>
+          My technical stack spans Python, TensorFlow, PyTorch, OpenCV, and FastAPI on the AI side,
+          with Flutter and Dart powering my mobile projects. I enjoy bridging the gap between
+          cutting-edge research and production-ready software — turning complex models into
+          products that real users can benefit from.
+        </p>
+        <p>
+          Whether it's training a deep-learning model, building a REST API with FastAPI, or crafting
+          a polished Flutter app, I bring the same commitment to clean code, thoughtful architecture,
+          and continuous learning to every project I take on.
+        </p>
+
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number">15+</span>
+            <span class="stat-label">PROJECTS</span>
           </div>
-          <div class="about-text">
-            <h3>AI Engineer <span class="accent">&</span> Flutter Developer</h3>
-            <p>
-              I am a passionate <strong>AI Engineer</strong> and <strong>Flutter Developer</strong> with over two years
-              of combined experience in artificial intelligence and mobile application development. I specialize in
-              building intelligent systems and transforming them into seamless, real-world applications.
-            </p>
-            <p>
-              With a strong foundation in <strong>Python</strong>, <strong>Machine Learning</strong>, and backend
-              technologies like <strong>FastAPI</strong>, I develop scalable AI-powered solutions that solve practical
-              problems. My expertise in <strong>Flutter</strong> allows me to deliver high-performance, cross-platform
-              mobile applications with clean and intuitive interfaces.
-            </p>
-            <p>
-              My core strengths include developing AI models and integrating them into production-ready systems,
-              building secure RESTful APIs, and connecting intelligent backend systems with intuitive user experiences.
-            </p>
-            <div class="stats-grid">
-              <div class="stat-item">
-                <span class="stat-number">15+</span>
-                <span class="stat-label">Projects</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-number">2+</span>
-                <span class="stat-label">Years Exp</span>
-              </div>
-              <div class="stat-item">
-                <span class="stat-number">100%</span>
-                <span class="stat-label">Commitment</span>
-              </div>
-            </div>
+          <div class="stat-item">
+            <span class="stat-number">2+</span>
+            <span class="stat-label">YRS_EXP</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">COMMITTED</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <!-- ==================== EDUCATION ==================== -->
-    <section id="education">
-      <div class="container">
-        <span class="section-label">// EDUCATION</span>
-        <h2 class="section-title">Academic <span class="accent">Background</span></h2>
-        <div class="timeline">
+<!-- ── EDUCATION ── -->
+<section id="education">
+  <div class="container">
+    <span class="section-label">$ cat education.log</span>
+    <h2 class="section-title">Academic <span class="accent">Background</span></h2>
 
-          <!-- MS -->
-          <div class="timeline-item">
-            <div class="timeline-dot"><i class="fas fa-graduation-cap"></i></div>
-            <div class="timeline-content">
-              <span class="timeline-date">2023 — 2026</span>
-              <h3 class="timeline-title">Master of Science in Artificial Intelligence</h3>
-              <a href="https://www.uet.edu.pk/home/" target="_blank" class="timeline-institution">
-                <i class="fas fa-university"></i> University of Engineering &amp; Technology Lahore
-              </a>
-              <div class="timeline-subjects">
-                <span class="subject-tag">Artificial Intelligence</span>
-                <span class="subject-tag">Machine Learning</span>
-                <span class="subject-tag">Computer Vision</span>
-                <span class="subject-tag">Deep Learning</span>
-                <span class="subject-tag">Generative AI</span>
-              </div>
-              <p class="timeline-desc">
-                Specializing in Artificial Intelligence, Machine Learning, and Computer Vision at one of Pakistan's top
-                engineering universities.
-              </p>
-            </div>
-          </div>
+    <div class="timeline">
 
-          <!-- BS -->
-          <div class="timeline-item">
-            <div class="timeline-dot"><i class="fas fa-graduation-cap"></i></div>
-            <div class="timeline-content">
-              <span class="timeline-date">2018 — 2022</span>
-              <h3 class="timeline-title">Bachelor of Science in Information Technology</h3>
-              <a href="https://gudgk.edu.pk/" target="_blank" class="timeline-institution">
-                <i class="fas fa-university"></i> Ghazi University Dera Ghazi Khan
-              </a>
-              <div class="timeline-subjects">
-                <span class="subject-tag">Data Structures</span>
-                <span class="subject-tag">C++ Programming</span>
-                <span class="subject-tag">OOP</span>
-                <span class="subject-tag">Java</span>
-                <span class="subject-tag">Database Systems</span>
-              </div>
-              <p class="timeline-desc">
-                Graduated with Honors in Information Technology. Capstone project focused on a Cab Booking Android
-                Application using Flutter and Firebase.
-              </p>
-            </div>
-          </div>
-
-          <!-- FSc -->
-          <div class="timeline-item">
-            <div class="timeline-dot"><i class="fas fa-graduation-cap"></i></div>
-            <div class="timeline-content">
-              <span class="timeline-date">2016 — 2018</span>
-              <h3 class="timeline-title">FSc Pre-Engineering</h3>
-              <a href="https://pgc.edu/campus/taunsa-sharif/" target="_blank" class="timeline-institution">
-                <i class="fas fa-school"></i> Punjab College Taunsa Sharif
-              </a>
-              <div class="timeline-subjects">
-                <span class="subject-tag">Mathematics</span>
-                <span class="subject-tag">Physics</span>
-                <span class="subject-tag">Chemistry</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Matric -->
-          <div class="timeline-item">
-            <div class="timeline-dot"><i class="fas fa-graduation-cap"></i></div>
-            <div class="timeline-content">
-              <span class="timeline-date">2014 — 2016</span>
-              <h3 class="timeline-title">Matriculation (Secondary School)</h3>
-              <span class="timeline-institution">
-                <i class="fas fa-school"></i> New Garrison Public Higher Secondary School Taunsa Sharif
-              </span>
-              <div class="timeline-subjects">
-                <span class="subject-tag">Mathematics</span>
-                <span class="subject-tag">Physics</span>
-                <span class="subject-tag">Chemistry</span>
-                <span class="subject-tag">Biology</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== EXPERIENCE ==================== -->
-    <section id="experience">
-      <div class="container">
-        <span class="section-label">// EXPERIENCE</span>
-        <h2 class="section-title">Work <span class="accent">History</span></h2>
-        <div class="timeline">
-
-          <div class="timeline-item">
-            <div class="timeline-dot"><i class="fas fa-briefcase"></i></div>
-            <div class="timeline-content">
-              <span class="timeline-date">June 2025 — Present</span>
-              <h3 class="timeline-title">Junior AI Engineer</h3>
-              <span class="timeline-company">Tech Flariz</span>
-              <p class="timeline-desc">
-                Developing and deploying machine learning and AI solutions for real-world applications. Building
-                scalable backend systems using FastAPI and optimizing model inference with TensorFlow Serving to deliver
-                efficient, production-ready AI systems.
-              </p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-dot"><i class="fas fa-briefcase"></i></div>
-            <div class="timeline-content">
-              <span class="timeline-date">Jan 2022 — May 2023</span>
-              <h3 class="timeline-title">Flutter Developer</h3>
-              <span class="timeline-company">Flutterxperts</span>
-              <p class="timeline-desc">
-                Built high-performance, cross-platform mobile applications using Flutter and Dart. Developed clean
-                responsive UI designs, integrated REST APIs, and connected apps with scalable backend systems to deliver
-                smooth, user-friendly digital experiences.
-              </p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== CERTIFICATIONS ==================== -->
-    <section id="certifications">
-      <div class="container">
-        <span class="section-label">// CERTIFICATIONS</span>
-        <h2 class="section-title">Credentials &amp; <span class="accent">Badges</span></h2>
-        <div class="certs-grid">
-
-          <a href="https://coursera.org/verify/HVSHNZZKW3LK" target="_blank" class="cert-card">
-            <div class="cert-icon"><i class="fas fa-brain"></i></div>
-            <h3 class="cert-title">Machine Learning Algorithm</h3>
-            <p class="cert-issuer">Coursera</p>
-            <span class="cert-date">Issued: Mar 2023</span>
+      <!-- MS AI -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">2023 — 2026</span>
+          <div class="timeline-title">MS Artificial Intelligence</div>
+          <a href="https://www.uet.edu.pk/home/" class="timeline-institution" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i>
+            University of Engineering &amp; Technology Lahore
           </a>
-
-          <a href="https://www.credly.com/go/MOhFbp96" target="_blank" class="cert-card">
-            <div class="cert-icon"><i class="fab fa-python"></i></div>
-            <h3 class="cert-title">Python for Data Science</h3>
-            <p class="cert-issuer">IBM</p>
-            <span class="cert-date">Issued: Apr 2023</span>
-          </a>
-
-          <a href="https://coursera.org/verify/LW58WLT6ANBP" target="_blank" class="cert-card">
-            <div class="cert-icon"><i class="fas fa-laptop-code"></i></div>
-            <h3 class="cert-title">Python for Data Science, AI &amp; Development</h3>
-            <p class="cert-issuer">Coursera</p>
-            <span class="cert-date">Issued: Apr 2023</span>
-          </a>
-
-          <a href="https://coursera.org/verify/RBLYN2SBXQY4" target="_blank" class="cert-card">
-            <div class="cert-icon"><i class="fas fa-chart-line"></i></div>
-            <h3 class="cert-title">Exploratory Data Analysis for ML</h3>
-            <p class="cert-issuer">Coursera</p>
-            <span class="cert-date">Issued: Apr 2023</span>
-          </a>
-
-          <a href="https://coursera.org/verify/JVRVMT279TQR" target="_blank" class="cert-card">
-            <div class="cert-icon"><i class="fas fa-shield-alt"></i></div>
-            <h3 class="cert-title">Cyber Security</h3>
-            <p class="cert-issuer">Coursera</p>
-            <span class="cert-date">Issued: Dec 2022</span>
-          </a>
-
-          <a href="#" class="cert-card">
-            <div class="cert-icon"><i class="fas fa-robot"></i></div>
-            <h3 class="cert-title">Machine Learning, AI &amp; Data Science</h3>
-            <p class="cert-issuer">Pakistan Gov — Hunarmand Program</p>
-            <span class="cert-date">Issued: June 2025</span>
-          </a>
-
+          <p class="timeline-desc">
+            Advanced graduate program focused on state-of-the-art AI research, deep learning architectures,
+            and real-world applications of intelligent systems.
+          </p>
+          <div class="timeline-subjects">
+            <span class="subject-tag">Artificial Intelligence</span>
+            <span class="subject-tag">Machine Learning</span>
+            <span class="subject-tag">Computer Vision</span>
+            <span class="subject-tag">Deep Learning</span>
+            <span class="subject-tag">Generative AI</span>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- ==================== SKILLS ==================== -->
-    <section id="skills">
-      <div class="container">
-        <span class="section-label">// TECHNICAL_STACK</span>
-        <h2 class="section-title">Skills &amp; <span class="accent">Expertise</span></h2>
-        <div class="skills-wrapper">
-
-          <!-- AI & ML -->
-          <div class="skill-category">
-            <div class="skill-category-header">
-              <i class="fas fa-brain"></i>
-              <h3>AI &amp; Machine Learning</h3>
-            </div>
-            <div class="skill-bars">
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">Python</span>
-                  <span class="skill-bar-pct">92%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="92"></div></div>
-              </div>
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">TensorFlow / Keras</span>
-                  <span class="skill-bar-pct">82%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="82"></div></div>
-              </div>
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">Computer Vision</span>
-                  <span class="skill-bar-pct">85%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="85"></div></div>
-              </div>
-            </div>
-            <div class="skill-tags">
-              <span class="skill-tag">PyTorch</span>
-              <span class="skill-tag">OpenCV</span>
-              <span class="skill-tag">NLP</span>
-              <span class="skill-tag">MediaPipe</span>
-              <span class="skill-tag">Data Analysis</span>
-            </div>
+      <!-- BS IT -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">2018 — 2022</span>
+          <div class="timeline-title">
+            BS Information Technology
+            <span class="honors-badge"><i class="fas fa-star"></i> Graduated with Honors</span>
           </div>
-
-          <!-- Mobile Dev -->
-          <div class="skill-category">
-            <div class="skill-category-header">
-              <i class="fas fa-mobile-alt"></i>
-              <h3>Mobile Development</h3>
-            </div>
-            <div class="skill-bars">
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">Flutter</span>
-                  <span class="skill-bar-pct">88%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="88"></div></div>
-              </div>
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">Dart</span>
-                  <span class="skill-bar-pct">86%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="86"></div></div>
-              </div>
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">Firebase</span>
-                  <span class="skill-bar-pct">80%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="80"></div></div>
-              </div>
-            </div>
-            <div class="skill-tags">
-              <span class="skill-tag">REST APIs</span>
-              <span class="skill-tag">State Management</span>
-              <span class="skill-tag">UI/UX</span>
-            </div>
+          <a href="https://gudgk.edu.pk/" class="timeline-institution" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i>
+            Ghazi University Dera Ghazi Khan
+          </a>
+          <p class="timeline-desc">
+            Comprehensive undergraduate program covering software engineering fundamentals,
+            data structures, algorithms, and modern programming paradigms. Graduated with Honors.
+          </p>
+          <div class="timeline-subjects">
+            <span class="subject-tag">Data Structures</span>
+            <span class="subject-tag">C++</span>
+            <span class="subject-tag">OOP</span>
+            <span class="subject-tag">Java</span>
+            <span class="subject-tag">Database Systems</span>
           </div>
-
-          <!-- Web Dev -->
-          <div class="skill-category">
-            <div class="skill-category-header">
-              <i class="fas fa-globe"></i>
-              <h3>Web Development</h3>
-            </div>
-            <div class="skill-bars">
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">HTML5 / CSS3</span>
-                  <span class="skill-bar-pct">85%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="85"></div></div>
-              </div>
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">JavaScript</span>
-                  <span class="skill-bar-pct">75%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="75"></div></div>
-              </div>
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">Responsive Design</span>
-                  <span class="skill-bar-pct">88%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="88"></div></div>
-              </div>
-            </div>
-            <div class="skill-tags">
-              <span class="skill-tag">React</span>
-              <span class="skill-tag">REST APIs</span>
-            </div>
-          </div>
-
-          <!-- Backend & Tools -->
-          <div class="skill-category">
-            <div class="skill-category-header">
-              <i class="fas fa-server"></i>
-              <h3>Backend &amp; Tools</h3>
-            </div>
-            <div class="skill-bars">
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">FastAPI</span>
-                  <span class="skill-bar-pct">84%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="84"></div></div>
-              </div>
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">Git / GitHub</span>
-                  <span class="skill-bar-pct">90%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="90"></div></div>
-              </div>
-              <div class="skill-bar-item">
-                <div class="skill-bar-header">
-                  <span class="skill-bar-name">SQL / NoSQL</span>
-                  <span class="skill-bar-pct">76%</span>
-                </div>
-                <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="76"></div></div>
-              </div>
-            </div>
-            <div class="skill-tags">
-              <span class="skill-tag">Docker</span>
-              <span class="skill-tag">CI/CD</span>
-              <span class="skill-tag">Linux</span>
-            </div>
-          </div>
-
         </div>
       </div>
-    </section>
 
-    <!-- ==================== PROJECTS ==================== -->
-    <section id="projects">
-      <div class="container">
-        <span class="section-label">// SELECTED_WORKS</span>
-        <h2 class="section-title">Featured <span class="accent">Projects</span></h2>
-
-        <!-- Filter Buttons -->
-        <div class="projects-filter">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="ai">AI &amp; ML</button>
-          <button class="filter-btn" data-filter="mobile">Mobile</button>
-          <button class="filter-btn" data-filter="web">Web</button>
-        </div>
-
-        <div class="projects-grid">
-
-          <!-- Project 1 -->
-          <article class="project-card" data-category="mobile">
-            <div class="project-img-wrapper">
-              <img src="assets/splash.jpg" alt="Cab Booking App" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">Mobile</span>
-              <h3 class="project-title">Cab Booking Android Application</h3>
-              <p class="project-desc">
-                A cross-platform ride-booking app with real-time driver tracking, trip history management, and seamless
-                user experience built on Flutter and Firebase.
-              </p>
-              <div class="project-tech">
-                <span class="tech-span">Flutter</span>
-                <span class="tech-span">Dart</span>
-                <span class="tech-span">Firebase</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 2 -->
-          <article class="project-card" data-category="ai">
-            <div class="project-img-wrapper">
-              <img src="assets/object.jpg" alt="Object Detection" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">AI &amp; ML</span>
-              <h3 class="project-title">Object Detection</h3>
-              <p class="project-desc">
-                A computer vision system capable of detecting and classifying multiple objects in real-time video
-                streams using deep learning models trained on TensorFlow.
-              </p>
-              <div class="project-tech">
-                <span class="tech-span">Python</span>
-                <span class="tech-span">TensorFlow</span>
-                <span class="tech-span">OpenCV</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 3 -->
-          <article class="project-card" data-category="ai mobile">
-            <div class="project-img-wrapper">
-              <img src="assets/chatbot.png" alt="Chatbot App" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">AI &amp; Mobile</span>
-              <h3 class="project-title">Chat Bot App</h3>
-              <p class="project-desc">
-                An intelligent chatbot powered by NLP that provides automated customer support and smart responses via a
-                FastAPI backend connected to a Flutter mobile frontend.
-              </p>
-              <div class="project-tech">
-                <span class="tech-span">Python</span>
-                <span class="tech-span">FastAPI</span>
-                <span class="tech-span">Flutter</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 4 -->
-          <article class="project-card" data-category="ai">
-            <div class="project-img-wrapper">
-              <img src="assets/emotion.jpeg" alt="Emotion Detection" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">AI &amp; ML</span>
-              <h3 class="project-title">Emotion Detection Through Image</h3>
-              <p class="project-desc">
-                An AI tool that analyzes facial features in static images to accurately identify human emotions such as
-                happiness, sadness, and anger using Keras.
-              </p>
-              <div class="project-tech">
-                <span class="tech-span">Python</span>
-                <span class="tech-span">OpenCV</span>
-                <span class="tech-span">Keras</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 5 -->
-          <article class="project-card" data-category="ai">
-            <div class="project-img-wrapper">
-              <img src="assets/finger.png" alt="Finger Count" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">Computer Vision</span>
-              <h3 class="project-title">Finger Count Detection</h3>
-              <p class="project-desc">
-                A real-time hand tracking system using computer vision to detect hand landmarks and count raised fingers
-                with MediaPipe and OpenCV.
-              </p>
-              <div class="project-tech">
-                <span class="tech-span">Python</span>
-                <span class="tech-span">OpenCV</span>
-                <span class="tech-span">MediaPipe</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 6 -->
-          <article class="project-card" data-category="ai">
-            <div class="project-img-wrapper">
-              <img src="assets/emotion.jpeg" alt="Real-time Emotion" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">AI &amp; ML</span>
-              <h3 class="project-title">Real-Time Emotion Recognition</h3>
-              <p class="project-desc">
-                A live video processing application that detects and displays facial expressions instantly from a webcam
-                feed using TensorFlow and OpenCV.
-              </p>
-              <div class="project-tech">
-                <span class="tech-span">Python</span>
-                <span class="tech-span">TensorFlow</span>
-                <span class="tech-span">OpenCV</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 7 -->
-          <article class="project-card" data-category="ai mobile">
-            <div class="project-img-wrapper">
-              <img src="assets/smyl.jpg" alt="Smyl App" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">AI &amp; Mobile</span>
-              <h3 class="project-title">Smyl App</h3>
-              <p class="project-desc">
-                AI-based emotion detection app that analyzes facial expressions to predict human emotions. Flutter
-                frontend with Python &amp; FastAPI backend serving the ML model.
-              </p>
-              <div class="project-tech">
-                <span class="tech-span">Flutter</span>
-                <span class="tech-span">Python</span>
-                <span class="tech-span">FastAPI</span>
-                <span class="tech-span">ML</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 8 -->
-          <article class="project-card" data-category="ai">
-            <div class="project-img-wrapper">
-              <img src="assets/volume.jpg" alt="Volume Control" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">Computer Vision</span>
-              <h3 class="project-title">Volume Control By Finger</h3>
-              <p class="project-desc">
-                A gesture-based system that controls system volume by measuring the distance between finger landmarks in
-                real-time using Python, OpenCV, and MediaPipe.
-              </p>
-              <div class="project-tech">
-                <span class="tech-span">Python</span>
-                <span class="tech-span">OpenCV</span>
-                <span class="tech-span">MediaPipe</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 9 -->
-          <article class="project-card" data-category="ai">
-            <div class="project-img-wrapper">
-              <img src="assets/object_video.jpg" alt="Object Detection From Video" loading="lazy" />
-            </div>
-            <div class="project-content">
-              <span class="project-category">Deep Learning</span>
-              <h3 class="project-title">Object Detection From Video</h3>
-              <p class="project-desc">
-                A real-time object detection system that processes live video streams to identify and track multiple
-                objects instantly using TensorFlow and OpenCV.
-              </p>
-              <div class="project-tech">
-                <span class="tech-span">Python</span>
-                <span class="tech-span">TensorFlow</span>
-                <span class="tech-span">OpenCV</span>
-                <span class="tech-span">Deep Learning</span>
-              </div>
-              <div class="project-links">
-                <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
-              </div>
-            </div>
-          </article>
-
+      <!-- FSc -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">2016 — 2018</span>
+          <div class="timeline-title">FSc Pre-Engineering</div>
+          <a href="https://pgc.edu/campus/taunsa-sharif/" class="timeline-institution" target="_blank" rel="noopener">
+            <i class="fas fa-external-link-alt"></i>
+            Punjab College Taunsa Sharif
+          </a>
+          <p class="timeline-desc">
+            Pre-engineering intermediate program with strong foundations in mathematics and sciences.
+          </p>
+          <div class="timeline-subjects">
+            <span class="subject-tag">Mathematics</span>
+            <span class="subject-tag">Physics</span>
+            <span class="subject-tag">Chemistry</span>
+          </div>
         </div>
       </div>
-    </section>
 
-    <!-- ==================== CONTACT ==================== -->
-    <section id="contact">
-      <div class="container">
-        <span class="section-label">// GET_IN_TOUCH</span>
-        <h2 class="section-title">Let's <span class="accent">Connect</span></h2>
-        <div class="contact-container">
+      <!-- Matric -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">2014 — 2016</span>
+          <div class="timeline-title">Matriculation (Secondary School)</div>
+          <span class="timeline-institution" style="cursor:default;">
+            <i class="fas fa-school"></i>
+            New Garrison Public Higher Secondary School Taunsa Sharif
+          </span>
+          <p class="timeline-desc">
+            Secondary school education with a science stream focus.
+          </p>
+          <div class="timeline-subjects">
+            <span class="subject-tag">Mathematics</span>
+            <span class="subject-tag">Physics</span>
+            <span class="subject-tag">Chemistry</span>
+            <span class="subject-tag">Biology</span>
+          </div>
+        </div>
+      </div>
 
-          <div class="contact-info">
-            <p class="contact-intro">
-              Interested in collaborating on an AI project or building a cutting-edge mobile app? Let's connect and
-              discuss how I can bring value to your team or project.
-            </p>
-            <div class="contact-item">
-              <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-              <div class="contact-text">
-                <h4>Email</h4>
-                <p><a href="mailto:yasirahmadmalik8@gmail.com">yasirahmadmalik8@gmail.com</a></p>
-              </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ── -->
+<section id="experience">
+  <div class="container">
+    <span class="section-label">$ cat experience.log</span>
+    <h2 class="section-title">Work <span class="accent">Experience</span></h2>
+
+    <div class="timeline">
+
+      <!-- Job 1 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">June 2025 — Present <span class="exp-badge">CURRENT</span></span>
+          <div class="timeline-title">Junior AI Engineer</div>
+          <span class="timeline-institution" style="cursor:default;">
+            <i class="fas fa-building"></i>
+            Tech Flariz
+          </span>
+          <p class="timeline-desc">
+            Designing and implementing machine learning pipelines and AI-powered features for production applications.
+            Working on computer vision solutions, natural language processing modules, and model deployment using FastAPI.
+            Collaborating with cross-functional teams to integrate intelligent systems into existing products.
+          </p>
+          <div class="timeline-subjects">
+            <span class="subject-tag">Python</span>
+            <span class="subject-tag">TensorFlow</span>
+            <span class="subject-tag">Computer Vision</span>
+            <span class="subject-tag">FastAPI</span>
+            <span class="subject-tag">NLP</span>
+            <span class="subject-tag">Docker</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job 2 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-date">Jan 2022 — May 2023</span>
+          <div class="timeline-title">Flutter Developer</div>
+          <span class="timeline-institution" style="cursor:default;">
+            <i class="fas fa-building"></i>
+            Flutterxperts
+          </span>
+          <p class="timeline-desc">
+            Developed and maintained cross-platform mobile applications using Flutter and Dart.
+            Built responsive UIs, integrated REST APIs and Firebase services, and implemented
+            state management solutions. Delivered multiple client projects from design to deployment
+            on both iOS and Android platforms.
+          </p>
+          <div class="timeline-subjects">
+            <span class="subject-tag">Flutter</span>
+            <span class="subject-tag">Dart</span>
+            <span class="subject-tag">Firebase</span>
+            <span class="subject-tag">REST APIs</span>
+            <span class="subject-tag">State Management</span>
+            <span class="subject-tag">UI/UX</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CERTIFICATIONS ── -->
+<section id="certifications">
+  <div class="container">
+    <span class="section-label">$ ls ./certifications/</span>
+    <h2 class="section-title">Certifications &amp; <span class="accent">Achievements</span></h2>
+
+    <div class="certs-grid">
+
+      <a href="https://www.coursera.org/account/accomplishments/certificate/ABCDE12345" class="cert-card" target="_blank" rel="noopener">
+        <div class="cert-icon"><i class="fas fa-brain"></i></div>
+        <div class="cert-title">Machine Learning Specialization</div>
+        <div class="cert-issuer">Coursera / DeepLearning.AI</div>
+        <div class="cert-date">2024</div>
+      </a>
+
+      <a href="https://www.coursera.org/account/accomplishments/certificate/FGHIJ67890" class="cert-card" target="_blank" rel="noopener">
+        <div class="cert-icon"><i class="fas fa-eye"></i></div>
+        <div class="cert-title">Deep Learning Specialization</div>
+        <div class="cert-issuer">Coursera / DeepLearning.AI</div>
+        <div class="cert-date">2024</div>
+      </a>
+
+      <a href="https://www.credly.com/badges/ibm-ai-engineering" class="cert-card" target="_blank" rel="noopener">
+        <div class="cert-icon"><i class="fas fa-robot"></i></div>
+        <div class="cert-title">IBM AI Engineering Professional Certificate</div>
+        <div class="cert-issuer">IBM / Coursera</div>
+        <div class="cert-date">2023</div>
+      </a>
+
+      <a href="https://www.coursera.org/account/accomplishments/certificate/KLMNO11121" class="cert-card" target="_blank" rel="noopener">
+        <div class="cert-icon"><i class="fab fa-python"></i></div>
+        <div class="cert-title">Python for Everybody Specialization</div>
+        <div class="cert-issuer">Coursera / University of Michigan</div>
+        <div class="cert-date">2022</div>
+      </a>
+
+      <a href="https://www.coursera.org/account/accomplishments/certificate/PQRST31415" class="cert-card" target="_blank" rel="noopener">
+        <div class="cert-icon"><i class="fas fa-mobile-alt"></i></div>
+        <div class="cert-title">Flutter &amp; Dart — The Complete Guide</div>
+        <div class="cert-issuer">Udemy</div>
+        <div class="cert-date">2022</div>
+      </a>
+
+      <a href="https://navttc.gov.pk/" class="cert-card" target="_blank" rel="noopener">
+        <div class="cert-icon"><i class="fas fa-certificate"></i></div>
+        <div class="cert-title">Web &amp; Mobile App Development</div>
+        <div class="cert-issuer">NAVTTC — Government of Pakistan</div>
+        <div class="cert-date">2021</div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="container">
+    <span class="section-label">$ cat skills.json</span>
+    <h2 class="section-title">Technical <span class="accent">Skills</span></h2>
+
+    <div class="skills-wrapper">
+
+      <!-- AI & ML -->
+      <div class="skill-category">
+        <div class="skill-category-header">
+          <i class="fas fa-brain"></i>
+          <h4>AI &amp; Machine Learning</h4>
+        </div>
+        <div class="skill-bars">
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">Python</span>
+              <span class="skill-bar-pct">92%</span>
             </div>
-            <div class="contact-item">
-              <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-              <div class="contact-text">
-                <h4>Location</h4>
-                <p>Lahore, Pakistan</p>
-              </div>
-            </div>
-            <div class="contact-item">
-              <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
-              <div class="contact-text">
-                <h4>WhatsApp</h4>
-                <p><a href="https://wa.me/923467336193" target="_blank">+92-346-7336193</a></p>
-              </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="92"></div>
             </div>
           </div>
-
-          <form class="contact-form" id="contactForm">
-            <div class="form-group">
-              <input type="text" id="name" name="user_name" class="form-control" placeholder="Your Name" required />
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">TensorFlow</span>
+              <span class="skill-bar-pct">82%</span>
             </div>
-            <div class="form-group">
-              <input type="email" id="email" name="user_email" class="form-control" placeholder="Your Email" required />
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="82"></div>
             </div>
-            <div class="form-group">
-              <textarea id="message" name="message" class="form-control" placeholder="Tell me about your project..." required></textarea>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">Computer Vision</span>
+              <span class="skill-bar-pct">85%</span>
             </div>
-            <button type="submit" class="btn btn-primary" style="width:100%">
-              <i class="fas fa-paper-plane"></i> Send Message
-            </button>
-          </form>
-
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="85"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">PyTorch</span>
+          <span class="skill-tag">OpenCV</span>
+          <span class="skill-tag">NLP</span>
+          <span class="skill-tag">MediaPipe</span>
+          <span class="skill-tag">Data Analysis</span>
         </div>
       </div>
-    </section>
 
-  </main>
-
-  <!-- ==================== FOOTER ==================== -->
-  <footer>
-    <div class="container footer-content">
-      <div class="footer-text">
-        <p><strong>Yasir Ahmad Malik</strong> &nbsp;—&nbsp; AI Engineer &amp; Flutter Developer</p>
+      <!-- Mobile -->
+      <div class="skill-category">
+        <div class="skill-category-header">
+          <i class="fas fa-mobile-alt"></i>
+          <h4>Mobile Development</h4>
+        </div>
+        <div class="skill-bars">
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">Flutter</span>
+              <span class="skill-bar-pct">88%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="88"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">Dart</span>
+              <span class="skill-bar-pct">86%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="86"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">Firebase</span>
+              <span class="skill-bar-pct">80%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="80"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">REST APIs</span>
+          <span class="skill-tag">State Management</span>
+          <span class="skill-tag">UI/UX</span>
+        </div>
       </div>
-      <div class="social-links">
-        <a href="https://www.linkedin.com/in/yasirahmadmalik/" target="_blank" class="social-btn" aria-label="LinkedIn">
+
+      <!-- Web -->
+      <div class="skill-category">
+        <div class="skill-category-header">
+          <i class="fas fa-code"></i>
+          <h4>Web Development</h4>
+        </div>
+        <div class="skill-bars">
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">HTML5 / CSS3</span>
+              <span class="skill-bar-pct">85%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="85"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">JavaScript</span>
+              <span class="skill-bar-pct">75%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="75"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">Responsive Design</span>
+              <span class="skill-bar-pct">88%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="88"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">REST APIs</span>
+        </div>
+      </div>
+
+      <!-- Backend & DevOps -->
+      <div class="skill-category">
+        <div class="skill-category-header">
+          <i class="fas fa-server"></i>
+          <h4>Backend &amp; DevOps</h4>
+        </div>
+        <div class="skill-bars">
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">FastAPI</span>
+              <span class="skill-bar-pct">84%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="84"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">Git / GitHub</span>
+              <span class="skill-bar-pct">90%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="90"></div>
+            </div>
+          </div>
+          <div class="skill-bar-item">
+            <div class="skill-bar-header">
+              <span class="skill-bar-name">SQL / NoSQL</span>
+              <span class="skill-bar-pct">76%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill" data-pct="76"></div>
+            </div>
+          </div>
+        </div>
+        <div class="skill-tags">
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">CI/CD</span>
+          <span class="skill-tag">Linux</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="container">
+    <span class="section-label">$ ls ./projects/</span>
+    <h2 class="section-title">Featured <span class="accent">Projects</span></h2>
+
+    <div class="projects-filter">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="ai">AI &amp; ML</button>
+      <button class="filter-btn" data-filter="mobile">Mobile</button>
+      <button class="filter-btn" data-filter="web">Web</button>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- 1. Cab Booking -->
+      <div class="project-card" data-category="mobile">
+        <div class="project-img-wrapper">
+          <img src="assets/splash.jpg" alt="Cab Booking App" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">Mobile</span>
+          <h3 class="project-title">Cab Booking App</h3>
+          <p class="project-desc">
+            A cross-platform ride-hailing application built with Flutter. Features real-time location tracking,
+            driver matching, trip history, and in-app payments powered by Firebase.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Flutter</span>
+            <span class="tech-span">Dart</span>
+            <span class="tech-span">Firebase</span>
+            <span class="tech-span">Google Maps</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Object Detection -->
+      <div class="project-card" data-category="ai">
+        <div class="project-img-wrapper">
+          <img src="assets/object.jpg" alt="Object Detection" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">AI &amp; ML</span>
+          <h3 class="project-title">Object Detection System</h3>
+          <p class="project-desc">
+            Real-time object detection using YOLOv8 and OpenCV. Detects and classifies 80+ object
+            categories from live webcam feed with bounding boxes and confidence scores.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Python</span>
+            <span class="tech-span">YOLOv8</span>
+            <span class="tech-span">OpenCV</span>
+            <span class="tech-span">NumPy</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Chatbot -->
+      <div class="project-card" data-category="ai mobile">
+        <div class="project-img-wrapper">
+          <img src="assets/chatbot.png" alt="AI Chatbot" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">AI &amp; Mobile</span>
+          <h3 class="project-title">AI Chat Bot</h3>
+          <p class="project-desc">
+            Conversational AI assistant powered by a fine-tuned language model with context-aware
+            responses. Available as both a web interface and a Flutter mobile app.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Python</span>
+            <span class="tech-span">NLP</span>
+            <span class="tech-span">FastAPI</span>
+            <span class="tech-span">Flutter</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Emotion Detection -->
+      <div class="project-card" data-category="ai">
+        <div class="project-img-wrapper">
+          <img src="assets/emotion.jpeg" alt="Emotion Detection" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">AI &amp; ML</span>
+          <h3 class="project-title">Emotion Detection</h3>
+          <p class="project-desc">
+            Facial emotion recognition system using a CNN trained on FER-2013 dataset.
+            Classifies 7 emotions (happy, sad, angry, surprised, fearful, disgusted, neutral) in real time.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Python</span>
+            <span class="tech-span">TensorFlow</span>
+            <span class="tech-span">OpenCV</span>
+            <span class="tech-span">CNN</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Finger Count -->
+      <div class="project-card" data-category="ai">
+        <div class="project-img-wrapper">
+          <img src="assets/finger.png" alt="Finger Count" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">AI &amp; ML</span>
+          <h3 class="project-title">Finger Count Detection</h3>
+          <p class="project-desc">
+            Hand gesture recognition using MediaPipe and custom landmark logic.
+            Counts raised fingers on both hands in real time for gesture-based control interfaces.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Python</span>
+            <span class="tech-span">MediaPipe</span>
+            <span class="tech-span">OpenCV</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Real-Time Emotion -->
+      <div class="project-card" data-category="ai">
+        <div class="project-img-wrapper">
+          <img src="assets/emotion.jpeg" alt="Real-Time Emotion" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">AI &amp; ML</span>
+          <h3 class="project-title">Real-Time Emotion Analytics</h3>
+          <p class="project-desc">
+            Live emotion analysis dashboard for multiple faces simultaneously. Tracks emotional trends
+            over time and exports session reports. Built with TensorFlow and a FastAPI backend.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Python</span>
+            <span class="tech-span">TensorFlow</span>
+            <span class="tech-span">FastAPI</span>
+            <span class="tech-span">WebSocket</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Smyl App -->
+      <div class="project-card" data-category="ai mobile">
+        <div class="project-img-wrapper">
+          <img src="assets/smyl.jpg" alt="Smyl App" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">AI &amp; Mobile</span>
+          <h3 class="project-title">Smyl — Smile Detection App</h3>
+          <p class="project-desc">
+            Flutter mobile app that detects smiles using a TensorFlow Lite model running on-device.
+            Captures perfect moments automatically and provides wellness smile-streak tracking.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Flutter</span>
+            <span class="tech-span">TensorFlow Lite</span>
+            <span class="tech-span">Dart</span>
+            <span class="tech-span">Camera API</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Volume Control -->
+      <div class="project-card" data-category="ai">
+        <div class="project-img-wrapper">
+          <img src="assets/volume.jpg" alt="Volume Control" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">AI &amp; ML</span>
+          <h3 class="project-title">Gesture Volume Controller</h3>
+          <p class="project-desc">
+            Hands-free system volume control using hand gestures detected through MediaPipe.
+            The distance between thumb and index finger maps to system volume in real time.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Python</span>
+            <span class="tech-span">MediaPipe</span>
+            <span class="tech-span">OpenCV</span>
+            <span class="tech-span">PyCaw</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. Object Detection Video -->
+      <div class="project-card" data-category="ai">
+        <div class="project-img-wrapper">
+          <img src="assets/object_video.jpg" alt="Object Detection Video" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">AI &amp; ML</span>
+          <h3 class="project-title">Video Object Detection Pipeline</h3>
+          <p class="project-desc">
+            Batch video processing pipeline that runs YOLOv8 object detection on uploaded videos,
+            annotates frames with bounding boxes, and exports the processed output video with analytics.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Python</span>
+            <span class="tech-span">YOLOv8</span>
+            <span class="tech-span">OpenCV</span>
+            <span class="tech-span">FFmpeg</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="container">
+    <span class="section-label">$ ping yasir --contact</span>
+    <h2 class="section-title">Get In <span class="accent">Touch</span></h2>
+
+    <div class="contact-grid">
+
+      <!-- Info -->
+      <div class="contact-info">
+        <h3>Let's <span class="accent">Connect</span></h3>
+        <p>
+          Whether you have a project idea, a job opportunity, or just want to chat about AI and Flutter —
+          my inbox is always open. I'll get back to you as soon as possible.
+        </p>
+
+        <div class="contact-detail">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-detail-text">
+            <span class="contact-detail-label">Email</span>
+            <span class="contact-detail-value">yasirahmadmalik@email.com</span>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="contact-detail-text">
+            <span class="contact-detail-label">Location</span>
+            <span class="contact-detail-value">Lahore, Pakistan</span>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <a href="https://wa.me/923001234567" target="_blank" rel="noopener" style="display:contents;">
+            <div class="contact-icon"><i class="fab fa-whatsapp"></i></div>
+            <div class="contact-detail-text">
+              <span class="contact-detail-label">WhatsApp</span>
+              <span class="contact-detail-value">+92 300 123 4567</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="contact-form-wrapper">
+        <form id="contact-form" novalidate>
+          <div class="form-group">
+            <label class="form-label" for="user_name">_&gt; Your Name</label>
+            <input
+              type="text"
+              id="user_name"
+              name="user_name"
+              class="form-control"
+              placeholder="John Doe"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="user_email">_&gt; Email Address</label>
+            <input
+              type="email"
+              id="user_email"
+              name="user_email"
+              class="form-control"
+              placeholder="john@example.com"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subject">_&gt; Subject</label>
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              class="form-control"
+              placeholder="Project Inquiry"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">_&gt; Message</label>
+            <textarea
+              id="message"
+              name="message"
+              class="form-control"
+              rows="5"
+              placeholder="Tell me about your project..."
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
+            <i class="fas fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <p class="footer-text">
+        &copy; 2025 <span>Yasir Ahmad Malik</span> — AI Engineer &amp; Flutter Developer
+      </p>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/in/yasir-ahmad-malik/" class="social-btn" target="_blank" rel="noopener" aria-label="LinkedIn">
           <i class="fab fa-linkedin-in"></i>
         </a>
-        <a href="https://github.com/yasirmalik8" target="_blank" class="social-btn" aria-label="GitHub">
+        <a href="https://github.com/yasirmalik8" class="social-btn" target="_blank" rel="noopener" aria-label="GitHub">
           <i class="fab fa-github"></i>
         </a>
-        <a href="https://x.com/yasirahmadm1428?s=21" target="_blank" class="social-btn" aria-label="Twitter">
-          <i class="fab fa-twitter"></i>
+        <a href="https://twitter.com/" class="social-btn" target="_blank" rel="noopener" aria-label="Twitter">
+          <i class="fab fa-x-twitter"></i>
         </a>
-        <a href="https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr" target="_blank" class="social-btn" aria-label="Instagram">
+        <a href="https://www.instagram.com/" class="social-btn" target="_blank" rel="noopener" aria-label="Instagram">
           <i class="fab fa-instagram"></i>
         </a>
-        <a href="https://wa.me/923467336193" target="_blank" class="social-btn" aria-label="WhatsApp">
+        <a href="https://wa.me/923001234567" class="social-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
           <i class="fab fa-whatsapp"></i>
         </a>
       </div>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <!-- Toast -->
-  <div id="toast"></div>
+<!-- ── SCROLL TO TOP ── -->
+<button id="scroll-top" aria-label="Scroll to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
 
-  <!-- Scroll to Top -->
-  <button id="scroll-top" aria-label="Scroll to top"><i class="fas fa-arrow-up"></i></button>
+<!-- ── TOAST ── -->
+<div id="toast" role="alert" aria-live="polite"></div>
 
-  <!-- ==================== SCRIPTS ==================== -->
-  <script>
-    // ── Theme Toggle ──
-    const themeToggle = document.getElementById('theme-toggle');
-    const theme3D     = document.getElementById('theme-3d');
-    const themeIcon   = themeToggle.querySelector('i');
+<!-- ══════════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════════ -->
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
-    function applyTheme(t) {
-      document.documentElement.setAttribute('data-theme', t || '');
-      themeIcon.className = (t === 'light') ? 'fas fa-sun' : 'fas fa-moon';
-      localStorage.setItem('theme', t || '');
+<script>
+(function () {
+  'use strict';
+
+  /* ── EMAILJS INIT ── */
+  emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+
+  /* ── THEME MANAGEMENT ── */
+  const html        = document.documentElement;
+  const themeToggle = document.getElementById('theme-toggle');
+  const theme3dBtn  = document.getElementById('theme-3d');
+  const themeIcon   = themeToggle.querySelector('i');
+
+  // Icons: dark → moon, light → sun
+  function applyTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('portfolio-theme', theme);
+    if (theme === 'dark') {
+      themeIcon.className = 'fas fa-moon';
+      theme3dBtn.classList.remove('active-3d');
+    } else if (theme === 'light') {
+      themeIcon.className = 'fas fa-sun';
+      theme3dBtn.classList.remove('active-3d');
+    } else if (theme === '3d') {
+      themeIcon.className = 'fas fa-cube';
+      theme3dBtn.classList.add('active-3d');
     }
+    // Update particle color
+    updateParticleColor(theme);
+  }
 
-    applyTheme(localStorage.getItem('theme') || '');
+  // Load saved theme
+  const savedTheme = localStorage.getItem('portfolio-theme') || 'dark';
+  applyTheme(savedTheme);
 
-    themeToggle.addEventListener('click', () => {
-      const cur = document.documentElement.getAttribute('data-theme');
-      applyTheme(cur === 'light' ? '' : 'light');
-      initParticles();
+  // Toggle dark ↔ light (not 3D)
+  themeToggle.addEventListener('click', function () {
+    const current = html.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  // Toggle 3D
+  theme3dBtn.addEventListener('click', function () {
+    const current = html.getAttribute('data-theme');
+    applyTheme(current === '3d' ? 'dark' : '3d');
+  });
+
+  /* ── MOBILE MENU ── */
+  const menuToggle = document.getElementById('mobile-menu');
+  const navLinks   = document.getElementById('nav-links');
+
+  menuToggle.addEventListener('click', function () {
+    navLinks.classList.toggle('open');
+    const icon = menuToggle.querySelector('i');
+    icon.className = navLinks.classList.contains('open') ? 'fas fa-times' : 'fas fa-bars';
+  });
+
+  // Close on link click
+  navLinks.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', function () {
+      navLinks.classList.remove('open');
+      menuToggle.querySelector('i').className = 'fas fa-bars';
     });
+  });
 
-    // kept for backward-compat
-    theme3D.addEventListener('click', () => applyTheme(''));
+  /* ── HEADER SCROLL ── */
+  var header = document.getElementById('header');
+  window.addEventListener('scroll', function () {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+    scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
 
-    // ── Mobile Menu ──
-    const mobileMenu = document.getElementById('mobile-menu');
-    const navLinks   = document.querySelector('.nav-links');
+  /* ── ACTIVE NAV TRACKING ── */
+  var sections = document.querySelectorAll('section[id]');
+  var navItems = navLinks.querySelectorAll('a');
 
-    mobileMenu.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      mobileMenu.querySelector('i').classList.toggle('fa-bars');
-      mobileMenu.querySelector('i').classList.toggle('fa-times');
+  function setActiveNav() {
+    var scrollPos = window.scrollY + 120;
+    var current   = '';
+    sections.forEach(function (sec) {
+      if (scrollPos >= sec.offsetTop) current = sec.getAttribute('id');
     });
+    navItems.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
 
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('active');
-        mobileMenu.querySelector('i').className = 'fas fa-bars';
+  window.addEventListener('scroll', setActiveNav, { passive: true });
+  setActiveNav();
+
+  /* ── SCROLL ANIMATIONS (IntersectionObserver) ── */
+  var animateTargets = document.querySelectorAll(
+    '.timeline-item, .cert-card, .skill-category, .project-card, .stat-item, .about-text, .about-image, .contact-info, .contact-form-wrapper, .section-label, .section-title'
+  );
+
+  var animObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var el    = entry.target;
+        var items = el.parentElement ? Array.from(el.parentElement.children) : [];
+        var idx   = items.indexOf(el);
+        var delay = Math.min(idx * 0.08, 0.28);
+        el.style.animationDelay = delay + 's';
+        el.classList.add('animate-in');
+        animObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  animateTargets.forEach(function (el) {
+    el.style.opacity = '0';
+    animObserver.observe(el);
+  });
+
+  /* ── SKILL BARS (IntersectionObserver) ── */
+  var skillSection = document.getElementById('skills');
+  var barsAnimated = false;
+
+  var skillObserver = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting && !barsAnimated) {
+      barsAnimated = true;
+      document.querySelectorAll('.skill-bar-fill').forEach(function (bar) {
+        var pct = bar.getAttribute('data-pct');
+        requestAnimationFrame(function () {
+          bar.style.width = pct + '%';
+        });
       });
-    });
+      skillObserver.disconnect();
+    }
+  }, { threshold: 0.2 });
 
-    // ── Header scroll ──
-    const header = document.getElementById('header');
-    window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 50);
-    });
+  if (skillSection) skillObserver.observe(skillSection);
 
-    // ── Smooth scroll ──
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        const t = document.querySelector(a.getAttribute('href'));
-        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
+  /* ── PROJECT FILTER ── */
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var projectCards = document.querySelectorAll('.project-card');
 
-    // ── Active nav on scroll ──
-    const sections = document.querySelectorAll('section[id]');
-    const navItems = document.querySelectorAll('.nav-links a');
-    window.addEventListener('scroll', () => {
-      let cur = '';
-      sections.forEach(s => {
-        if (scrollY >= s.offsetTop - 200) cur = s.getAttribute('id');
-      });
-      navItems.forEach(a => {
-        a.classList.toggle('active', a.getAttribute('href').slice(1) === cur);
-      });
-    });
+  filterBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      filterBtns.forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
 
-    // ── Scroll animations (per-section stagger) ──
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('animate-in'); });
-    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-
-    document.querySelectorAll('section').forEach(sec => {
-      sec.querySelectorAll('.glass-card, .timeline-item, .skill-category, .cert-card, .project-card, .stat-item').forEach((el, i) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(28px)';
-        el.style.transition = `opacity 0.45s ease, transform 0.45s ease`;
-        el.style.transitionDelay = Math.min(i * 0.07, 0.28) + 's';
-        observer.observe(el);
-      });
-    });
-
-    // ── Skill Progress Bars (animate on scroll) ──
-    const barObserver = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
-            const pct = bar.getAttribute('data-pct');
-            bar.style.width = pct + '%';
-          });
-          barObserver.unobserve(e.target);
+      var filter = btn.getAttribute('data-filter');
+      projectCards.forEach(function (card) {
+        var categories = card.getAttribute('data-category') || '';
+        if (filter === 'all' || categories.split(' ').indexOf(filter) !== -1) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
         }
       });
-    }, { threshold: 0.3 });
+    });
+  });
 
-    document.querySelectorAll('.skill-category').forEach(c => barObserver.observe(c));
+  /* ── TYPEWRITER ── */
+  var typewriterEl = document.getElementById('typewriter');
+  var phrases      = ['AI Engineer & Flutter Developer', 'ML Model Builder', 'Computer Vision Engineer', 'Mobile App Developer'];
+  var phraseIdx    = 0;
+  var charIdx      = 0;
+  var isDeleting   = false;
 
-    // ── Project Filter ──
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.getAttribute('data-filter');
-        document.querySelectorAll('.project-card').forEach(card => {
-          const cats = card.getAttribute('data-category') || '';
-          if (filter === 'all' || cats.includes(filter)) {
-            card.classList.remove('hidden');
-          } else {
-            card.classList.add('hidden');
-          }
-        });
+  function typeEffect() {
+    var current = phrases[phraseIdx];
+    if (isDeleting) {
+      typewriterEl.textContent = current.substring(0, charIdx - 1);
+      charIdx--;
+    } else {
+      typewriterEl.textContent = current.substring(0, charIdx + 1);
+      charIdx++;
+    }
+
+    var speed = isDeleting ? 45 : 75;
+
+    if (!isDeleting && charIdx === current.length) {
+      speed = 1800;
+      isDeleting = true;
+    } else if (isDeleting && charIdx === 0) {
+      isDeleting = false;
+      phraseIdx  = (phraseIdx + 1) % phrases.length;
+      speed = 400;
+    }
+
+    setTimeout(typeEffect, speed);
+  }
+
+  setTimeout(typeEffect, 900);
+
+  /* ── PARALLAX HERO IMAGE ── */
+  var heroImgWrap = document.getElementById('hero-img-wrap');
+  window.addEventListener('scroll', function () {
+    if (!heroImgWrap) return;
+    var offset = window.scrollY * 0.07;
+    heroImgWrap.style.transform = 'translateY(' + offset + 'px)';
+  }, { passive: true });
+
+  /* ── SCROLL TO TOP ── */
+  var scrollTopBtn = document.getElementById('scroll-top');
+  scrollTopBtn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  /* ── TOAST ── */
+  var toastEl = document.getElementById('toast');
+  function showToast(msg, type) {
+    toastEl.textContent = msg;
+    toastEl.className   = 'show ' + (type || '');
+    setTimeout(function () {
+      toastEl.className = '';
+    }, 3500);
+  }
+
+  /* ── CONTACT FORM (EmailJS) ── */
+  var contactForm = document.getElementById('contact-form');
+  contactForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var submitBtn = contactForm.querySelector('[type="submit"]');
+    submitBtn.disabled    = true;
+    submitBtn.textContent = 'Sending...';
+
+    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', contactForm)
+      .then(function () {
+        showToast('✓ Message sent successfully!', 'success');
+        contactForm.reset();
+      }, function (err) {
+        console.error('EmailJS error:', err);
+        showToast('✗ Failed to send. Try again.', 'error');
+      })
+      .finally(function () {
+        submitBtn.disabled   = false;
+        submitBtn.innerHTML  = '<i class="fas fa-paper-plane"></i> Send Message';
       });
-    });
+  });
 
-    // ── Typewriter ──
-    const tw  = document.getElementById('typewriter');
-    const txt = 'AI Engineer & Flutter Developer';
-    let ci = 0;
-    function typeWriter() {
-      if (ci < txt.length) {
-        tw.textContent += txt.charAt(ci++);
-        setTimeout(typeWriter, 75);
+  /* ── PARTICLE CANVAS ── */
+  var canvas  = document.getElementById('bg-canvas');
+  var ctx     = canvas.getContext('2d');
+  var W, H, particles;
+  var particleColor = 'rgba(6,182,212,';
+
+  function updateParticleColor(theme) {
+    if (theme === 'light' || theme === '3d') {
+      particleColor = 'rgba(2,132,199,';
+    } else {
+      particleColor = 'rgba(6,182,212,';
+    }
+  }
+  updateParticleColor(savedTheme);
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function Particle() {
+    this.x  = Math.random() * W;
+    this.y  = Math.random() * H;
+    this.vx = (Math.random() - 0.5) * 0.5;
+    this.vy = (Math.random() - 0.5) * 0.5;
+    this.r  = Math.random() * 2 + 1;
+    this.opacity = Math.random() * 0.5 + 0.1;
+  }
+
+  Particle.prototype.update = function () {
+    this.x += this.vx;
+    this.y += this.vy;
+    if (this.x < 0 || this.x > W) this.vx *= -1;
+    if (this.y < 0 || this.y > H) this.vy *= -1;
+  };
+
+  Particle.prototype.draw = function () {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = particleColor + this.opacity + ')';
+    ctx.fill();
+  };
+
+  function initParticles() {
+    particles = [];
+    for (var i = 0; i < 50; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  function drawConnections() {
+    for (var i = 0; i < particles.length; i++) {
+      for (var j = i + 1; j < particles.length; j++) {
+        var dx   = particles[i].x - particles[j].x;
+        var dy   = particles[i].y - particles[j].y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = particleColor + (1 - dist / 150) * 0.15 + ')';
+          ctx.lineWidth   = 1;
+          ctx.stroke();
+        }
       }
     }
-    setTimeout(typeWriter, 900);
+  }
 
-    // ── Parallax hero image ──
-    window.addEventListener('scroll', () => {
-      const img  = document.querySelector('.hero-image-container');
-      const hero = document.getElementById('hero');
-      if (img && hero && window.pageYOffset < hero.offsetTop + hero.offsetHeight) {
-        img.style.transform = `translateY(${window.pageYOffset * 0.07}px)`;
-      }
-    });
+  var animFrameId;
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(function (p) { p.update(); p.draw(); });
+    drawConnections();
+    animFrameId = requestAnimationFrame(animate);
+  }
 
-    // ── Scroll-to-top ──
-    const scrollTopBtn = document.getElementById('scroll-top');
-    window.addEventListener('scroll', () => {
-      scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
-    });
-    scrollTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-  </script>
+  window.addEventListener('resize', function () {
+    resize();
+  }, { passive: true });
 
-  <!-- EmailJS -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    emailjs.init("pamswz1tct7gzkDGR");
+  resize();
+  initParticles();
+  animate();
 
-    function showToast(msg, isErr) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.style.borderColor = isErr ? 'rgba(255,60,60,0.4)' : 'rgba(0,230,118,0.3)';
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 4000);
-    }
-
-    const form      = document.getElementById('contactForm');
-    const submitBtn = form.querySelector('button[type="submit"]');
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      submitBtn.disabled    = true;
-      submitBtn.textContent = 'Sending...';
-
-      emailjs.sendForm('service_1zo3oxm', 'template_hlytccu', this)
-        .then(() => {
-          showToast('Message sent successfully! ✅', false);
-          form.reset();
-        })
-        .catch(err => {
-          showToast('Something went wrong. Please try again. ❌', true);
-          console.error(err);
-        })
-        .finally(() => {
-          submitBtn.disabled    = false;
-          submitBtn.innerHTML   = '<i class="fas fa-paper-plane"></i> Send Message';
-        });
-    });
-  </script>
+})();
+</script>
 
 </body>
 </html>
