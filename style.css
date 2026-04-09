@@ -33,18 +33,18 @@
   --bg: #f0f4f8;
   --bg-2: #ffffff;
   --card: #ffffff;
-  --card-2: #f0f4f8;
+  --card-2: #f1f5f9;
   --accent: #0284c7;
   --accent-2: #0369a1;
   --accent-dim: rgba(2, 132, 199, 0.08);
-  --accent-border: rgba(2, 132, 199, 0.2);
+  --accent-border: rgba(2, 132, 199, 0.25);
   --accent-glow: rgba(2, 132, 199, 0.2);
   --text: #0f172a;
-  --text-muted: #64748b;
-  --text-dim: #94a3b8;
-  --border: rgba(0, 0, 0, 0.07);
-  --border-bright: rgba(0, 0, 0, 0.12);
-  --nav-bg: rgba(240, 244, 248, 0.96);
+  --text-muted: #475569;
+  --text-dim: #64748b;
+  --border: rgba(0, 0, 0, 0.09);
+  --border-bright: rgba(0, 0, 0, 0.15);
+  --nav-bg: rgba(240, 244, 248, 0.97);
 }
 
 [data-theme="3d"] {
@@ -306,7 +306,19 @@ nav {
 
 [data-theme="light"] .nav-links a:hover,
 [data-theme="light"] .nav-links a.active {
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .glass-card,
+[data-theme="light"] .skill-category,
+[data-theme="light"] .cert-card,
+[data-theme="light"] .contact-form-wrapper,
+[data-theme="light"] .timeline-content {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] header.scrolled {
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
 }
 
 .nav-right {
@@ -467,6 +479,11 @@ nav {
   background: var(--accent-dim);
   transform: translateY(-2px);
   box-shadow: 0 4px 14px var(--accent-glow);
+}
+
+[data-theme="light"] .btn-primary,
+[data-theme="light"] .btn-primary:hover {
+  color: #ffffff;
 }
 
 [data-theme="3d"] .btn-primary {
@@ -1083,6 +1100,10 @@ nav {
   color: #0f172a;
 }
 
+[data-theme="light"] .cert-card:hover .cert-icon i {
+  color: #ffffff;
+}
+
 .cert-title {
   font-family: var(--font-display);
   font-size: 0.95rem;
@@ -1687,6 +1708,10 @@ footer::before {
 #scroll-top:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 18px var(--accent-glow);
+}
+
+[data-theme="light"] #scroll-top {
+  color: #ffffff;
 }
 
 /* ── 23. TOAST ──────────────────────────────────────────── */
