@@ -1392,18 +1392,34 @@ nav {
   justify-content: center;
 }
 
+.project-img-blur-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(14px) brightness(0.35) saturate(0.7);
+  transform: scale(1.15);
+  z-index: 0;
+}
+
 .project-img-wrapper img {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center center;
-  filter: brightness(0.85);
+  filter: brightness(0.9);
   transition: transform 0.5s ease, filter 0.4s ease;
 }
 
 .project-card:hover .project-img-wrapper img {
   transform: scale(1.07);
   filter: brightness(1);
+}
+
+.project-card:hover .project-img-blur-bg {
+  filter: blur(14px) brightness(0.45) saturate(0.8);
 }
 
 .project-img-wrapper::after {

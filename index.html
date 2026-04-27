@@ -54,7 +54,7 @@
       </ul>
 
       <div class="nav-right">
-        <a href="assets/Yasir_Ahmad_Malik_Resume.pdf" class="nav-resume" download>&#11015; Resume</a>
+        <a href="assets/YasirAhmadMalik(R).pdf" class="nav-resume" download>&#11015; Resume</a>
         <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
           <i class="fas fa-moon"></i>
         </button>
@@ -765,16 +765,98 @@
         </div>
         <div class="project-content">
           <span class="project-category">AI &amp; Mobile</span>
-          <h3 class="project-title">Smyl — Smile Detection App</h3>
+          <h3 class="project-title">Smyl — Relationship Growth App</h3>
           <p class="project-desc">
-            Flutter mobile app that detects smiles using a TensorFlow Lite model running on-device.
-            Captures perfect moments automatically and provides wellness smile-streak tracking.
+            Contributed as a Junior AI Engineer to Smyl, a relationship growth platform. Built AI-driven
+            features including personalized relationship insights, user behavior analysis, smart coaching
+            recommendations, emotional tracking, and data-driven daily mission suggestions to boost user engagement.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">AI/ML</span>
+            <span class="tech-span">Python</span>
+            <span class="tech-span">NLP</span>
+            <span class="tech-span">Behavior Analysis</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. ADD Platform -->
+      <div class="project-card" data-category="ai web">
+        <div class="project-img-wrapper">
+          <img src="assets/agent.jpg" alt="ADD Platform" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">AI &amp; Web</span>
+          <h3 class="project-title">ADD Platform — AI Automation Hub</h3>
+          <p class="project-desc">
+            Designed and built a scalable AI automation platform end-to-end. Engineered multi-LLM agents
+            using FastAPI and LangGraph with OpenAI, Claude, and Gemini integrations. Developed the full
+            frontend using React, TypeScript, and Tailwind CSS via Claude Code.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">FastAPI</span>
+            <span class="tech-span">LangGraph</span>
+            <span class="tech-span">React</span>
+            <span class="tech-span">TypeScript</span>
+            <span class="tech-span">Tailwind</span>
+            <span class="tech-span">OpenAI</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11. Fitness App -->
+      <div class="project-card" data-category="mobile">
+        <div class="project-img-wrapper">
+          <img src="assets/fitness.jpg" alt="Fitness App" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">Mobile</span>
+          <h3 class="project-title">Fitness Tracker App</h3>
+          <p class="project-desc">
+            A Flutter fitness application featuring personalized workout plans, exercise logging, and
+            visual progress monitoring. Designed a clean, responsive UI that makes it easy for users
+            to follow routines and stay consistent with their health goals.
           </p>
           <div class="project-tech">
             <span class="tech-span">Flutter</span>
-            <span class="tech-span">TensorFlow Lite</span>
             <span class="tech-span">Dart</span>
-            <span class="tech-span">Camera API</span>
+            <span class="tech-span">Firebase</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12. Cattle Farm App -->
+      <div class="project-card" data-category="mobile">
+        <div class="project-img-wrapper">
+          <img src="assets/cattle.png" alt="Cattle Farm App" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">Mobile</span>
+          <h3 class="project-title">Cattle Farm Management App</h3>
+          <p class="project-desc">
+            A Flutter livestock management app that helps farmers track cattle records, health history,
+            and daily farm activities. Built with a simple, intuitive interface and structured data
+            handling to streamline farm operations and reduce manual record-keeping.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Flutter</span>
+            <span class="tech-span">Dart</span>
+            <span class="tech-span">SQLite</span>
           </div>
           <div class="project-links">
             <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
@@ -981,6 +1063,18 @@
 ══════════════════════════════════════════════════ -->
 <!-- EmailJS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<script>
+  /* ── PROJECT IMAGE BLUR BACKDROP ── */
+  document.querySelectorAll('.project-img-wrapper').forEach(function(wrapper) {
+    var img = wrapper.querySelector('img');
+    if (!img) return;
+    var bg = document.createElement('div');
+    bg.className = 'project-img-blur-bg';
+    bg.style.backgroundImage = "url('" + img.getAttribute('src') + "')";
+    wrapper.insertBefore(bg, img);
+  });
+</script>
 
 <script>
 (function () {
