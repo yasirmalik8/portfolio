@@ -1030,7 +1030,7 @@
             <span class="field-error" id="err-message"></span>
           </div>
           <div class="form-group">
-            <label class="form-label" for="user_files">Attach Files <span class="form-label-hint">(PDF or Images, max 5 MB each — optional)</span></label>
+            <label class="form-label" for="user_files">Attach Files <span class="form-label-hint">(PDF or Images — filenames included in email, optional)</span></label>
             <div class="file-upload-wrapper" id="file-drop-zone">
               <input
                 type="file"
@@ -1471,43 +1471,36 @@
     submitBtn.disabled  = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
 
-    /* read all files as base64 then send */
-    function buildFilesParam(callback) {
-      if (!selectedFiles.length) { callback('', ''); return; }
-      var names = [], contents = [], done = 0;
-      selectedFiles.forEach(function(f, i) {
-        var reader = new FileReader();
-        reader.onload  = function(ev) { names[i] = f.name; contents[i] = ev.target.result; if (++done === selectedFiles.length) callback(names.join(', '), contents.join('\n\n')); };
-        reader.onerror = function()   { names[i] = f.name; contents[i] = '[read error]'; if (++done === selectedFiles.length) callback(names.join(', '), contents.join('\n\n')); };
-        reader.readAsDataURL(f);
-      });
-    }
+    var fileNames = selectedFiles.length
+      ? selectedFiles.map(function(f){ return f.name + ' (' + (f.size/1024).toFixed(1) + ' KB)'; }).join(', ')
+      : 'None';
 
-    buildFilesParam(function(fileNames, fileContents) {
-      var params = {
-        user_name:     name,
-        user_email:    email,
-        subject:       subject,
-        message:       message,
-        files_names:   fileNames   || 'None',
-        files_content: fileContents|| ''
-      };
+    var params = {
+      user_name:   name,
+      user_email:  email,
+      subject:     subject,
+      message:     message,
+      files_names: fileNames
+    };
 
-      emailjs.send('service_1zo3oxm', 'YOUR_TEMPLATE_ID', params)
-        .then(function() {
+    emailjs.send('service_1zo3oxm', 'template_hlytccu', params)
+      .then(function() {
+        if (selectedFiles.length) {
+          showToast('✓ Sent! Please also email your files to yasirahmadmalik8@gmail.com', 'success');
+        } else {
           showToast('✓ Message sent successfully!', 'success');
-          contactForm.reset();
-          selectedFiles = [];
-          renderFileList();
-        }, function(err) {
-          console.error('EmailJS error:', err);
-          showToast('✗ Failed to send. Please try again.', 'error');
-        })
-        .finally(function() {
-          submitBtn.disabled  = false;
-          submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
-        });
-    });
+        }
+        contactForm.reset();
+        selectedFiles = [];
+        renderFileList();
+      }, function(err) {
+        console.error('EmailJS error:', err);
+        showToast('✗ Failed to send. Please try again.', 'error');
+      })
+      .finally(function() {
+        submitBtn.disabled  = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+      });
   });
 
   /* ── PARTICLE CANVAS ── */
