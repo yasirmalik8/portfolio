@@ -37,15 +37,16 @@
 <header id="header">
   <div class="container">
     <nav>
-      <div class="nav-logo-group">
+      <a href="#hero" class="nav-logo-group" aria-label="Go to Home">
         <img src="assets/profilepic.jpg" alt="Yasir" class="nav-avatar" />
         <span class="nav-name">Yasir Ahmad Malik</span>
-      </div>
+      </a>
 
       <ul class="nav-links" id="nav-links">
         <li><a href="#hero" class="active">Home</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#education">Education</a></li>
+        <li><a href="#publications">Research</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#certifications">Certs</a></li>
         <li><a href="#skills">Skills</a></li>
@@ -116,9 +117,6 @@
       <div class="hero-image-side">
         <div class="hero-image-wrapper" id="hero-img-wrap">
           <img src="assets/profilepic.jpg" alt="Yasir Ahmad Malik" />
-          <div class="hero-status-badge">
-            <span class="status-dot"></span> AI_CORE: ONLINE
-          </div>
         </div>
 
         <!-- Floating stat bubbles -->
@@ -288,6 +286,21 @@
         </div>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- ── PUBLICATIONS & RESEARCH ── -->
+<section id="publications">
+  <div class="container">
+    <h2 class="section-title">Publications &amp; <span class="accent">Research</span></h2>
+
+    <div class="publications-upcoming glass-card">
+      <div class="publications-upcoming-inner">
+        <i class="fas fa-flask publications-icon"></i>
+        <h3>Upcoming</h3>
+        <p>Research publications and academic contributions are currently in progress. Check back soon for updates on papers, conference submissions, and research projects.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -725,7 +738,7 @@
             <span class="tech-span">OpenCV</span>
           </div>
           <div class="project-links">
-            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+            <a href="https://github.com/yasirmalik8/Finger_Count" class="project-link" target="_blank" rel="noopener">
               <i class="fab fa-github"></i> Source
             </a>
           </div>
@@ -766,6 +779,7 @@
         <div class="project-content">
           <span class="project-category">AI &amp; Mobile</span>
           <h3 class="project-title">Smyl — Relationship Growth App</h3>
+          <span class="project-company"><i class="fas fa-building"></i> TechFlairz</span>
           <p class="project-desc">
             Contributed as a Junior AI Engineer to Smyl, a relationship growth platform. Built AI-driven
             features including personalized relationship insights, user behavior analysis, smart coaching
@@ -778,37 +792,8 @@
             <span class="tech-span">Behavior Analysis</span>
           </div>
           <div class="project-links">
-            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
-              <i class="fab fa-github"></i> Source
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- 10. ADD Platform -->
-      <div class="project-card" data-category="ai web">
-        <div class="project-img-wrapper">
-          <img src="assets/agent.jpg" alt="ADD Platform" />
-        </div>
-        <div class="project-content">
-          <span class="project-category">AI &amp; Web</span>
-          <h3 class="project-title">ADD Platform — AI Automation Hub</h3>
-          <p class="project-desc">
-            Designed and built a scalable AI automation platform end-to-end. Engineered multi-LLM agents
-            using FastAPI and LangGraph with OpenAI, Claude, and Gemini integrations. Developed the full
-            frontend using React, TypeScript, and Tailwind CSS via Claude Code.
-          </p>
-          <div class="project-tech">
-            <span class="tech-span">FastAPI</span>
-            <span class="tech-span">LangGraph</span>
-            <span class="tech-span">React</span>
-            <span class="tech-span">TypeScript</span>
-            <span class="tech-span">Tailwind</span>
-            <span class="tech-span">OpenAI</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
-              <i class="fab fa-github"></i> Source
+            <a href="https://play.google.com/store/apps/details?id=com.smylinc.smyl&pcampaignid=web_share" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-google-play"></i> Play Store
             </a>
           </div>
         </div>
@@ -822,6 +807,7 @@
         <div class="project-content">
           <span class="project-category">Mobile</span>
           <h3 class="project-title">Fitness Tracker App</h3>
+          <span class="project-company"><i class="fas fa-building"></i> Flutterxperts</span>
           <p class="project-desc">
             A Flutter fitness application featuring personalized workout plans, exercise logging, and
             visual progress monitoring. Designed a clean, responsive UI that makes it easy for users
@@ -848,6 +834,7 @@
         <div class="project-content">
           <span class="project-category">Mobile</span>
           <h3 class="project-title">Cattle Farm Management App</h3>
+          <span class="project-company"><i class="fas fa-building"></i> Flutterxperts</span>
           <p class="project-desc">
             A Flutter livestock management app that helps farmers track cattle records, health history,
             and daily farm activities. Built with a simple, intuitive interface and structured data
@@ -892,7 +879,7 @@
         </div>
       </div>
 
-      <!-- 9. Object Detection Video -->
+      <!-- 9. Video Object Detection Pipeline -->
       <div class="project-card" data-category="ai">
         <div class="project-img-wrapper">
           <img src="assets/object_video.jpg" alt="Object Detection Video" />
@@ -909,6 +896,33 @@
             <span class="tech-span">YOLOv8</span>
             <span class="tech-span">OpenCV</span>
             <span class="tech-span">FFmpeg</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
+              <i class="fab fa-github"></i> Source
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. ADD Platform — AI Hub -->
+      <div class="project-card" data-category="ai">
+        <div class="project-img-wrapper">
+          <img src="assets/logo.png" alt="ADD Platform AI Hub" />
+        </div>
+        <div class="project-content">
+          <span class="project-category">AI &amp; ML</span>
+          <h3 class="project-title">ADD Platform — AI Hub</h3>
+          <span class="project-company"><i class="fas fa-building"></i> TechFlairz</span>
+          <p class="project-desc">
+            An AI-powered platform integrating multiple intelligent modules including computer vision,
+            NLP, and data analytics. Built to serve as a centralized hub for AI-driven features and tools.
+          </p>
+          <div class="project-tech">
+            <span class="tech-span">Python</span>
+            <span class="tech-span">FastAPI</span>
+            <span class="tech-span">TensorFlow</span>
+            <span class="tech-span">Flutter</span>
           </div>
           <div class="project-links">
             <a href="https://github.com/yasirmalik8" class="project-link" target="_blank" rel="noopener">
@@ -970,29 +984,31 @@
       <div class="contact-form-wrapper">
         <form id="contact-form" novalidate>
           <div class="form-group">
-            <label class="form-label" for="user_name">Your Name</label>
+            <label class="form-label" for="user_name">Your Name <span class="field-required">*</span></label>
             <input
               type="text"
               id="user_name"
               name="user_name"
               class="form-control"
               placeholder="John Doe"
-              required
+              autocomplete="name"
             />
+            <span class="field-error" id="err-name"></span>
           </div>
           <div class="form-group">
-            <label class="form-label" for="user_email">Email Address</label>
+            <label class="form-label" for="user_email">Email Address <span class="field-required">*</span></label>
             <input
               type="email"
               id="user_email"
               name="user_email"
               class="form-control"
               placeholder="john@example.com"
-              required
+              autocomplete="email"
             />
+            <span class="field-error" id="err-email"></span>
           </div>
           <div class="form-group">
-            <label class="form-label" for="subject">Subject</label>
+            <label class="form-label" for="subject">Subject <span class="field-required">*</span></label>
             <input
               type="text"
               id="subject"
@@ -1000,17 +1016,37 @@
               class="form-control"
               placeholder="Project Inquiry"
             />
+            <span class="field-error" id="err-subject"></span>
           </div>
           <div class="form-group">
-            <label class="form-label" for="message">Message</label>
+            <label class="form-label" for="message">Message <span class="field-required">*</span></label>
             <textarea
               id="message"
               name="message"
               class="form-control"
               rows="5"
-              placeholder="Tell me about your project..."
-              required
+              placeholder="Tell me about your project… (min 20 characters)"
             ></textarea>
+            <span class="field-error" id="err-message"></span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="user_files">Attach Files <span class="form-label-hint">(PDF or Images, max 5 MB each — optional)</span></label>
+            <div class="file-upload-wrapper" id="file-drop-zone">
+              <input
+                type="file"
+                id="user_files"
+                name="user_files"
+                class="file-input"
+                accept=".pdf,image/*"
+                multiple
+              />
+              <label for="user_files" class="file-upload-label">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span id="file-name-display">Click to choose or drag &amp; drop files…</span>
+              </label>
+            </div>
+            <div id="file-list" class="file-list"></div>
+            <span class="field-error" id="err-files"></span>
           </div>
           <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">
             <i class="fas fa-paper-plane"></i> Send Message
@@ -1061,8 +1097,9 @@
 <!-- ══════════════════════════════════════════════════
      SCRIPTS
 ══════════════════════════════════════════════════ -->
+
 <!-- EmailJS SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
 <script>
   /* ── PROJECT IMAGE BLUR BACKDROP ── */
@@ -1081,7 +1118,7 @@
   'use strict';
 
   /* ── EMAILJS INIT ── */
-  emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+  emailjs.init('pamswz1tct7gzkDGR');
 
   /* ── THEME MANAGEMENT ── */
   const html        = document.documentElement;
@@ -1287,26 +1324,190 @@
     }, 3500);
   }
 
-  /* ── CONTACT FORM (EmailJS) ── */
-  var contactForm = document.getElementById('contact-form');
-  contactForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var submitBtn = contactForm.querySelector('[type="submit"]');
-    submitBtn.disabled    = true;
-    submitBtn.textContent = 'Sending...';
+  /* ── CONTACT FORM VALIDATION & FILE HANDLING ── */
+  var contactForm     = document.getElementById('contact-form');
+  var fileInput       = document.getElementById('user_files');
+  var fileNameDisplay = document.getElementById('file-name-display');
+  var fileListEl      = document.getElementById('file-list');
+  var selectedFiles   = [];
 
-    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', contactForm)
-      .then(function () {
-        showToast('✓ Message sent successfully!', 'success');
-        contactForm.reset();
-      }, function (err) {
-        console.error('EmailJS error:', err);
-        showToast('✗ Failed to send. Try again.', 'error');
-      })
-      .finally(function () {
-        submitBtn.disabled   = false;
-        submitBtn.innerHTML  = '<i class="fas fa-paper-plane"></i> Send Message';
+  /* --- helpers --- */
+  function setError(id, msg) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg;
+    el.style.display = msg ? 'block' : 'none';
+    var ctrl = el.previousElementSibling;
+    if (ctrl && ctrl.classList) {
+      msg ? ctrl.classList.add('input-error') : ctrl.classList.remove('input-error');
+    }
+  }
+
+  function clearError(id) { setError(id, ''); }
+
+  function isValidEmail(val) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
+  }
+
+  function isGibberish(text) {
+    if (text.length < 20) return true;
+    var words = text.trim().split(/\s+/);
+    if (words.length < 3) return true;
+    var alphaCount = (text.match(/[a-zA-Z]/g) || []).length;
+    if (alphaCount / text.length < 0.45) return true;
+    if (/(.)\1{5,}/.test(text)) return true;  // 5+ repeated chars like "aaaaaaa"
+    return false;
+  }
+
+  /* --- live clear errors on input --- */
+  ['user_name','user_email','subject','message'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener('input', function() { clearError('err-' + id.replace('user_','').replace('user_','')); });
+  });
+  document.getElementById('user_name').addEventListener('input',    function(){ clearError('err-name'); });
+  document.getElementById('user_email').addEventListener('input',   function(){ clearError('err-email'); });
+  document.getElementById('subject').addEventListener('input',      function(){ clearError('err-subject'); });
+  document.getElementById('message').addEventListener('input',      function(){ clearError('err-message'); });
+
+  /* --- file handling --- */
+  function renderFileList() {
+    fileListEl.innerHTML = '';
+    if (!selectedFiles.length) {
+      fileNameDisplay.textContent = 'Click to choose or drag & drop files…';
+      return;
+    }
+    fileNameDisplay.textContent = selectedFiles.length + ' file(s) selected';
+    selectedFiles.forEach(function(f, i) {
+      var tag = document.createElement('div');
+      tag.className = 'file-tag';
+      var sizeMB = (f.size / (1024 * 1024)).toFixed(2);
+      tag.innerHTML =
+        '<i class="fas ' + (f.type === 'application/pdf' ? 'fa-file-pdf' : 'fa-file-image') + '"></i>' +
+        '<span>' + f.name + ' <em>(' + sizeMB + ' MB)</em></span>' +
+        '<button type="button" class="file-remove" data-idx="' + i + '" aria-label="Remove">&#10005;</button>';
+      fileListEl.appendChild(tag);
+    });
+    fileListEl.querySelectorAll('.file-remove').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        selectedFiles.splice(parseInt(this.dataset.idx), 1);
+        renderFileList();
       });
+    });
+  }
+
+  function addFiles(newFiles) {
+    clearError('err-files');
+    Array.from(newFiles).forEach(function(f) {
+      var allowed = f.type === 'application/pdf' || f.type.startsWith('image/');
+      if (!allowed) {
+        setError('err-files', 'Only PDF and image files are allowed.');
+        return;
+      }
+      if (f.size > 5 * 1024 * 1024) {
+        setError('err-files', '"' + f.name + '" exceeds 5 MB. Please choose a smaller file.');
+        return;
+      }
+      var duplicate = selectedFiles.some(function(x){ return x.name === f.name && x.size === f.size; });
+      if (!duplicate) selectedFiles.push(f);
+    });
+    renderFileList();
+  }
+
+  fileInput.addEventListener('change', function() {
+    addFiles(fileInput.files);
+    fileInput.value = '';   // reset so same file can be re-added after removal
+  });
+
+  /* drag & drop */
+  var dropZone = document.getElementById('file-drop-zone');
+  dropZone.addEventListener('dragover',  function(e){ e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', function()  { dropZone.classList.remove('drag-over'); });
+  dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    addFiles(e.dataTransfer.files);
+  });
+
+  /* --- form submit --- */
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    var name    = document.getElementById('user_name').value.trim();
+    var email   = document.getElementById('user_email').value.trim();
+    var subject = document.getElementById('subject').value.trim();
+    var message = document.getElementById('message').value.trim();
+
+    var valid = true;
+
+    if (!name || name.length < 2) {
+      setError('err-name', 'Please enter your full name (at least 2 characters).');
+      valid = false;
+    }
+    if (!email) {
+      setError('err-email', 'Email address is required.');
+      valid = false;
+    } else if (!isValidEmail(email)) {
+      setError('err-email', 'Please enter a valid email address (e.g. john@example.com).');
+      valid = false;
+    }
+    if (!subject || subject.length < 3) {
+      setError('err-subject', 'Please enter a subject (at least 3 characters).');
+      valid = false;
+    }
+    if (!message) {
+      setError('err-message', 'Message is required.');
+      valid = false;
+    } else if (message.length < 20) {
+      setError('err-message', 'Message is too short. Please write at least 20 characters.');
+      valid = false;
+    } else if (isGibberish(message)) {
+      setError('err-message', 'Please write a meaningful message — avoid random characters or single-word entries.');
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    var submitBtn = contactForm.querySelector('[type="submit"]');
+    submitBtn.disabled  = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending…';
+
+    /* read all files as base64 then send */
+    function buildFilesParam(callback) {
+      if (!selectedFiles.length) { callback('', ''); return; }
+      var names = [], contents = [], done = 0;
+      selectedFiles.forEach(function(f, i) {
+        var reader = new FileReader();
+        reader.onload  = function(ev) { names[i] = f.name; contents[i] = ev.target.result; if (++done === selectedFiles.length) callback(names.join(', '), contents.join('\n\n')); };
+        reader.onerror = function()   { names[i] = f.name; contents[i] = '[read error]'; if (++done === selectedFiles.length) callback(names.join(', '), contents.join('\n\n')); };
+        reader.readAsDataURL(f);
+      });
+    }
+
+    buildFilesParam(function(fileNames, fileContents) {
+      var params = {
+        user_name:     name,
+        user_email:    email,
+        subject:       subject,
+        message:       message,
+        files_names:   fileNames   || 'None',
+        files_content: fileContents|| ''
+      };
+
+      emailjs.send('service_1zo3oxm', 'YOUR_TEMPLATE_ID', params)
+        .then(function() {
+          showToast('✓ Message sent successfully!', 'success');
+          contactForm.reset();
+          selectedFiles = [];
+          renderFileList();
+        }, function(err) {
+          console.error('EmailJS error:', err);
+          showToast('✗ Failed to send. Please try again.', 'error');
+        })
+        .finally(function() {
+          submitBtn.disabled  = false;
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+        });
+    });
   });
 
   /* ── PARTICLE CANVAS ── */
