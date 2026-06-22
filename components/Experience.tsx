@@ -1,19 +1,17 @@
 'use client';
-
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { Briefcase, TrendingUp } from 'lucide-react';
 
 const experiences = [
   {
-    title: 'Junior AI Engineer Intern',
-    company: 'Tech Flariz',
+    title: 'Junior AI Engineer',
+    company: 'Tech Flairz',
     period: 'June 2025 – Present',
-    type: 'Full-time Internship',
-    description:
-      'Developed and deployed computer vision models for quality control in manufacturing lines. Optimized backend inference latency by 40% using TensorFlow Serving and FastAPI.',
-    highlights: ['Computer Vision', 'TensorFlow Serving', 'FastAPI', 'Quality Control AI', '40% Latency Reduction'],
-    color: '#00D4FF',
+    type: 'Full-time',
+    description: 'Developed AI agents using LangGraph and LangChain. Integrated OpenAI GPT, Claude, and Gemini APIs into enterprise applications. Built scalable backend services using FastAPI. Designed prompt engineering workflows for AI automation and worked on multi-agent AI architectures for complex decision-making pipelines.',
+    highlights: ['LangGraph', 'LangChain', 'OpenAI GPT', 'Claude', 'Gemini', 'FastAPI', 'AI Agents', 'Multi-Agent Systems', 'Prompt Engineering'],
+    color: '#F97316',
     icon: TrendingUp,
   },
   {
@@ -21,138 +19,90 @@ const experiences = [
     company: 'Flutterxperts',
     period: 'Jan 2022 – May 2023',
     type: 'Full-time',
-    description:
-      'Collaborated with the design team to implement pixel-perfect UI components. Integrated third-party APIs for real-time data tracking and payment gateways in a customer-facing app.',
-    highlights: ['Flutter', 'Dart', 'Firebase', 'REST APIs', 'Payment Integration', 'Pixel-Perfect UI'],
-    color: '#7F00FF',
+    description: 'Developed and maintained cross-platform mobile applications using Flutter and Dart. Built responsive UIs, integrated REST APIs and Firebase services, and implemented state management solutions. Delivered multiple client projects from design to deployment on both iOS and Android platforms.',
+    highlights: ['Flutter', 'Dart', 'Firebase', 'REST APIs', 'Payment Integration', 'Pixel-Perfect UI', 'GetX', 'Provider', 'Google Maps'],
+    color: '#F59E0B',
     icon: Briefcase,
   },
 ];
 
-export default function Experience() {
+function AnimatedTimelineLine() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px' });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 80%', 'end 30%'] });
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  return (
+    <div ref={ref} className="absolute left-4 sm:left-6 top-0 bottom-0 w-px overflow-hidden">
+      <motion.div className="w-full h-full origin-top"
+        style={{ scaleY, background: 'linear-gradient(180deg, #F97316 0%, #F59E0B 100%)' }} />
+    </div>
+  );
+}
+
+export default function Experience() {
+  const titleRef = useRef<HTMLDivElement>(null);
+  const titleInView = useInView(titleRef, { once: true, margin: '-60px' });
 
   return (
-    <section
-      id="experience"
-      className="relative py-24 lg:py-32"
-      style={{
-        background:
-          'radial-gradient(ellipse at 20% 50%, rgba(127, 0, 255, 0.05) 0%, transparent 60%), #050507',
-      }}
-    >
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24"
-        style={{ background: 'linear-gradient(180deg, #7F00FF, transparent)' }}
-      />
+    <section id="experience" className="relative py-24 lg:py-32 bg-[#111111]">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div ref={titleRef} className="text-center mb-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={titleInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5 }}>
+            <span className="section-badge">Experience</span>
+            <h2 className="section-heading mt-6">Work History</h2>
+          </motion.div>
+        </div>
 
-      <div ref={ref} className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <p className="text-[#7F00FF] text-sm uppercase tracking-[4px] font-medium mb-3">
-            Work History
-          </p>
-          <h2 className="section-heading text-white">
-            My <span className="gradient-text">Experience</span>
-          </h2>
-          <div
-            className="w-20 h-1 mx-auto mt-4 rounded-full"
-            style={{ background: 'linear-gradient(90deg, #00D4FF, #7F00FF)' }}
-          />
-        </motion.div>
-
-        {/* Timeline */}
         <div className="relative">
-          {/* Vertical line */}
-          <div
-            className="absolute left-6 sm:left-8 top-0 bottom-0 w-px"
-            style={{ background: 'linear-gradient(180deg, #00D4FF 0%, #7F00FF 100%)' }}
-          />
-
-          <div className="space-y-10">
+          <AnimatedTimelineLine />
+          <div className="space-y-8">
             {experiences.map((exp, i) => (
-              <motion.div
-                key={exp.company}
-                initial={{ opacity: 0, x: -40 }}
-                animate={isInView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: i * 0.2 }}
-                className="relative pl-20 sm:pl-24"
-              >
-                {/* Timeline dot */}
-                <div
-                  className="absolute left-4 sm:left-6 top-6 w-5 h-5 rounded-full border-2 border-[#050507] z-10 flex items-center justify-center"
-                  style={{
-                    background: exp.color,
-                    boxShadow: `0 0 15px ${exp.color}60`,
-                  }}
-                >
-                  <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                </div>
+              <div key={exp.company} className="relative pl-14 sm:pl-16">
+                {/* Dot with pulse */}
+                <motion.div initial={{ scale: 0, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true, margin: '-40px' }} transition={{ type: 'spring', stiffness: 300, damping: 18 }}
+                  className="absolute left-2 sm:left-3.5 top-5 z-10">
+                  <motion.div animate={{ scale: [1, 1.7, 1], opacity: [0.4, 0, 0.4] }}
+                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+                    className="absolute inset-0 rounded-full" style={{ background: exp.color }} />
+                  <div className="relative w-5 h-5 rounded-full border-2 flex items-center justify-center"
+                    style={{ background: exp.color, borderColor: '#111111', boxShadow: `0 0 0 3px ${exp.color}30` }}>
+                    <div className="w-1.5 h-1.5 rounded-full bg-white/80" />
+                  </div>
+                </motion.div>
 
-                {/* Card */}
-                <div
-                  className="glass border rounded-2xl p-6 card-hover"
-                  style={{ borderColor: `${exp.color}25` }}
-                >
-                  {/* Header */}
+                <motion.div initial={{ opacity: 0, x: -50, y: 10 }} whileInView={{ opacity: 1, x: 0, y: 0 }}
+                  viewport={{ once: true, margin: '-40px' }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
+                  whileHover={{ y: -4, transition: { duration: 0.2 } }} className="card-dark p-6 cursor-default">
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
                     <div className="flex items-start gap-4">
-                      <div
-                        className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                        style={{ background: `${exp.color}15` }}
-                      >
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+                        style={{ background: `${exp.color}12` }}>
                         <exp.icon size={22} style={{ color: exp.color }} />
                       </div>
                       <div>
-                        <h3 className="font-bold text-white text-lg font-space">
-                          {exp.title}
-                        </h3>
-                        <p style={{ color: exp.color }} className="font-semibold text-sm">
-                          {exp.company}
-                        </p>
+                        <h3 className="font-bold text-white text-lg font-space">{exp.title}</h3>
+                        <p className="font-semibold text-sm mt-0.5" style={{ color: exp.color }}>{exp.company}</p>
                       </div>
                     </div>
                     <div className="text-right shrink-0">
-                      <span
-                        className="text-xs font-semibold px-3 py-1.5 rounded-full block"
-                        style={{
-                          background: `${exp.color}15`,
-                          color: exp.color,
-                        }}
-                      >
+                      <span className="text-xs font-medium px-3 py-1.5 rounded-full block"
+                        style={{ background: `${exp.color}12`, color: exp.color, border: `1px solid ${exp.color}25` }}>
                         {exp.period}
                       </span>
-                      <span className="text-xs text-gray-500 mt-1 block">{exp.type}</span>
+                      <span className="text-xs text-white/40 mt-1 block">{exp.type}</span>
                     </div>
                   </div>
-
-                  <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                    {exp.description}
-                  </p>
-
+                  <p className="text-white/60 text-sm leading-relaxed mb-4">{exp.description}</p>
                   <div className="flex flex-wrap gap-2">
-                    {exp.highlights.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs px-3 py-1 rounded-full font-medium"
-                        style={{
-                          background: `${exp.color}10`,
-                          border: `1px solid ${exp.color}30`,
-                          color: exp.color,
-                        }}
-                      >
+                    {exp.highlights.map((tag, ti) => (
+                      <motion.span key={tag} initial={{ opacity: 0, scale: 0.75 }} whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.3 + ti * 0.05 }} className="tag">
                         {tag}
-                      </span>
+                      </motion.span>
                     ))}
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </div>
             ))}
           </div>
         </div>

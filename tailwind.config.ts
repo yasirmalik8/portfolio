@@ -9,24 +9,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: '#050507',
-        cyan: {
-          DEFAULT: '#00D4FF',
-          400: '#22d3ee',
-          500: '#06b6d4',
-        },
-        purple: {
-          DEFAULT: '#7F00FF',
-          400: '#a855f7',
-          500: '#8b5cf6',
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
-        },
+        background: '#0F0F0F',
         accent: {
-          cyan: '#00D4FF',
-          purple: '#7F00FF',
+          orange: '#F97316',
+          amber: '#F59E0B',
         },
       },
       fontFamily: {
@@ -38,7 +24,7 @@ const config: Config = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
         'hero-gradient':
-          'linear-gradient(135deg, #7F00FF 0%, #00D4FF 100%)',
+          'linear-gradient(135deg, #F59E0B 0%, #F97316 100%)',
       },
       animation: {
         'float': 'float 6s ease-in-out infinite',
@@ -52,8 +38,8 @@ const config: Config = {
           '50%': { transform: 'translateY(-20px)' },
         },
         'pulse-glow': {
-          '0%, 100%': { boxShadow: '0 0 20px rgba(0, 212, 255, 0.3)' },
-          '50%': { boxShadow: '0 0 40px rgba(0, 212, 255, 0.8)' },
+          '0%, 100%': { boxShadow: '0 0 12px rgba(249, 115, 22, 0.2)' },
+          '50%': { boxShadow: '0 0 28px rgba(249, 115, 22, 0.4)' },
         },
       },
       backdropBlur: {

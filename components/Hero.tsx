@@ -1,320 +1,139 @@
 'use client';
-
-import { useState, useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Github, Linkedin, Twitter, Instagram, ChevronDown } from 'lucide-react';
+import { Linkedin, Github, Twitter, Instagram, MessageCircle, ArrowRight, Download } from 'lucide-react';
 
-const HeroScene = dynamic(() => import('./HeroScene'), { ssr: false });
-
-const ROLES = ['Junior AI Engineer', 'Flutter Developer', 'Software Engineer'];
-
-function TypewriterText() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const fullText = ROLES[currentIndex];
-    const typingSpeed = isDeleting ? 60 : 110;
-
-    timeoutRef.current = setTimeout(() => {
-      if (!isDeleting) {
-        if (currentText.length < fullText.length) {
-          setCurrentText(fullText.slice(0, currentText.length + 1));
-        } else {
-          setTimeout(() => setIsDeleting(true), 1800);
-        }
-      } else {
-        if (currentText.length > 0) {
-          setCurrentText(currentText.slice(0, -1));
-        } else {
-          setIsDeleting(false);
-          setCurrentIndex((prev) => (prev + 1) % ROLES.length);
-        }
-      }
-    }, typingSpeed);
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [currentText, isDeleting, currentIndex]);
-
-  return (
-    <span className="gradient-text font-space font-bold">
-      {currentText}
-      <span className="inline-block w-0.5 h-7 bg-[#00D4FF] ml-1 animate-pulse align-middle" />
-    </span>
-  );
-}
-
-const socialLinks = [
-  {
-    href: 'https://www.linkedin.com/in/yasirahmadmalik/',
-    icon: Linkedin,
-    label: 'LinkedIn',
-    color: '#0077B5',
-  },
-  {
-    href: 'https://github.com/yasirmalik8',
-    icon: Github,
-    label: 'GitHub',
-    color: '#ffffff',
-  },
-  {
-    href: 'https://x.com/yasirahmadm1428?s=21',
-    icon: Twitter,
-    label: 'Twitter',
-    color: '#1DA1F2',
-  },
-  {
-    href: 'https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr',
-    icon: Instagram,
-    label: 'Instagram',
-    color: '#E1306C',
-  },
+const roles = ['Junior AI Engineer', 'Flutter Developer', 'Software Engineer'];
+const socials = [
+  { href: 'https://www.linkedin.com/in/yasirahmadmalik/', icon: Linkedin, label: 'LinkedIn', color: '#0A66C2', bg: 'rgba(10,102,194,0.15)' },
+  { href: 'https://github.com/yasirmalik8', icon: Github, label: 'GitHub', color: '#E6EDF3', bg: 'rgba(230,237,243,0.1)' },
+  { href: 'https://x.com/yasirahmadm1428?s=21', icon: Twitter, label: 'Twitter', color: '#1D9BF0', bg: 'rgba(29,155,240,0.15)' },
+  { href: 'https://www.instagram.com/yasir.malik1428?igsh=ODB2Y2ZyYXA0ODN2&utm_source=qr', icon: Instagram, label: 'Instagram', color: '#E1306C', bg: 'rgba(225,48,108,0.15)' },
+  { href: 'https://wa.me/923467336193', icon: MessageCircle, label: 'WhatsApp', color: '#25D366', bg: 'rgba(37,211,102,0.15)' },
 ];
 
 export default function Hero() {
-  const handleScroll = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [displayed, setDisplayed] = useState('');
+  const [deleting, setDeleting] = useState(false);
+
+  useEffect(() => {
+    const current = roles[roleIndex];
+    let timeout: NodeJS.Timeout;
+    if (!deleting && displayed.length < current.length) {
+      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 80);
+    } else if (!deleting && displayed.length === current.length) {
+      timeout = setTimeout(() => setDeleting(true), 2200);
+    } else if (deleting && displayed.length > 0) {
+      timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length - 1)), 40);
+    } else {
+      setDeleting(false);
+      setRoleIndex(i => (i + 1) % roles.length);
+    }
+    return () => clearTimeout(timeout);
+  }, [displayed, deleting, roleIndex]);
 
   return (
-    <section
-      id="home"
-      className="relative min-h-screen flex items-center overflow-hidden bg-[#050507]"
-    >
-      {/* Gradient background blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full opacity-10"
-          style={{
-            background: 'radial-gradient(circle, #7F00FF 0%, transparent 70%)',
-          }}
-        />
-        <div
-          className="absolute -bottom-40 -right-40 w-[600px] h-[600px] rounded-full opacity-10"
-          style={{
-            background: 'radial-gradient(circle, #00D4FF 0%, transparent 70%)',
-          }}
-        />
+    <section id="hero" className="relative min-h-screen flex flex-col lg:flex-row bg-[#0D0D0D] overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-[0.06]"
+          style={{ background: 'radial-gradient(circle, #F97316 0%, transparent 70%)' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-[0.04]"
+          style={{ background: 'radial-gradient(circle, #F59E0B 0%, transparent 70%)' }} />
       </div>
 
-      {/* Three.js Scene */}
-      <HeroScene />
+      {/* Left — Text */}
+      <div className="flex-1 flex items-center justify-center lg:justify-end px-6 sm:px-10 lg:pr-16 xl:pr-20 py-14 lg:py-0 relative z-10 order-2 lg:order-1">
+        <div className="max-w-lg w-full">
+          {/* Badge */}
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 mb-7">
+            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+            <span className="text-xs font-medium text-white/50 uppercase tracking-widest">Available for hire</span>
+          </motion.div>
 
-      {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 pb-16">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Side */}
-          <div className="space-y-6">
-            {/* Available Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#00D4FF]/20"
-            >
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-xs text-gray-300 font-medium">Available for Hire</span>
-            </motion.div>
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            className="text-white/50 text-base font-medium mb-2">Hi, I am</motion.p>
 
-            {/* Heading */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <p className="text-gray-400 text-lg mb-2 font-space">Hi, I&apos;m</p>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-space text-white leading-tight">
-                Yasir Ahmad
-                <br />
-                <span className="gradient-text">Malik</span>
-              </h1>
-            </motion.div>
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            className="font-space font-bold text-white leading-tight mb-4"
+            style={{ fontSize: 'clamp(2.2rem, 5vw, 3.6rem)' }}>
+            Yasir Ahmad<br />Malik
+          </motion.h1>
 
-            {/* Typewriter */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xl sm:text-2xl text-gray-300 h-9 flex items-center"
-            >
-              <TypewriterText />
-            </motion.div>
+          {/* Typewriter */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}
+            className="flex items-center gap-2 mb-8 h-9">
+            <span className="text-base sm:text-xl font-semibold gradient-text">{displayed}</span>
+            <span className="inline-block w-0.5 h-5 bg-[#F97316] animate-pulse" />
+          </motion.div>
 
-            {/* Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="text-gray-400 text-base leading-relaxed max-w-lg"
-            >
-              Passionate AI Engineer & Flutter Developer bridging the gap between
-              artificial intelligence and user-friendly mobile experiences. Based in
-              Lahore, Pakistan.
-            </motion.p>
+          {/* Social icons */}
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}
+            className="flex items-center gap-3 mb-10">
+            {socials.map(s => (
+              <motion.a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}
+                whileHover={{ scale: 1.15, y: -3 }}
+                className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200"
+                style={{ background: s.bg, border: `1px solid ${s.color}40`, color: s.color }}>
+                <s.icon size={16} />
+              </motion.a>
+            ))}
+          </motion.div>
 
-            {/* Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex flex-wrap gap-4"
-            >
-              <button
-                onClick={() => handleScroll('projects')}
-                className="relative px-7 py-3.5 rounded-full font-semibold text-white text-sm overflow-hidden group"
-                style={{
-                  background: 'linear-gradient(135deg, #7F00FF 0%, #00D4FF 100%)',
-                }}
-              >
-                <span className="relative z-10">View Work</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-[#00D4FF] to-[#7F00FF] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  style={{
-                    boxShadow: 'inset 0 0 20px rgba(255,255,255,0.1)',
-                  }}
-                />
-              </button>
-
-              <button
-                onClick={() => handleScroll('contact')}
-                className="px-7 py-3.5 rounded-full font-semibold text-[#00D4FF] text-sm border border-[#00D4FF]/40 hover:bg-[#00D4FF]/10 hover:border-[#00D4FF] transition-all duration-300 glass"
-              >
-                Contact Me
-              </button>
-            </motion.div>
-
-            {/* Social Links */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex items-center gap-4"
-            >
-              <span className="text-xs text-gray-500 uppercase tracking-widest">Follow me</span>
-              <div className="h-px flex-1 max-w-[60px] bg-gradient-to-r from-gray-700 to-transparent" />
-              <div className="flex items-center gap-3">
-                {socialLinks.map((social) => (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.label}
-                    whileHover={{ scale: 1.15, y: -3 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-9 h-9 rounded-xl glass border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/20 transition-all duration-300"
-                  >
-                    <social.icon size={16} />
-                  </motion.a>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Right Side — Profile Image */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, x: 50 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-            className="flex justify-center lg:justify-end"
-          >
-            <div className="relative">
-              {/* Outer glow ring */}
-              <div
-                className="absolute inset-0 rounded-full"
-                style={{
-                  background: 'conic-gradient(from 0deg, #7F00FF, #00D4FF, #7F00FF)',
-                  padding: '3px',
-                  borderRadius: '50%',
-                  animation: 'spin 6s linear infinite',
-                }}
-              />
-
-              {/* Animated border */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
-                className="absolute -inset-3 rounded-full"
-                style={{
-                  background: 'conic-gradient(from 0deg, transparent 60%, #00D4FF 80%, transparent 100%)',
-                  borderRadius: '50%',
-                }}
-              />
-
-              {/* Glass card */}
-              <div
-                className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-[360px] lg:h-[360px] rounded-full overflow-hidden animate-pulse-glow"
-                style={{
-                  border: '2px solid rgba(0, 212, 255, 0.3)',
-                  boxShadow:
-                    '0 0 40px rgba(0, 212, 255, 0.2), 0 0 80px rgba(127, 0, 255, 0.1), inset 0 0 40px rgba(0, 0, 0, 0.3)',
-                }}
-              >
-                <Image
-                  src="/portfolio/assets/profilepic.jpg"
-                  alt="Yasir Ahmad Malik"
-                  fill
-                  className="object-cover object-top"
-                  unoptimized
-                  priority
-                />
-                {/* Overlay gradient */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      'linear-gradient(to bottom, transparent 60%, rgba(5,5,7,0.4) 100%)',
-                  }}
-                />
-              </div>
-
-              {/* Stats floating badges */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 }}
-                className="absolute -left-8 top-1/4 glass border border-white/10 rounded-2xl px-4 py-3 text-center"
-              >
-                <div className="text-xl font-bold gradient-text font-space">15+</div>
-                <div className="text-xs text-gray-400">Projects</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.9 }}
-                className="absolute -right-8 bottom-1/4 glass border border-white/10 rounded-2xl px-4 py-3 text-center"
-              >
-                <div className="text-xl font-bold gradient-text font-space">2+</div>
-                <div className="text-xs text-gray-400">Years Exp</div>
-              </motion.div>
-            </div>
+          {/* CTA Buttons */}
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}
+            className="flex flex-wrap gap-3">
+            <button onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+              className="px-6 py-3 rounded-xl text-sm font-semibold text-white flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:opacity-90"
+              style={{ background: 'linear-gradient(135deg, #F97316, #F59E0B)' }}>
+              View Work <ArrowRight size={15} />
+            </button>
+            <a href="/portfolio/assets/YasirAhmadMalik(R).pdf" download
+              className="px-6 py-3 rounded-xl border border-white/15 text-sm font-semibold text-white/80 hover:border-[#F97316]/50 hover:text-white hover:bg-white/5 transition-all duration-300 flex items-center gap-2">
+              <Download size={15} /> Download CV
+            </a>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
-        onClick={() => handleScroll('about')}
-      >
-        <span className="text-xs text-gray-500 uppercase tracking-widest">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <ChevronDown size={20} className="text-[#00D4FF]" />
+      {/* Right — Profile image */}
+      <div className="flex-1 relative flex items-center justify-center overflow-hidden order-1 lg:order-2 min-h-[360px] sm:min-h-[420px] lg:min-h-0 py-16 lg:py-0">
+        {/* Orange glow behind image */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="w-80 h-80 rounded-full opacity-20 blur-3xl"
+            style={{ background: 'radial-gradient(circle, #F97316 0%, transparent 70%)' }} />
+        </div>
+
+        {/* Circular image */}
+        <motion.div initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.3 }}
+          className="relative z-10">
+          {/* Outer glow ring */}
+          <div className="absolute -inset-3 rounded-full opacity-35 blur-lg"
+            style={{ background: 'linear-gradient(135deg, #F97316, #F59E0B)' }} />
+          {/* Gradient border ring */}
+          <div className="absolute -inset-1 rounded-full"
+            style={{ background: 'linear-gradient(135deg, #F97316, #F59E0B)' }} />
+          {/* Image */}
+          <div className="relative w-52 h-52 sm:w-64 sm:h-64 lg:w-72 lg:h-72 xl:w-80 xl:h-80 rounded-full overflow-hidden">
+            <Image src="/portfolio/assets/profilepic.jpg" alt="Yasir Ahmad Malik"
+              fill className="object-cover object-top" unoptimized priority />
+          </div>
         </motion.div>
+      </div>
+
+      {/* Scroll indicator */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.3 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2 cursor-pointer"
+        onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}>
+        <motion.span animate={{ opacity: [0.3, 0.8, 0.3] }} transition={{ duration: 2, repeat: Infinity }}
+          className="text-[9px] uppercase tracking-[4px] text-white/40">Scroll</motion.span>
+        <div className="w-5 h-9 rounded-full border border-white/20 flex justify-center pt-1.5">
+          <motion.div className="w-1 h-1.5 rounded-full bg-[#F97316]"
+            animate={{ y: [0, 14, 0], opacity: [1, 0.2, 1] }} transition={{ duration: 1.8, repeat: Infinity }} />
+        </div>
       </motion.div>
     </section>
   );
